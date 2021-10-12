@@ -15,13 +15,11 @@ namespace SAS.StateMachineCharacterController
 		{
 			actor.TryGet(out _upwardMovementConfig, key);
 			actor.TryGetComponent(out _characterController);
-			actor.OnStateEnter += _ =>
+			state.OnEnterEvent += () =>
 			{
-				if (state == actor.CurrentState)
-				{
-					_gravityContributionMultiplier = 0;
-					_verticalMovement = _upwardMovementConfig.jumpForce;
-				}
+				_gravityContributionMultiplier = 0;
+				_verticalMovement = _upwardMovementConfig.jumpForce;
+
 			};
 		}
 

@@ -13,10 +13,9 @@ namespace SAS.StateMachineCharacterController
 		{
 			actor.TryGet(out _downwardMovementConfig, key);
 			actor.TryGetComponent(out _characterController);
-			actor.OnStateEnter += _ =>
+			state.OnEnterEvent += () =>
 			{
-				if (state == actor.CurrentState)
-					_verticalMovement = _characterController.movementVector.y;
+				_verticalMovement = _characterController.movementVector.y;
 			};
 		}
 
