@@ -3,5 +3,10 @@
   "version": "0.0.1",
   "displayName": "SAS State Machine CharacterController",
   "unity": "2019.1",
-  "hideInEditor": false
+  "hideInEditor": false,
+  "dependencies": {
+	"com.sas.scriptabletypes": "0.0.1",
+    	"com.sas.statemachine": "0.0.1",
+ 	"com.sas.utilities": "0.0.1"
+  }
 }
