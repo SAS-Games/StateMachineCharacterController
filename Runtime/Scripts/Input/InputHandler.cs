@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -18,6 +19,12 @@ namespace SAS.StateMachineCharacterController
         private FSMCharacterController _characterController;
         private float _targetValue;
 
+        Action<CallbackContext> _jumpPerformed;
+        Action<CallbackContext> _jumpCanceled;
+
+        Action<CallbackContext> _runStarted;
+        Action<CallbackContext> _runCanceled;
+
         void Awake()
         {
             _targetValue = m_MoveInputScale;
@@ -29,29 +36,53 @@ namespace SAS.StateMachineCharacterController
         {
             var moveInputAction = m_InputConfig.GetInputAction("Move");
             moveInputAction.Enable();
-            moveInputAction.started += ele => OnMove(ele);
-            moveInputAction.performed += ele => OnMove(ele);
-            moveInputAction.canceled += ele => OnMove(ele);
+            moveInputAction.started += OnMove;
+            moveInputAction.performed += OnMove;
+            moveInputAction.canceled += OnMove;
 
             var jumpInputAction = m_InputConfig.GetInputAction("Jump");
             jumpInputAction.Enable();
 
-            jumpInputAction.performed += _ => _characterController.OnJumpInitiated();
-            jumpInputAction.canceled += _ => _characterController.OnJumpCanceled();
+            _jumpPerformed = _ => _characterController.OnJumpInitiated();
+            _jumpCanceled = _ => _characterController.OnJumpInitiated();
+
+            jumpInputAction.performed += _jumpPerformed;
+            jumpInputAction.canceled += _jumpCanceled;
 
             var runInputAction = m_InputConfig.GetInputAction("Run");
             runInputAction.Enable();
 
-            runInputAction.started += _ =>
+            _runStarted = _ =>
             {
                 _isRunning = true;
                 _targetValue = 1;
             };
-            runInputAction.canceled += _ =>
+
+            _runCanceled = _ =>
             {
                 _isRunning = false;
                 _targetValue = m_MoveInputScale;
             };
+
+            runInputAction.started += _runStarted;
+            runInputAction.canceled += _runCanceled;
+
+        }
+
+        private void OnDisable()
+        {
+            var moveInputAction = m_InputConfig.GetInputAction("Move");
+            moveInputAction.started -= OnMove;
+            moveInputAction.performed -= OnMove;
+            moveInputAction.canceled -= OnMove;
+
+            var jumpInputAction = m_InputConfig.GetInputAction("Jump");
+            jumpInputAction.performed -= _jumpPerformed;
+            jumpInputAction.canceled -= _jumpCanceled;
+
+            var runInputAction = m_InputConfig.GetInputAction("Run");
+            runInputAction.started -= _runStarted;
+            runInputAction.canceled -= _runCanceled;
         }
 
         private void Update() => ProcessMovementInput();

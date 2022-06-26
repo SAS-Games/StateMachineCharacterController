@@ -1,12 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using SAS.TagSystem;
+using SAS.Utilities;
 
-public class CharacterControllerColliderHit : MonoBehaviour
+namespace SAS.StateMachineCharacterController
 {
-	public ControllerColliderHit LastHit { get; private set; }
-	private void OnControllerColliderHit(ControllerColliderHit hit)
-	{
-		LastHit = hit;
-	}
+    public class CharacterControllerColliderHit : MonoBase
+    {
+        [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
+        public ControllerColliderHit LastHit { get; private set; }
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            LastHit = hit;
+
+            if (!_fsmCharacterController.IsGrounded)
+                return;
+
+            Debug.DrawRay(hit.point, hit.normal, Color.blue);
+
+           // _canWallJump = true;
+           // _wallJumpNormal = hit.normal;
+        }
+    }
 }
