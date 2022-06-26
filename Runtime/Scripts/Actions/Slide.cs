@@ -17,9 +17,9 @@ namespace SAS.StateMachineCharacterController
 			actor.TryGet(out _slideSpeed, key);
 		}
 
-		public void Execute(Actor actor)
+		public void Execute()
 		{
-			float speed = -Physics.gravity.y * _slideSpeed.runtimeValue;
+			float speed = -Physics.gravity.y * _slideSpeed.value;
 			Vector3 hitNormal = _controllerColliderHit.LastHit.normal;
 			Vector3 slideDirection = new Vector3(hitNormal.x, -hitNormal.y, hitNormal.z);
 			Vector3.OrthoNormalize(ref hitNormal, ref slideDirection);

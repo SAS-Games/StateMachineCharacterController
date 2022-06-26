@@ -16,7 +16,7 @@ namespace SAS.StateMachineCharacterController
             actor.TryGetComponent(out _characterController);
         }
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
             _fsmCharacterController.IsGrounded = _characterController.isGrounded;
         }

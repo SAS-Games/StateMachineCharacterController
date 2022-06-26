@@ -1,6 +1,4 @@
 using SAS.StateMachineGraph;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
@@ -9,18 +7,20 @@ namespace SAS.StateMachineCharacterController
 	{
 		private CharacterController _characterController;
 		private CharacterControllerColliderHit _controllerColliderHit;
+		private Actor _actor;
 
 		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
 		{
+			_actor = actor;
 			actor.TryGetComponent(out _controllerColliderHit);
 			actor.TryGetComponent(out _characterController);
 		}
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
 		{
 			if (_controllerColliderHit.LastHit == null)
 			{
-				actor.SetBool("IsSliding", false);
+				_actor.SetBool("IsSliding", false);
 				return;
 			}
 
@@ -31,9 +31,9 @@ namespace SAS.StateMachineCharacterController
 			bool isSlopeTooSteep = currentSlope >= _characterController.slopeLimit;
 
 			if (!isSlopeTooSteep)
-				actor.SetBool("IsSliding", false);
+				_actor.SetBool("IsSliding", false);
 			else
-				actor.SetBool("IsSliding", !isWalkableStep);
+				_actor.SetBool("IsSliding", !isWalkableStep);
 		}
     }
 }

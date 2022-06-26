@@ -18,7 +18,7 @@ namespace SAS.StateMachineCharacterController
 			_parameterHash = Animator.StringToHash("NormalizedSpeed");
 		}
 
-		void IStateAction.Execute(Actor actor)
+		void IStateAction.Execute()
 		{
 			float normalisedSpeed = _characterController.NormalizedMoveInput;
 			_animator.SetFloat(_parameterHash, normalisedSpeed);

@@ -19,7 +19,7 @@ namespace SAS.StateMachineCharacterController
 			};
 		}
 
-		void IStateAction.Execute(Actor actor)
+		void IStateAction.Execute()
 		{
 			_verticalMovement += Physics.gravity.y * _downwardMovementConfig.gravityMultiplier * Time.deltaTime;
 			_verticalMovement = Mathf.Clamp(_verticalMovement, _downwardMovementConfig.fallSpeedRange.min, _downwardMovementConfig.fallSpeedRange.max);

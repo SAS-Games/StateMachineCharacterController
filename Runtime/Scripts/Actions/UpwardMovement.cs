@@ -23,7 +23,7 @@ namespace SAS.StateMachineCharacterController
 			};
 		}
 
-		void IStateAction.Execute(Actor actor)
+		void IStateAction.Execute()
 		{
 			_gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
 			_gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect

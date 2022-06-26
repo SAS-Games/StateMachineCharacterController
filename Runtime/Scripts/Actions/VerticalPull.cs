@@ -14,9 +14,9 @@ namespace SAS.StateMachineCharacterController
 			actor.TryGetComponent(out _characterController);
 		}
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
-			_characterController.movementVector.y = _verticalPull.runtimeValue;
+			_characterController.movementVector.y = _verticalPull.value;
 		}
     }
 }

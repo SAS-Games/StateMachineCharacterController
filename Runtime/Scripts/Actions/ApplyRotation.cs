@@ -19,7 +19,7 @@ namespace SAS.StateMachineCharacterController
             actor.TryGet(out _turnSmoothTime, key);
         }
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
             Vector3 horizontalMovement = _fsmCharacterController.movementVector;
             horizontalMovement.y = 0f;
@@ -27,7 +27,7 @@ namespace SAS.StateMachineCharacterController
             if (horizontalMovement.sqrMagnitude >= 0.02f)
             {
                 float targetRotation = Mathf.Atan2(_fsmCharacterController.movementVector.x, _fsmCharacterController.movementVector.z) * Mathf.Rad2Deg;
-                _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime.runtimeValue);
+                _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime.value);
             }
         }
     }

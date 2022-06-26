@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
-using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -17,10 +14,10 @@ namespace SAS.StateMachineCharacterController
 			actor.TryGet(out _speed, key);
 		}
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
-			_characterController.movementVector.x = _speed.runtimeValue * _characterController.movementInput.x;
-			_characterController.movementVector.z = _speed.runtimeValue * _characterController.movementInput.z;
+			_characterController.movementVector.x = _speed.value * _characterController.movementInput.x;
+			_characterController.movementVector.z = _speed.value * _characterController.movementInput.z;
 		}
     }
 }

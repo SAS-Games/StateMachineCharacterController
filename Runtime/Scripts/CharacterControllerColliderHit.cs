@@ -1,6 +1,5 @@
 using UnityEngine;
-using SAS.TagSystem;
-using SAS.Utilities;
+using SAS.Utilities.TagSystem;
 
 namespace SAS.StateMachineCharacterController
 {

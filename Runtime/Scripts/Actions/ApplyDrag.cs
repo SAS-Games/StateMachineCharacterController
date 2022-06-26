@@ -15,9 +15,9 @@ namespace SAS.StateMachineCharacterController
             actor.TryGet(out _drag, key);
         }
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
-            _rigidbody.drag = _drag.runtimeValue;
+            _rigidbody.drag = _drag.value;
         }
     }
 }

@@ -1,6 +1,4 @@
 using SAS.StateMachineGraph;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
@@ -15,7 +13,7 @@ namespace SAS.StateMachineCharacterController
             actor.TryGetComponent(out _characterController);
         }
 
-        void IStateAction.Execute(Actor actor)
+        void IStateAction.Execute()
         {
             _characterController.Move(_fsmCharacterController.movementVector * Time.deltaTime);
             _fsmCharacterController.movementVector = _characterController.velocity;
