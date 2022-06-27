@@ -1,6 +1,4 @@
 ﻿using SAS.StateMachineGraph;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController

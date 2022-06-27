@@ -1,29 +1,33 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
-    public class HeadHitDetector : IStateAction
+    public class HeadHitDetector : ICustomCondition
     {
-        private FSMCharacterController _characterController;
+        [FieldRequiresChild] private FSMCharacterController _characterController;
+        [FieldRequiresChild] private Collider _bodyCollider;
         private CustomRaycast _raycast;
-        private Collider _bodyCollider;
         private Actor _actor;
 
-        void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+        void ICustomCondition.OnInitialize(Actor actor)
         {
             _actor = actor;
-            actor.TryGetComponent(out _characterController);
-            actor.TryGetComponentInChildren(out _bodyCollider, tag);
-            actor.TryGet(out _raycast, key);
+            _actor.Initialize(this);
+            actor.TryGet(out _raycast, "HeadHit");
         }
 
-        void IStateAction.Execute()
+        void ICustomCondition.OnStateEnter() { }
+
+        void ICustomCondition.OnStateExit() { }
+
+        bool ICustomCondition.Evaluate()
         {
             if (_raycast.Raycast(_bodyCollider.bounds.center, _bodyCollider.bounds.extents.y))
-            {
-                _actor.SetTrigger("HasHitHead");
-            }
+                return true;
+
+            return false;
         }
     }
 }

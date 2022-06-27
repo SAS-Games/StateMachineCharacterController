@@ -44,7 +44,7 @@ namespace SAS.StateMachineCharacterController
             jumpInputAction.Enable();
 
             _jumpPerformed = _ => _characterController.OnJumpInitiated();
-            _jumpCanceled = _ => _characterController.OnJumpInitiated();
+            _jumpCanceled = _ => _characterController.OnJumpCanceled();
 
             jumpInputAction.performed += _jumpPerformed;
             jumpInputAction.canceled += _jumpCanceled;

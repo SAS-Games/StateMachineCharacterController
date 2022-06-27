@@ -3,26 +3,31 @@ using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
-	public class CanSlide : IStateAction
+	public class CanSlide : ICustomCondition
 	{
 		private CharacterController _characterController;
 		private CharacterControllerColliderHit _controllerColliderHit;
 		private Actor _actor;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void ICustomCondition.OnInitialize(Actor actor)
 		{
 			_actor = actor;
 			actor.TryGetComponent(out _controllerColliderHit);
 			actor.TryGetComponent(out _characterController);
 		}
 
-        void IStateAction.Execute()
-		{
+        void ICustomCondition.OnStateEnter()
+        {
+        }
+
+        void ICustomCondition.OnStateExit()
+        {
+        }
+
+        bool ICustomCondition.Evaluate()
+        {
 			if (_controllerColliderHit.LastHit == null)
-			{
-				_actor.SetBool("IsSliding", false);
-				return;
-			}
+				return false;
 
 			float stepHeight = _controllerColliderHit.LastHit.point.y - _controllerColliderHit.transform.position.y;
 			bool isWalkableStep = stepHeight <= _characterController.stepOffset;
@@ -31,9 +36,9 @@ namespace SAS.StateMachineCharacterController
 			bool isSlopeTooSteep = currentSlope >= _characterController.slopeLimit;
 
 			if (!isSlopeTooSteep)
-				_actor.SetBool("IsSliding", false);
+				return false;
 			else
-				_actor.SetBool("IsSliding", !isWalkableStep);
+				return !isWalkableStep;
 		}
     }
 }
