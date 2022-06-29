@@ -1,19 +1,19 @@
 using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
 	public class Slide : IStateAction
 	{
-		private FSMCharacterController _fsmCharacterController;
-		private CharacterControllerColliderHit _controllerColliderHit;
-		private ScriptableFloat _slideSpeed;
+		[FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
+		[FieldRequiresChild] private CharacterControllerColliderHit _controllerColliderHit;
+		private ScriptableReadOnlyFloat _slideSpeed;
 
 		public void OnInitialize(Actor actor, string tag, string key, State state)
 		{
-			actor.TryGetComponent(out _fsmCharacterController);
-			actor.TryGetComponent(out _controllerColliderHit);
+			actor.Initialize(this);
 			actor.TryGet(out _slideSpeed, key);
 		}
 

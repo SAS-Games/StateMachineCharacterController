@@ -11,7 +11,8 @@
                     "id": "09bc0d74-30ec-4ef2-a123-12420c71c4fe",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -19,7 +20,8 @@
                     "id": "88cb33ca-f91f-4c18-b6a8-4b67016e26af",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -27,7 +29,8 @@
                     "id": "04c6276c-fe82-4b24-9cee-d71ceb7850cc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Run",
@@ -35,7 +38,8 @@
                     "id": "f64df0e7-b1a4-4e8e-baa6-b51e6130b0dc",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -44,7 +48,7 @@
                     "id": "c5f9d214-2277-4a95-915d-08261e0d0208",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.6,y=0.6)",
+                    "processors": "",
                     "groups": "",
                     "action": "Move",
                     "isComposite": true,
@@ -99,7 +103,7 @@
                     "id": "3d5acd83-96ad-4e9f-a62e-c2bf0824c6a2",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.6,y=0.6)",
+                    "processors": "",
                     "groups": "",
                     "action": "Move",
                     "isComposite": true,

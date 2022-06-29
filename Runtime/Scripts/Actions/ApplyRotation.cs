@@ -1,21 +1,21 @@
 using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
     public class ApplyRotation : IStateAction
     {
-        private FSMCharacterController _fsmCharacterController;
-        private Transform _transform;
-        private ScriptableFloat _turnSmoothTime;
+        [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
+        [FieldRequiresSelf] private Transform _transform;
+        private ScriptableReadOnlyFloat _turnSmoothTime;
 
         private float _turnSmoothSpeed;
 
         void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
         {
-            actor.TryGetComponent(out _fsmCharacterController);
-            actor.TryGetComponent(out _transform);
+            actor.Initialize(this);
             actor.TryGet(out _turnSmoothTime, key);
         }
 

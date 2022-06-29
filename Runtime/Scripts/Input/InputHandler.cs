@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -9,13 +8,12 @@ namespace SAS.StateMachineCharacterController
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] private InputConfig m_InputConfig;
-        [SerializeField] private float m_targetSpeedReachMultplier = 5;
+        [SerializeField] private float m_targetSpeedReachMultplier = 10;
         [SerializeField] private float m_MoveInputScale = 0.6f;
         private Transform _cameraTransform;
 
         private float _previousSpeed;
         private Vector2 _inputVector;
-        private bool _isRunning;
         private FSMCharacterController _characterController;
         private float _targetValue;
 
@@ -54,14 +52,15 @@ namespace SAS.StateMachineCharacterController
 
             _runStarted = _ =>
             {
-                _isRunning = true;
                 _targetValue = 1;
+                _inputVector = moveInputAction.ReadValue<Vector2>() * _targetValue;
+
             };
 
             _runCanceled = _ =>
             {
-                _isRunning = false;
                 _targetValue = m_MoveInputScale;
+                _inputVector = moveInputAction.ReadValue<Vector2>() * _targetValue;
             };
 
             runInputAction.started += _runStarted;
@@ -115,29 +114,15 @@ namespace SAS.StateMachineCharacterController
             //Accelerate/decelerate
             var targetSpeed = Mathf.Clamp01(_inputVector.magnitude);
 
-            if (targetSpeed > 0f)
-            {
-                if (_isRunning)
-                    targetSpeed = 1f;
-
-                // if (attackInput)
-                //       targetSpeed = .05f;
-            }
-
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, Time.deltaTime * m_targetSpeedReachMultplier);
-            _characterController.movementInput = adjustedMovement.normalized * GetMappedValue(targetSpeed);
+            _characterController.movementInput = adjustedMovement.normalized * targetSpeed;
             _characterController.OnMove(targetSpeed);
             _previousSpeed = targetSpeed;
         }
 
         private void OnMove(InputAction.CallbackContext value)
         {
-            _inputVector = value.ReadValue<Vector2>();
-        }
-
-        private float GetMappedValue(float num)
-        {
-            return num / _targetValue;
+            _inputVector = value.ReadValue<Vector2>() * _targetValue;
         }
     }
 }

@@ -1,22 +1,23 @@
 using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 
 namespace SAS.StateMachineCharacterController
 {
 	public class VerticalPull : IStateAction
 	{
-		private  FSMCharacterController _characterController;
-		private ScriptableFloat _verticalPull;
+		[FieldRequiresSelf] private FSMCharacterController _characterController;
+		private ScriptableReadOnlyFloat _verticalPull;
 
-        void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
-        {
+		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		{
+			actor.Initialize(this);
 			actor.TryGet(out _verticalPull, key);
-			actor.TryGetComponent(out _characterController);
 		}
 
-        void IStateAction.Execute()
-        {
+		void IStateAction.Execute()
+		{
 			_characterController.movementVector.y = _verticalPull.value;
 		}
-    }
+	}
 }

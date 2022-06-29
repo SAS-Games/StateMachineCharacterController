@@ -1,16 +1,17 @@
 using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 
 namespace SAS.StateMachineCharacterController
 {
 	public class HorizontalMovement : IStateAction
 	{
-		private FSMCharacterController _characterController;
-		private ScriptableFloat _speed = default;
+		[FieldRequiresSelf] private FSMCharacterController _characterController;
+		private ScriptableReadOnlyFloat _speed = default;
 
 		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
 		{
-			actor.TryGetComponent(out _characterController);
+			actor.Initialize(this);
 			actor.TryGet(out _speed, key);
 		}
 
