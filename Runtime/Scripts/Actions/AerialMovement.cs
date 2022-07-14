@@ -8,13 +8,13 @@ namespace SAS.StateMachineCharacterController
 		private AerialMovementConfig _aerialMovementConfig;
 		private FSMCharacterController _fsmCharacterController;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void IStateAction.OnInitialize(Actor actor, string tag, string key)
 		{
 			actor.TryGetComponent(out _fsmCharacterController);
 			actor.TryGet(out _aerialMovementConfig);
 		}
 
-		void IStateAction.Execute()
+		void IStateAction.Execute(ActionExecuteEvent executeEvent)
 		{
 			Vector3 velocity = _fsmCharacterController.movementVector;
 			Vector3 input = _fsmCharacterController.movementInput;

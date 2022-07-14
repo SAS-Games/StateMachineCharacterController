@@ -11,20 +11,20 @@ namespace SAS.StateMachineCharacterController
 		private float _gravityContributionMultiplier;
 		private float _verticalMovement;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void IStateAction.OnInitialize(Actor actor, string tag, string key)
 		{
 			actor.TryGet(out _upwardMovementConfig, key);
 			actor.TryGetComponent(out _characterController);
-			state.OnEnterEvent += () =>
-			{
-				_gravityContributionMultiplier = 0;
-				_verticalMovement = _upwardMovementConfig.jumpForce;
-
-			};
 		}
 
-		void IStateAction.Execute()
+		void IStateAction.Execute(ActionExecuteEvent executeEvent)
 		{
+			if (executeEvent == ActionExecuteEvent.OnStateEnter)
+            {
+				_gravityContributionMultiplier = 0;
+				_verticalMovement = _upwardMovementConfig.jumpForce;
+				return;
+            }
 			_gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
 			_gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect
 			_verticalMovement += Physics.gravity.y * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;

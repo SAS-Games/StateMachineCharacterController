@@ -9,13 +9,13 @@ namespace SAS.StateMachineCharacterController
         private ScriptableFloat _drag;
         private Rigidbody _rigidbody;
 
-        void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+        void IStateAction.OnInitialize(Actor actor, string tag, string key)
         {
             actor.TryGetComponent(out _rigidbody);
             actor.TryGet(out _drag, key);
         }
 
-        void IStateAction.Execute()
+        void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
             _rigidbody.drag = _drag.value;
         }

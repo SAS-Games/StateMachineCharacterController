@@ -1,17 +1,18 @@
 ﻿using SAS.StateMachineGraph;
 using UnityEngine;
+using SAS.Utilities.TagSystem;
 
 namespace SAS.StateMachineCharacterController
 {
 	public class StopMovement : IStateAction
 	{
-		private FSMCharacterController _characterController;
-        void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		[FieldRequiresSelf] private FSMCharacterController _characterController;
+        void IStateAction.OnInitialize(Actor actor, string tag, string key)
         {
-			actor.TryGetComponent(out _characterController);
+            actor.Initialize(this);
         }
 
-        void IStateAction.Execute()
+        void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
 			_characterController.movementVector = Vector3.zero;
 		}

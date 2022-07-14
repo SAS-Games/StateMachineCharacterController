@@ -9,18 +9,19 @@ namespace SAS.StateMachineCharacterController
 		private DownwardMovementConfig _downwardMovementConfig = default;
 		private float _verticalMovement;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void IStateAction.OnInitialize(Actor actor, string tag, string key)
 		{
 			actor.TryGet(out _downwardMovementConfig, key);
 			actor.TryGetComponent(out _characterController);
-			state.OnEnterEvent += () =>
-			{
-				_verticalMovement = _characterController.movementVector.y;
-			};
 		}
 
-		void IStateAction.Execute()
+		void IStateAction.Execute(ActionExecuteEvent executeEvent)
 		{
+			if (executeEvent == ActionExecuteEvent.OnStateEnter)
+            {
+				_verticalMovement = _characterController.movementVector.y;
+				return;
+            }
 			_verticalMovement += Physics.gravity.y * _downwardMovementConfig.gravityMultiplier * Time.deltaTime;
 			_verticalMovement = Mathf.Clamp(_verticalMovement, _downwardMovementConfig.fallSpeedRange.min, _downwardMovementConfig.fallSpeedRange.max);
 

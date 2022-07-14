@@ -9,13 +9,13 @@ namespace SAS.StateMachineCharacterController
 		[FieldRequiresSelf] private FSMCharacterController _characterController;
 		private ScriptableReadOnlyFloat _verticalPull;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void IStateAction.OnInitialize(Actor actor, string tag, string key)
 		{
 			actor.Initialize(this);
 			actor.TryGet(out _verticalPull, key);
 		}
 
-		void IStateAction.Execute()
+		void IStateAction.Execute(ActionExecuteEvent executeEvent)
 		{
 			_characterController.movementVector.y = _verticalPull.value;
 		}

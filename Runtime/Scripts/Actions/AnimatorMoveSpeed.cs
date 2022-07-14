@@ -1,5 +1,5 @@
 using SAS.StateMachineGraph;
-using System.Collections;
+using SAS.Utilities.TagSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,18 +7,17 @@ namespace SAS.StateMachineCharacterController
 {
 	public class AnimatorMoveSpeed : IStateAction
 	{
-		private Animator _animator;
-		private FSMCharacterController _characterController;
+		[FieldRequiresChild] private Animator _animator;
+		[FieldRequiresChild] private FSMCharacterController _characterController;
 		private int _parameterHash;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+		void IStateAction.OnInitialize(Actor actor, string tag, string key)
 		{
-			actor.TryGetComponent(out _animator);
-			actor.TryGetComponent(out _characterController);
+			actor.Initialize(this);
 			_parameterHash = Animator.StringToHash("NormalizedSpeed");
 		}
 
-		void IStateAction.Execute()
+		void IStateAction.Execute(ActionExecuteEvent executeEvent)
 		{
 			float normalisedSpeed = _characterController.NormalizedMoveInput;
 			_animator.SetFloat(_parameterHash, normalisedSpeed);

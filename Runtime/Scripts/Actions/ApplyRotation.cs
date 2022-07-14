@@ -13,13 +13,13 @@ namespace SAS.StateMachineCharacterController
 
         private float _turnSmoothSpeed;
 
-        void IStateAction.OnInitialize(Actor actor, string tag, string key, State state)
+        void IStateAction.OnInitialize(Actor actor, string tag, string key)
         {
             actor.Initialize(this);
             actor.TryGet(out _turnSmoothTime, key);
         }
 
-        void IStateAction.Execute()
+        void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
             Vector3 horizontalMovement = _fsmCharacterController.movementVector;
             horizontalMovement.y = 0f;

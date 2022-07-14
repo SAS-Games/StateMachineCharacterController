@@ -11,13 +11,13 @@ namespace SAS.StateMachineCharacterController
 		[FieldRequiresChild] private CharacterControllerColliderHit _controllerColliderHit;
 		private ScriptableReadOnlyFloat _slideSpeed;
 
-		public void OnInitialize(Actor actor, string tag, string key, State state)
+		public void OnInitialize(Actor actor, string tag, string key)
 		{
 			actor.Initialize(this);
 			actor.TryGet(out _slideSpeed, key);
 		}
 
-		public void Execute()
+		public void Execute(ActionExecuteEvent executeEvent)
 		{
 			float speed = -Physics.gravity.y * _slideSpeed.value;
 			Vector3 hitNormal = _controllerColliderHit.LastHit.normal;
