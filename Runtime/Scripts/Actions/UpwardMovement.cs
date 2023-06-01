@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
@@ -11,7 +12,7 @@ namespace SAS.StateMachineCharacterController
 		private float _gravityContributionMultiplier;
 		private float _verticalMovement;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key)
+		void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
 		{
 			actor.TryGet(out _upwardMovementConfig, key);
 			actor.TryGetComponent(out _characterController);

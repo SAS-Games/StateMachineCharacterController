@@ -9,7 +9,7 @@ namespace SAS.StateMachineCharacterController
 		[FieldRequiresSelf] private FSMCharacterController _characterController;
 		private ScriptableReadOnlyFloat _speed = default;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key)
+		void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
 		{
 			actor.Initialize(this);
 			actor.TryGet(out _speed, key);

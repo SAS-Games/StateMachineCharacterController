@@ -11,7 +11,7 @@ namespace SAS.StateMachineCharacterController
 		[FieldRequiresChild] private FSMCharacterController _characterController;
 		private int _parameterHash;
 
-		void IStateAction.OnInitialize(Actor actor, string tag, string key)
+		void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
 		{
 			actor.Initialize(this);
 			_parameterHash = Animator.StringToHash("NormalizedSpeed");
