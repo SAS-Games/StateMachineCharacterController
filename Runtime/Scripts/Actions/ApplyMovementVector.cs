@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
@@ -7,7 +8,7 @@ namespace SAS.StateMachineCharacterController
     {
         private FSMCharacterController _fsmCharacterController;
         private CharacterController _characterController;
-        void IStateAction.OnInitialize(Actor actor, string tag, string key)
+        void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGetComponent(out _fsmCharacterController);
             actor.TryGetComponent(out _characterController);

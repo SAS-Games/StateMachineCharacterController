@@ -11,7 +11,7 @@ namespace SAS.StateMachineCharacterController
 		[FieldRequiresChild] private CharacterControllerColliderHit _controllerColliderHit;
 		private ScriptableReadOnlyFloat _slideSpeed;
 
-		public void OnInitialize(Actor actor, string tag, string key)
+		public void OnInitialize(Actor actor, Tag tag, string key)
 		{
 			actor.Initialize(this);
 			actor.TryGet(out _slideSpeed, key);

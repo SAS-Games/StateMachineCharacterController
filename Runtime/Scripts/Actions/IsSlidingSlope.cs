@@ -20,17 +20,21 @@ namespace SAS.StateMachineCharacterController
 
 		void ICustomCondition.OnStateExit() { }
 
-		bool ICustomCondition.Evaluate()
-		{
-			var sphereCastVerticalOffset = _characterController.height * 0.5f - _characterController.radius;
-			var origin = _characterTransform.position - Vector3.down * sphereCastVerticalOffset;
+        bool ICustomCondition.Evaluate()
+        {
+            float sphereCastVerticalOffset = _characterController.height * 0.5f - _characterController.radius;
+            Vector3 origin = _characterTransform.position - Vector3.down * sphereCastVerticalOffset;
 
-			if (Physics.SphereCast(origin, _characterController.radius - 0.01f, Vector3.down, out var hit, 0.05f, ignoreLayer, QueryTriggerInteraction.Ignore))
-			{
-				var angle = Vector3.Angle(Vector3.up, hit.normal);
-				return angle > _characterController.slopeLimit;
-			}
-			return false;
-		}
-	}
+            const float sphereCastRadiusOffset = 0.01f;
+            const float sphereCastDistance = 0.05f;
+
+            if (Physics.SphereCast(origin, _characterController.radius - sphereCastRadiusOffset, Vector3.down, out RaycastHit hit, sphereCastDistance, ignoreLayer, QueryTriggerInteraction.Ignore))
+            {
+                float angle = Vector3.Angle(Vector3.up, hit.normal);
+                return angle > _characterController.slopeLimit;
+            }
+
+            return false;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
@@ -9,7 +10,7 @@ namespace SAS.StateMachineCharacterController
         private ScriptableFloat _drag;
         private Rigidbody _rigidbody;
 
-        void IStateAction.OnInitialize(Actor actor, string tag, string key)
+        void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGetComponent(out _rigidbody);
             actor.TryGet(out _drag, key);
@@ -17,7 +18,7 @@ namespace SAS.StateMachineCharacterController
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            _rigidbody.drag = _drag.value;
+            _rigidbody.linearDamping = _drag.value;
         }
     }
 }

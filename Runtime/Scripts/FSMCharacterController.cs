@@ -7,13 +7,15 @@ namespace SAS.StateMachineCharacterController
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
     public class FSMCharacterController : MonoBehaviour
     {
-       /* [NonSerialized]*/ public Vector3 movementVector;
-       /* [NonSerialized]*/ public Vector3 movementInput;
+        /* [NonSerialized]*/
+        public Vector3 movementVector;
+        /* [NonSerialized]*/
+        public Vector3 movementInput;
         public float NormalizedMoveInput => movementInput.magnitude;
-        
-        private Actor _actor;
 
-        public Actor Actor 
+        private Actor _actor;
+        private int NormalizedMoveInputHash = Animator.StringToHash("NormalizedMoveInput");
+        public Actor Actor
         {
             get
             {
@@ -36,7 +38,7 @@ namespace SAS.StateMachineCharacterController
 
         public void OnMove(float normalizedMoveInput)
         {
-            Actor.SetFloat("NormalizedMoveInput", (float)Math.Round(normalizedMoveInput, 2));
+            Actor.SetFloat(NormalizedMoveInputHash, (float)Math.Round(normalizedMoveInput, 2));
         }
 
         public void OnJumpInitiated()
