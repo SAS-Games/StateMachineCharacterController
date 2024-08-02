@@ -14,26 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ParametersKeyMap:
   - key: Idle
-    parameters:
-    - m_Name: IsWalking
-      m_Type: 4
-      m_BoolValue: 0
-      m_IntValue: 0
-      m_FloatValue: 0
+    parameters: []
     awaitableStateTag: 
     startDelay: 0
   - key: Move
     parameters:
-    - m_Name: IsWalking
-      m_Type: 4
-      m_BoolValue: 1
-      m_IntValue: 0
-      m_FloatValue: 0
-    awaitableStateTag: 
-    startDelay: 0
-  - key: Move
-    parameters:
-    - m_Name: NormalizedSpeed
+    - m_Name: HorizontalSpeed
       m_Type: 1
       m_BoolValue: 1
       m_IntValue: 0
@@ -42,18 +28,18 @@ MonoBehaviour:
     startDelay: 0
   - key: Ascending
     parameters:
-    - m_Name: IsAirborne
+    - m_Name: IsGrounded
       m_Type: 4
-      m_BoolValue: 1
+      m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
     awaitableStateTag: 
     startDelay: 0
-  - key: Descending
+  - key: Landed
     parameters:
-    - m_Name: IsAirborne
+    - m_Name: IsGrounded
       m_Type: 4
-      m_BoolValue: 0
+      m_BoolValue: 1
       m_IntValue: 0
       m_FloatValue: 0
     awaitableStateTag: 

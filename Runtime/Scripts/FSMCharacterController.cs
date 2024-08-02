@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.TagSystem;
 using System;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace SAS.StateMachineCharacterController
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
     public class FSMCharacterController : MonoBehaviour
     {
+        [FieldRequiresSelf] private CharacterController _characterController;
         /* [NonSerialized]*/
         public Vector3 movementVector;
         /* [NonSerialized]*/
@@ -15,6 +17,12 @@ namespace SAS.StateMachineCharacterController
 
         private Actor _actor;
         private int NormalizedMoveInputHash = Animator.StringToHash("NormalizedMoveInput");
+        public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
+
+        private void Awake()
+        {
+            this.Initialize();
+        }
         public Actor Actor
         {
             get
