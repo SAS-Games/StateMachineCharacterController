@@ -5,13 +5,13 @@ namespace SAS.StateMachineCharacterController
 {
     public class CharacterControllerColliderHit : MonoBase
     {
-        [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
+        [HideInInspector, FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         public ControllerColliderHit LastHit { get; private set; }
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             LastHit = hit;
 
-            if (!_fsmCharacterController.IsGrounded)
+            if (!_fsmCharacterController.IsGrounded || LastHit == null)
                 return;
 
             Debug.DrawRay(hit.point, hit.normal, Color.blue);
