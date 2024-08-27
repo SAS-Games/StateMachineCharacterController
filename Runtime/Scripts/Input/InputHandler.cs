@@ -82,6 +82,12 @@ namespace SAS.StateMachineCharacterController
             var runInputAction = m_InputConfig.GetInputAction("Run");
             runInputAction.started -= _runStarted;
             runInputAction.canceled -= _runCanceled;
+
+            _inputVector = Vector2.zero;
+            _previousSpeed = 0;
+            _targetValue = 0;
+            _characterController.movementInput = Vector3.zero;
+            _characterController.OnMove(0);
         }
 
         private void Update() => ProcessMovementInput();
