@@ -85,7 +85,6 @@ namespace SAS.StateMachineCharacterController
 
             _inputVector = Vector2.zero;
             _previousSpeed = 0;
-            _targetValue = 0;
             _characterController.movementInput = Vector3.zero;
             _characterController.OnMove(0);
         }
