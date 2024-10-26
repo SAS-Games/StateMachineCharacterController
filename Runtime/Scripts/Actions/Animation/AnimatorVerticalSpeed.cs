@@ -21,8 +21,8 @@ namespace SAS.StateMachineCharacterController
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
             var jumpSpeed = _upwardMovementConfig.jumpForce;
-            float normalisedSpeed = _characterController.VerticalVelocity.y.Remap(-jumpSpeed, jumpSpeed, -1.0f, 1.0f); ;
-            _animator.SetFloat(_parameterHash, normalisedSpeed);
+            float normalizedSpeed = _characterController.VerticalVelocity.y.Remap(-jumpSpeed, jumpSpeed, -1.0f, 1.0f); ;
+            _animator.SetFloat(_parameterHash, normalizedSpeed);
         }
     }
 }

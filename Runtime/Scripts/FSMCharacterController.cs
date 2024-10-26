@@ -2,6 +2,7 @@ using SAS.StateMachineGraph;
 using SAS.Utilities.TagSystem;
 using System;
 using UnityEngine;
+using SAS.Utilities.BlackboardSystem;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -9,19 +10,26 @@ namespace SAS.StateMachineCharacterController
     public class FSMCharacterController : MonoBehaviour
     {
         [FieldRequiresSelf] private CharacterController _characterController;
+        [SerializeField] private BlackboardData m_BlackboardData = default;
+
         /* [NonSerialized]*/
-        public Vector3 movementVector;
+        internal Vector3 movementVector;
         /* [NonSerialized]*/
-        public Vector3 movementInput;
+        internal Vector3 movementInput;
         public float NormalizedMoveInput => movementInput.magnitude;
 
         private Actor _actor;
-        private int NormalizedMoveInputHash = Animator.StringToHash("NormalizedMoveInput");
+        private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
+
+        private Blackboard _blackboard = new Blackboard();
+
 
         private void Awake()
         {
             this.Initialize();
+            m_BlackboardData?.SetValuesOnBlackboard(_blackboard);
+            Actor.Initialize();
         }
         public Actor Actor
         {
@@ -57,6 +65,11 @@ namespace SAS.StateMachineCharacterController
         public void OnJumpCanceled()
         {
             Actor.SetBool("Jump", false);
+        }
+
+        public bool TryGet<T>(BlackboardKey key, out T value)
+        {
+            return _blackboard.TryGetValue(key, out value);
         }
     }
 }

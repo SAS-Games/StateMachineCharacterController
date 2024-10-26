@@ -14,14 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Inputs:
   - m_Key: Move
-    m_InputActionReference: {fileID: 6410541324669889120, guid: dc4bc928449ea1647b14289621970e3e,
-      type: 3}
+    m_InputActionReference: {fileID: -9043773041164887839, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}
   - m_Key: Jump
-    m_InputActionReference: {fileID: 4468981400344511702, guid: dc4bc928449ea1647b14289621970e3e,
-      type: 3}
+    m_InputActionReference: {fileID: 4672474682873483239, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}
   - m_Key: Attack
-    m_InputActionReference: {fileID: -5956477790348073365, guid: dc4bc928449ea1647b14289621970e3e,
-      type: 3}
-  - m_Key: Run
-    m_InputActionReference: {fileID: 5068288189144736479, guid: dc4bc928449ea1647b14289621970e3e,
-      type: 3}
+    m_InputActionReference: {fileID: 2795192816747268572, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}
+  - m_Key: Dash
+    m_InputActionReference: {fileID: -6201028831682897634, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}

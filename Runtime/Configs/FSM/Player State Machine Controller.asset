@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1294538683894811666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ed43b1bea1e69d49a73ea66f6732994, type: 3}
+  m_Name: Base StateMachine
+  m_EditorClassIdentifier: 
+  m_Position: {x: 300, y: 50, z: 0}
+  m_PositionAsUpNode: {x: 700, y: 100, z: 0}
+  m_AnyStatePosition: {x: 300, y: 50, z: 0}
+  m_ParentStateMachine: {fileID: 0}
+  m_ChildStateMachines: []
+  m_StateModels:
+  - {fileID: 7383936760125653877}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1523b8ee4bacc64cb19ba28d47e9317, type: 3}
+  m_Name: Player State Machine Controller
+  m_EditorClassIdentifier: 
+  m_BaseStateMachineModel: {fileID: -1294538683894811666}
+  _parameters:
+  - m_Name: MoveInput
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+  m_DefaultStateModel: {fileID: 7383936760125653877}
+  m_AnyStateModel: {fileID: 7687902253306019718}
+--- !u!114 &7383936760125653877
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
+  m_Name: Idle
+  m_EditorClassIdentifier: 
+  m_Position: {x: 589, y: 217, z: 0}
+  m_Tag: 
+  m_StateActions:
+  - fullName: SAS.StateMachineCharacterController.HorizontalMovement, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: MoveSpeed
+    whenToExecute: 4
+  - fullName: SAS.StateMachineCharacterController.VerticalPull, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: VerticalPull
+    whenToExecute: 4
+  - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 4
+  m_Transitions: []
+--- !u!114 &7687902253306019718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
+  m_Name: Any State
+  m_EditorClassIdentifier: 
+  m_Position: {x: 300, y: 50, z: 0}
+  m_Tag: 
+  m_StateActions: []
+  m_Transitions: []
