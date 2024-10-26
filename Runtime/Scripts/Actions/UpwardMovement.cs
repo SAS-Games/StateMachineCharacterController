@@ -29,7 +29,6 @@ namespace SAS.StateMachineCharacterController
 			_gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
 			_gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect
 			_verticalMovement += Physics.gravity.y * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
-			
 			_characterController.movementVector.y = _verticalMovement;
 		}
 	}

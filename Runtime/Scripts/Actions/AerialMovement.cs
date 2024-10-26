@@ -45,9 +45,7 @@ namespace SAS.StateMachineCharacterController
 					currentAxisSpeed = Mathf.Clamp(currentAxisSpeed, -targetSpeed, targetSpeed);
 				}
 				else
-				{
 					ApplyAirResistance(ref currentAxisSpeed);
-				}
 			}
 		}
 

@@ -31,3 +31,12 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
+  - keyName: TurnSmoothTime
+    valueType: 1
+    value:
+      type: 1
+      intValue: 0
+      floatValue: 0.01
+      boolValue: 0
+      stringValue: 
+      vector3Value: {x: 0, y: 0, z: 0}

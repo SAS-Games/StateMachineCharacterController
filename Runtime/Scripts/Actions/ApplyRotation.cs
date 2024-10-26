@@ -1,5 +1,5 @@
-using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
+using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ namespace SAS.StateMachineCharacterController
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         [FieldRequiresSelf] private Transform _transform;
-        private ScriptableReadOnlyFloat _turnSmoothTime;
+        private float _turnSmoothTime;
 
         private float _turnSmoothSpeed;
         private float _minMoveDistance;
@@ -17,7 +17,7 @@ namespace SAS.StateMachineCharacterController
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
-            actor.TryGet(out _turnSmoothTime, key);
+            _fsmCharacterController.TryGet(new BlackboardKey(key), out _turnSmoothTime);
             _minMoveDistance = actor.GetComponent<CharacterController>().minMoveDistance;
         }
 
@@ -28,9 +28,11 @@ namespace SAS.StateMachineCharacterController
 
             if (horizontalMovement.sqrMagnitude >= _minMoveDistance)
             {
-                float targetRotation = Mathf.Atan2(_fsmCharacterController.movementVector.x, _fsmCharacterController.movementVector.z) * Mathf.Rad2Deg;
-                _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime.value);
+                float targetRotationY = _fsmCharacterController.movementInput.x < 0 ? 180f : 0f;
+                float smoothRotationY = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotationY, ref _turnSmoothSpeed, _turnSmoothTime);
+                _transform.eulerAngles = new Vector3(0f, smoothRotationY, 0f);
             }
         }
+
     }
 }

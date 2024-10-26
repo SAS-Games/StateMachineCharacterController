@@ -15,7 +15,7 @@ namespace SAS.StateMachineCharacterController
         {
             _actor = actor;
             _actor.Initialize(this);
-            actor.TryGet(out _raycast, "HeadHit");
+            actor.TryGet(out _raycast);
         }
 
         void ICustomCondition.OnStateEnter() { }
