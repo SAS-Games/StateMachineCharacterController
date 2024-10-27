@@ -67,9 +67,31 @@ namespace SAS.StateMachineCharacterController
             Actor.SetBool("Jump", false);
         }
 
+        public void OnDashInitiated()
+        {
+            Actor.SetTrigger("Dash");
+        }
+
         public bool TryGet<T>(BlackboardKey key, out T value)
         {
             return _blackboard.TryGetValue(key, out value);
         }
+
+        public bool IsFacingRight()
+        {
+            float yRotation = transform.localEulerAngles.y;
+            if (Mathf.Abs(yRotation) < 0.0001f)
+                yRotation = 0;
+            const float facingThreshold = 5f;  // Small threshold for smoother rotations
+
+            if (movementInput.x > _characterController.minMoveDistance) // Adding a small tolerance for input drift
+                return true;
+            else if (movementInput.x < -_characterController.minMoveDistance)
+                return false;
+            else if ((yRotation >= 0 && yRotation <= facingThreshold) || (yRotation >= 360 - facingThreshold && yRotation <= 360))
+                return true; // Facing right
+            return false; // Facing left
+        }
+
     }
 }

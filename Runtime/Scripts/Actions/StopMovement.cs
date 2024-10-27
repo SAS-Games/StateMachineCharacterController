@@ -6,7 +6,7 @@ namespace SAS.StateMachineCharacterController
 {
 	public class StopMovement : IStateAction
 	{
-		[FieldRequiresSelf] private FSMCharacterController _characterController;
+		[FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
@@ -14,7 +14,7 @@ namespace SAS.StateMachineCharacterController
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-			_characterController.movementVector = Vector3.zero;
+			_fsmCharacterController.movementVector = Vector3.zero;
 		}
     }
 }

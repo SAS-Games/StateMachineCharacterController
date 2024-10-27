@@ -22,6 +22,8 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
+      scriptableObjectValue: {fileID: 0}
+    readOnly: 0
   - keyName: VerticalPull
     valueType: 1
     value:
@@ -31,6 +33,8 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
+      scriptableObjectValue: {fileID: 0}
+    readOnly: 0
   - keyName: TurnSmoothTime
     valueType: 1
     value:
@@ -40,3 +44,16 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
+      scriptableObjectValue: {fileID: 0}
+    readOnly: 0
+  - keyName: DashSpeed
+    valueType: 1
+    value:
+      type: 1
+      intValue: 0
+      floatValue: 18
+      boolValue: 0
+      stringValue: 
+      vector3Value: {x: 0, y: 0, z: 0}
+      scriptableObjectValue: {fileID: 0}
+    readOnly: 0
