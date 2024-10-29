@@ -31,6 +31,7 @@ namespace SAS.StateMachineCharacterController
             m_BlackboardData?.SetValuesOnBlackboard(_blackboard);
             Actor.Initialize();
         }
+
         public Actor Actor
         {
             get
@@ -77,6 +78,11 @@ namespace SAS.StateMachineCharacterController
             return _blackboard.TryGetValue(key, out value);
         }
 
+        public BlackboardKey GetOrRegisterKey(string keyName)
+        {
+            return _blackboard.GetOrRegisterKey(keyName);
+        }
+
         public bool IsFacingRight()
         {
             float yRotation = transform.localEulerAngles.y;
@@ -93,5 +99,14 @@ namespace SAS.StateMachineCharacterController
             return false; // Facing left
         }
 
+        internal T GetValue<T>(BlackboardKey key)
+        {
+            return _blackboard.GetValue<T>(key);
+        }
+
+        internal void SetValue(BlackboardKey key, float v)
+        {
+            _blackboard.SetValue(key, v);
+        }
     }
 }
