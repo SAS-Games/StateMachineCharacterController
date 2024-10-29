@@ -1,7 +1,6 @@
 using SAS.StateMachineGraph;
 using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
-using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -15,7 +14,7 @@ namespace SAS.StateMachineCharacterController
         {
             actor.Initialize(this);
             _characterController.TryGet(new BlackboardKey(key), out _coyoteTime);
-            _coyoteTimeCounterKey = _characterController.GetOrRegisterKey("CoyoteTimeCounter");
+            _coyoteTimeCounterKey = _characterController.GetOrRegisterKey(FSMCharacterBlackboardKey.CoyoteTimeCounter);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

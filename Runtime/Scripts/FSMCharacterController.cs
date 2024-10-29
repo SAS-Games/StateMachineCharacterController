@@ -6,6 +6,11 @@ using SAS.Utilities.BlackboardSystem;
 
 namespace SAS.StateMachineCharacterController
 {
+    public static class FSMCharacterBlackboardKey
+    {
+        public const string CoyoteTimeCounter = "CoyoteTimeCounter";
+        public const string RemainingJumpCount = "RemainingJumpCount";
+    }
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
     public class FSMCharacterController : MonoBehaviour
     {
