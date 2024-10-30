@@ -16,14 +16,14 @@ namespace SAS.StateMachineCharacterController
             for (int i = 0; i < m_MaxRayCount; ++i)
             {
                 var position = PointOnTheCircle(m_Radius, m_MaxRayCount, origin, i);
-                bool result = Physics.Raycast(position, direction, out var hit, hitDistance + m_HitDistanceOffset, m_GroundLayer);
-                Debug.DrawRay(position, direction * (hitDistance + m_HitDistanceOffset), hit.collider != null ? Color.green : Color.red);
+                bool result = Physics.Raycast(position, direction, out var hit, hitDistance + m_HitDistanceOffset, m_HitLayer);
+                Debug.DrawRay(position, direction * (hitDistance + m_HitDistanceOffset), hit.collider == null ? Color.green : Color.red);
             }
 #endif
             for (int i = 0; i < m_MaxRayCount; ++i)
             {
                 var position = PointOnTheCircle(m_Radius, m_MaxRayCount, origin, i);
-                if (Physics.Raycast(position, direction, out var hit, hitDistance + m_HitDistanceOffset, m_GroundLayer))
+                if (Physics.Raycast(position, direction, out var hit, hitDistance + m_HitDistanceOffset, m_HitLayer))
                     return true;
             }
 

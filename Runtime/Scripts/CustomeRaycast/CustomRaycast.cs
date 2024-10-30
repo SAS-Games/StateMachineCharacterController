@@ -6,7 +6,7 @@ namespace SAS.StateMachineCharacterController
 {
     public abstract class CustomRaycast : ScriptableObject
     {
-        [SerializeField] protected LayerMask m_GroundLayer;
+        [SerializeField] protected LayerMask m_HitLayer;
         [SerializeField] protected Vector3 m_Direction;
         [SerializeField] protected float m_HitDistanceOffset = 0.05f;
 

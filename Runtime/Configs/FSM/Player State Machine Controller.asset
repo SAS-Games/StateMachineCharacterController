@@ -35,7 +35,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Jump Descending
   m_EditorClassIdentifier: 
-  m_Position: {x: 968, y: 346, z: 0}
+  m_Position: {x: 965, y: 346, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DownwardMovement, AssemblyStateMachineCharacterController,
@@ -67,6 +67,7 @@ MonoBehaviour:
   - {fileID: 165457489255027965}
   - {fileID: -7386306258291886445}
   - {fileID: -249183701446816079}
+  - {fileID: 1756612319027247188}
 --- !u!114 &-7386306258291886445
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,9 +109,15 @@ MonoBehaviour:
   m_ExitTime: 0
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
+  - m_Name: Custom
+    m_Mode: 1
+    m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.HeadHitDetector, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   - m_Name: Jump
     m_Mode: 1
-    m_Type: 4
+    m_Type: 9
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsWithinCoyoteTime, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -172,9 +179,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Jump Ascending
   m_EditorClassIdentifier: 
-  m_Position: {x: 567, y: 208, z: 0}
+  m_Position: {x: 566, y: 189, z: 0}
   m_Tag: 
   m_StateActions:
+  - fullName: SAS.StateMachineCharacterController.ConsumeRemainingJumpCount, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 1
   - fullName: SAS.StateMachineCharacterController.UpwardMovement, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
@@ -190,11 +202,6 @@ MonoBehaviour:
     tag: 0
     key: 
     whenToExecute: 4
-  - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: Descending
-    whenToExecute: 16
   - fullName: SAS.StateMachineCharacterController.DecreaseCoyoteTimerCounter, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
@@ -244,17 +251,17 @@ MonoBehaviour:
   m_ExitTime: 0
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
+  - m_Name: Jump
+    m_Mode: 1
+    m_Type: 9
+    m_FloatValue: 0
+    m_CustomCondition: 
   - m_Name: Custom
     m_Mode: 1
     m_Type: 10
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsWithinCoyoteTime, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - m_Name: Jump
-    m_Mode: 1
-    m_Type: 4
-    m_FloatValue: 0
-    m_CustomCondition: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,13 +281,18 @@ MonoBehaviour:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-  - m_Name: Jump
+  - m_Name: JumpHold
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
   - m_Name: IsGrounded
     m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+  - m_Name: Jump
+    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -349,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed43b1bea1e69d49a73ea66f6732994, type: 3}
   m_Name: InAir
   m_EditorClassIdentifier: 
-  m_Position: {x: 921, y: 218, z: 0}
+  m_Position: {x: 921, y: 217, z: 0}
   m_PositionAsUpNode: {x: 700, y: 100, z: 0}
   m_AnyStatePosition: {x: 300, y: 50, z: 0}
   m_ParentStateMachine: {fileID: -1294538683894811666}
@@ -357,6 +369,35 @@ MonoBehaviour:
   m_StateModels:
   - {fileID: -1404876738358820697}
   - {fileID: -7614610658286386800}
+--- !u!114 &1756612319027247188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f0dc7669bda5a4eb7472cb2dc10cb7, type: 3}
+  m_Name: Jump Descending->To->Jump Ascending
+  m_EditorClassIdentifier: 
+  m_SourceState: {fileID: -7614610658286386800}
+  m_TargetState: {fileID: -1404876738358820697}
+  m_HasExitTime: 0
+  m_ExitTime: 0
+  m_WaitForAwaitableActionsToComplete: 1
+  m_Conditions:
+  - m_Name: Jump
+    m_Mode: 1
+    m_Type: 9
+    m_FloatValue: 0
+    m_CustomCondition: 
+  - m_Name: Custom
+    m_Mode: 1
+    m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.IsJumpAvailable, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &5146115954270796268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -416,7 +457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: LocoMotion
   m_EditorClassIdentifier: 
-  m_Position: {x: 584, y: 212, z: 0}
+  m_Position: {x: 584, y: 214, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.HorizontalMovement, AssemblyStateMachineCharacterController,
@@ -448,6 +489,16 @@ MonoBehaviour:
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: CoyoteTime
+    whenToExecute: 1
+  - fullName: SAS.StateMachineCharacterController.ResetRemainingJumpCount, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: MaxJumpCount
+    whenToExecute: 1
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Descending
     whenToExecute: 1
   - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -538,7 +589,7 @@ MonoBehaviour:
   m_ExitTime: 0
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
-  - m_Name: Jump
+  - m_Name: JumpHold
     m_Mode: 2
     m_Type: 4
     m_FloatValue: 0

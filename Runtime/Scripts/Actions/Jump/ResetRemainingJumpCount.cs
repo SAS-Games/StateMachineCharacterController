@@ -4,22 +4,22 @@ using SAS.Utilities.TagSystem;
 
 namespace SAS.StateMachineCharacterController
 {
-    public class ResetRemainigJumpCount : IStateAction
+    public class ResetRemainingJumpCount : IStateAction
     {
         [FieldRequiresSelf] private FSMCharacterController _characterController;
-        private BlackboardKey _remainigJumpCountKey = default;
+        private BlackboardKey _remainingJumpCountKey = default;
         private int _maxJumpCount = 0;
 
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
             _characterController.TryGet(new BlackboardKey(key), out _maxJumpCount);
-            _remainigJumpCountKey = _characterController.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
+            _remainingJumpCountKey = _characterController.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            _characterController.SetValue(_remainigJumpCountKey, _maxJumpCount);
+            _characterController.SetValue(_remainingJumpCountKey, _maxJumpCount);
         }
     }
 }

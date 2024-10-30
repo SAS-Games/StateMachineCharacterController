@@ -65,12 +65,13 @@ namespace SAS.StateMachineCharacterController
 
         public void OnJumpInitiated()
         {
-            Actor.SetBool("Jump", true);
+            Actor.SetTrigger("Jump");
+            Actor.SetBool("JumpHold", true);
         }
 
         public void OnJumpCanceled()
         {
-            Actor.SetBool("Jump", false);
+            Actor.SetBool("JumpHold", false);
         }
 
         public void OnDashInitiated()
@@ -109,7 +110,7 @@ namespace SAS.StateMachineCharacterController
             return _blackboard.GetValue<T>(key);
         }
 
-        internal void SetValue(BlackboardKey key, float v)
+        internal void SetValue<T>(BlackboardKey key, T v)
         {
             _blackboard.SetValue(key, v);
         }

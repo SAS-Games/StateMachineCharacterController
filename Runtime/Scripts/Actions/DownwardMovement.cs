@@ -21,7 +21,7 @@ namespace SAS.StateMachineCharacterController
 			if (executeEvent == ActionExecuteEvent.OnStateEnter)
             {
 				_verticalMovement = _characterController.movementVector.y;
-				return;
+                return;
             }
 			_verticalMovement += Physics.gravity.y * _downwardMovementConfig.gravityMultiplier * Time.deltaTime;
 			_verticalMovement = Mathf.Clamp(_verticalMovement, _downwardMovementConfig.fallSpeedRange.min, _downwardMovementConfig.fallSpeedRange.max);
