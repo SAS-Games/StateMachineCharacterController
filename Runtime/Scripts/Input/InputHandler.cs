@@ -77,16 +77,12 @@ namespace SAS.StateMachineCharacterController
 
         private void ProcessMovementInput()
         {
-            Vector3 adjustedMovement = new Vector3(_moveInput.x, 0f, 0f);
-            if (Mathf.Approximately(_moveInput.x, 0f))
-                adjustedMovement = _fsmCharacterController.movementInput * (adjustedMovement.magnitude + .01f);
-
+            Vector3 adjustedMovement = new Vector3(_moveInput.x, _moveInput.y, 0f);
             float targetSpeed = Mathf.Abs(_moveInput.x);
-
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, m_targetSpeedReachMultiplier * Time.deltaTime);
             _fsmCharacterController.movementInput = adjustedMovement.normalized * targetSpeed;
-            if (Mathf.Abs(_fsmCharacterController.movementInput.x) > 0.1f)
-                _fsmCharacterController.OnMove(targetSpeed);
+            _fsmCharacterController.movementInput.y = _moveInput.y;
+            _fsmCharacterController.OnMove(targetSpeed);
 
             _previousSpeed = targetSpeed;
         }
