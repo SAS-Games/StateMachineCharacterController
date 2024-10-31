@@ -12,7 +12,7 @@ namespace SAS.StateMachineCharacterController
         private Transform _cameraTransform;
 
         private float _previousSpeed;
-        private float _moveInput;
+        private Vector2 _moveInput;
         private FSMCharacterController _fsmCharacterController;
         private float _targetValue = 1;
 
@@ -67,7 +67,7 @@ namespace SAS.StateMachineCharacterController
             dashInputAction.Disable();
 
 
-            _moveInput = 0f;
+            _moveInput = Vector2Int.zero;
             _previousSpeed = 0;
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
@@ -77,17 +77,16 @@ namespace SAS.StateMachineCharacterController
 
         private void ProcessMovementInput()
         {
-            Vector3 adjustedMovement = new Vector3(_moveInput, 0f, 0f);
-            if (Mathf.Approximately(_moveInput, 0f))
+            Vector3 adjustedMovement = new Vector3(_moveInput.x, 0f, 0f);
+            if (Mathf.Approximately(_moveInput.x, 0f))
                 adjustedMovement = _fsmCharacterController.movementInput * (adjustedMovement.magnitude + .01f);
 
-            float targetSpeed = Mathf.Abs(_moveInput);
+            float targetSpeed = Mathf.Abs(_moveInput.x);
 
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, m_targetSpeedReachMultiplier * Time.deltaTime);
-
-
             _fsmCharacterController.movementInput = adjustedMovement.normalized * targetSpeed;
-            _fsmCharacterController.OnMove(targetSpeed);
+            if (Mathf.Abs(_fsmCharacterController.movementInput.x) > 0.1f)
+                _fsmCharacterController.OnMove(targetSpeed);
 
             _previousSpeed = targetSpeed;
         }
@@ -95,7 +94,9 @@ namespace SAS.StateMachineCharacterController
 
         private void OnMove(InputAction.CallbackContext value)
         {
-            _moveInput = value.ReadValue<float>() * _targetValue;
+            _moveInput = value.ReadValue<Vector2>() * _targetValue;
+            if (Mathf.Abs(_moveInput.x) > 0)
+                _fsmCharacterController.isFacingRight = _moveInput.x > 0 ? true : false;
         }
     }
 }

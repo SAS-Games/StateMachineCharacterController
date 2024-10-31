@@ -28,6 +28,7 @@ namespace SAS.StateMachineCharacterController
                 _verticalMovement = _upwardMovementConfig.jumpForce;
                 _fsmCharacterController.IsTouchingLayerSide(_fsmCharacterController.WallLayer, out var raycastHit);
                 _fsmCharacterController.movementVector = raycastHit.normal * _moveSpeed;
+                _fsmCharacterController.isFacingRight = raycastHit.normal.x > 0;
                 return;
             }
             _gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;

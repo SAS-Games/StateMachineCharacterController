@@ -23,7 +23,7 @@ namespace SAS.StateMachineCharacterController
             {
                 _dashDirection = new Vector3(_fsmCharacterController.movementInput.x, _fsmCharacterController.movementInput.y).normalized;
                 if (_dashDirection == Vector3.zero)
-                    _dashDirection = _fsmCharacterController.IsFacingRight() ? Vector3.right : Vector3.left;
+                    _dashDirection = _fsmCharacterController.isFacingRight ? Vector3.right : Vector3.left;
                 return;
             }
 

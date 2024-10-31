@@ -28,7 +28,7 @@ namespace SAS.StateMachineCharacterController
 
             if (horizontalMovement.sqrMagnitude >= _minMoveDistance)
             {
-                float targetRotationY = _fsmCharacterController.movementInput.x < 0 ? 180f : 0f;
+                float targetRotationY = _fsmCharacterController.isFacingRight ? 0 : 180f;
                 float smoothRotationY = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotationY, ref _turnSmoothSpeed, _turnSmoothTime);
                 _transform.eulerAngles = new Vector3(0f, smoothRotationY, 0f);
             }

@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Wall Jump
   m_EditorClassIdentifier: 
-  m_Position: {x: 965, y: 177, z: 0}
+  m_Position: {x: 965, y: 176, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ConsumeRemainingJumpCount, AssemblyStateMachineCharacterController,

@@ -24,6 +24,7 @@ namespace SAS.StateMachineCharacterController
         internal Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
+        internal bool isFacingRight;
 
         public float NormalizedMoveInput => movementInput.magnitude;
 
@@ -38,9 +39,11 @@ namespace SAS.StateMachineCharacterController
         private void Awake()
         {
             this.Initialize();
+            //todo: move the m_BlackboardData to the actor class 
             m_BlackboardData?.SetValuesOnBlackboard(_blackboard);
             Actor.Initialize();
             _transform = transform;
+            SetFacingDirection();
         }
 
         public Actor Actor
@@ -85,20 +88,13 @@ namespace SAS.StateMachineCharacterController
             Actor.SetTrigger("Dash");
         }
 
-        public bool IsFacingRight()
+        public void SetFacingDirection()
         {
             float yRotation = _transform.localEulerAngles.y;
             if (Mathf.Abs(yRotation) < 0.0001f)
                 yRotation = 0;
             const float facingThreshold = 5f;  // Small threshold for smoother rotations
-
-            if (movementInput.x > _characterController.minMoveDistance) // Adding a small tolerance for input drift
-                return true;
-            else if (movementInput.x < -_characterController.minMoveDistance)
-                return false;
-            else if ((yRotation >= 0 && yRotation <= facingThreshold) || (yRotation >= 360 - facingThreshold && yRotation <= 360))
-                return true; // Facing right
-            return false; // Facing left
+            isFacingRight = (yRotation >= 0 && yRotation <= facingThreshold) || (yRotation >= 360 - facingThreshold && yRotation <= 360);
         }
 
         public bool TryGet<T>(BlackboardKey key, out T value)
@@ -123,14 +119,12 @@ namespace SAS.StateMachineCharacterController
 
         public bool IsTouchingLayerSide(LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)
         {
-            // hitInfo = new RaycastHit();
-
             // Calculate check radius using CharacterController radius and skinWidth
             float checkRadius = _characterController.radius + _characterController.skinWidth + 0.01f;
             Vector3 characterPosition = _transform.position + Vector3.up * (_characterController.height / 2);
 
             // Determine the direction to cast based on the character's facing direction
-            Vector3 direction = IsFacingRight() ? Vector3.right : Vector3.left;
+            Vector3 direction = isFacingRight ? Vector3.right : Vector3.left;
 
             // SphereCast to the side of the character to detect walls
             bool hit = Physics.SphereCast(characterPosition, _characterController.skinWidth, direction, out hitInfo, checkRadius, layerMask);
