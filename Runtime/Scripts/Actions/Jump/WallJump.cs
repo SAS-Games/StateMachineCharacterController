@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace SAS.StateMachineCharacterController
         {
             actor.TryGet(out _upwardMovementConfig, key);
             actor.TryGetComponent(out _fsmCharacterController);
-            _fsmCharacterController.TryGet<float>(new Utilities.BlackboardSystem.BlackboardKey(FSMCharacterBlackboardKey.MoveSpeed), out _moveSpeed);
+            actor.TryGet<float>(new BlackboardKey(FSMCharacterBlackboardKey.MoveSpeed), out _moveSpeed);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

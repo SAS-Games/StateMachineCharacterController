@@ -6,20 +6,21 @@ namespace SAS.StateMachineCharacterController
 {
     public class ConsumeRemainingJumpCount : IStateAction
     {
-        [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         private BlackboardKey _remainingJumpCountKey = default;
+        private Actor _actor;
 
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
-            _remainingJumpCountKey = _fsmCharacterController.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
+            _actor = actor;
+            _remainingJumpCountKey = actor.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            var value = _fsmCharacterController.GetValue<int>(_remainingJumpCountKey);
+            var value = _actor.GetValue<int>(_remainingJumpCountKey);
             value--;
-            _fsmCharacterController.SetValue(_remainingJumpCountKey, value);
+            _actor.SetValue(_remainingJumpCountKey, value);
         }
     }
 }

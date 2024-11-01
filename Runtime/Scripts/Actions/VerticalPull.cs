@@ -13,7 +13,7 @@ namespace SAS.StateMachineCharacterController
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
-            _characterController.TryGet(new BlackboardKey(key), out _verticalPull);
+            actor.TryGet(new BlackboardKey(key), out _verticalPull);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

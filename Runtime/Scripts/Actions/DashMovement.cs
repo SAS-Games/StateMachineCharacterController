@@ -14,7 +14,7 @@ namespace SAS.StateMachineCharacterController
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
-            _fsmCharacterController.TryGet(new BlackboardKey(key), out _dashSpeed);
+            actor.TryGet(new BlackboardKey(key), out _dashSpeed);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

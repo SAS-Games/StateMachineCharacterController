@@ -17,7 +17,6 @@ namespace SAS.StateMachineCharacterController
     public class FSMCharacterController : MonoBehaviour
     {
         [FieldRequiresSelf] private CharacterController _characterController;
-        [SerializeField] private BlackboardData m_BlackboardData = default;
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
 
         /* [NonSerialized]*/
@@ -32,16 +31,12 @@ namespace SAS.StateMachineCharacterController
         private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
 
-        private Blackboard _blackboard = new Blackboard();
         private Transform _transform;
 
 
         private void Awake()
         {
             this.Initialize();
-            //todo: move the m_BlackboardData to the actor class 
-            m_BlackboardData?.SetValuesOnBlackboard(_blackboard);
-            Actor.Initialize();
             _transform = transform;
             SetFacingDirection();
         }
@@ -95,26 +90,6 @@ namespace SAS.StateMachineCharacterController
                 yRotation = 0;
             const float facingThreshold = 5f;  // Small threshold for smoother rotations
             isFacingRight = (yRotation >= 0 && yRotation <= facingThreshold) || (yRotation >= 360 - facingThreshold && yRotation <= 360);
-        }
-
-        public bool TryGet<T>(BlackboardKey key, out T value)
-        {
-            return _blackboard.TryGetValue(key, out value);
-        }
-
-        internal T GetValue<T>(BlackboardKey key)
-        {
-            return _blackboard.GetValue<T>(key);
-        }
-
-        public BlackboardKey GetOrRegisterKey(string keyName)
-        {
-            return _blackboard.GetOrRegisterKey(keyName);
-        }
-
-        internal void SetValue<T>(BlackboardKey key, T v)
-        {
-            _blackboard.SetValue(key, v);
         }
 
         public bool IsTouchingLayerSide(LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)

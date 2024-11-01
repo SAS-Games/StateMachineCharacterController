@@ -6,13 +6,14 @@ namespace SAS.StateMachineCharacterController
 {
     public class IsJumpAvailable : ICustomCondition
     {
-        [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         private BlackboardKey _remainingJumpCountKey = default;
+        private Actor _actor;
 
         void ICustomCondition.OnInitialize(Actor actor)
         {
             actor.Initialize(this);
-            _remainingJumpCountKey = _fsmCharacterController.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
+            _actor = actor;
+            _remainingJumpCountKey = _actor.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
         }
 
         void ICustomCondition.OnStateEnter() { }
@@ -21,7 +22,7 @@ namespace SAS.StateMachineCharacterController
 
         bool ICustomCondition.Evaluate()
         {
-            return _fsmCharacterController.GetValue<int>(_remainingJumpCountKey) > 0;
+            return _actor.GetValue<int>(_remainingJumpCountKey) > 0;
         }
     }
 }
