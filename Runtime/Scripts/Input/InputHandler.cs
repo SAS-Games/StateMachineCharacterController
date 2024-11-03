@@ -47,9 +47,6 @@ namespace SAS.StateMachineCharacterController
             var dashInputAction = m_InputConfig.GetInputAction("Dash");
             dashInputAction.performed += _dashPerformed;
             dashInputAction.Enable();
-
-
-
         }
 
         private void OnDisable()
@@ -80,7 +77,7 @@ namespace SAS.StateMachineCharacterController
             Vector3 adjustedMovement = new Vector3(_moveInput.x, _moveInput.y, 0f);
             float targetSpeed = Mathf.Abs(_moveInput.x);
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, m_targetSpeedReachMultiplier * Time.deltaTime);
-            _fsmCharacterController.movementInput = adjustedMovement.normalized * targetSpeed;
+            _fsmCharacterController.movementInput = adjustedMovement * targetSpeed;
             _fsmCharacterController.movementInput.y = _moveInput.y;
             _fsmCharacterController.OnMove(targetSpeed);
 

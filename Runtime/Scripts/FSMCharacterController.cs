@@ -11,6 +11,7 @@ namespace SAS.StateMachineCharacterController
         public const string CoyoteTimeCounter = "CoyoteTimeCounter";
         public const string RemainingJumpCount = "RemainingJumpCount";
         public const string MoveSpeed = "MoveSpeed";
+        public const string IsDashing = "IsDashing";
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]

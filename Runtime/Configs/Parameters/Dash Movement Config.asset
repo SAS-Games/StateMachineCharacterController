@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f3b015e0a72964ea952c95d04c6d6a, type: 3}
-  m_Name: Head Hit Raycast
+  m_Script: {fileID: 11500000, guid: 9ab061c32342bcc47b77cfdeb3191be6, type: 3}
+  m_Name: Dash Movement Config
   m_EditorClassIdentifier: 
-  m_HitLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  m_Direction: {x: 0, y: 1, z: 0}
-  m_HitDistanceOffset: 0.05
-  m_Radius: 0.5
-  m_MaxRayCount: 3
+  horizontalSpeed: 25
+  verticalSpeed: 25
+  gravityMultiplier: 6
+  gravityComebackMultiplier: 0.075
+  gravityDivider: 1

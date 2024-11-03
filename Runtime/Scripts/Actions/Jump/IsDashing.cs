@@ -1,19 +1,20 @@
 using SAS.StateMachineGraph;
 using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
+using System.Diagnostics;
 
 namespace SAS.StateMachineCharacterController
 {
-    public class IsJumpAvailable : ICustomCondition
+    public class IsDashing : ICustomCondition
     {
-        private BlackboardKey _remainingJumpCountKey = default;
+        private BlackboardKey _isDashingKey = default;
         private Actor _actor;
 
         void ICustomCondition.OnInitialize(Actor actor)
         {
             actor.Initialize(this);
             _actor = actor;
-            _remainingJumpCountKey = actor.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
+            _isDashingKey = actor.GetOrRegisterKey(FSMCharacterBlackboardKey.IsDashing);
         }
 
         void ICustomCondition.OnStateEnter() { }
@@ -22,7 +23,8 @@ namespace SAS.StateMachineCharacterController
 
         bool ICustomCondition.Evaluate()
         {
-            return _actor.GetValue<int>(_remainingJumpCountKey) > 0;
+            UnityEngine.Debug.Log(_actor.GetValue<bool>(_isDashingKey));
+            return _actor.GetValue<bool>(_isDashingKey);
         }
     }
 }

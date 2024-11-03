@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f50526ebfdf64134b6ee2c8994eaa300, type: 3}
-  m_Name: PlayerConfig
+  m_Name: Player Config
   m_EditorClassIdentifier: 
   entries:
   - keyName: MoveSpeed
@@ -18,11 +18,10 @@ MonoBehaviour:
     value:
       type: 1
       intValue: 0
-      floatValue: 6
+      floatValue: 7
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
   - keyName: VerticalPull
     valueType: 1
@@ -33,7 +32,6 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
   - keyName: TurnSmoothTime
     valueType: 1
@@ -44,7 +42,6 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
   - keyName: DashSpeed
     valueType: 1
@@ -55,7 +52,6 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
   - keyName: CoyoteTime
     valueType: 1
@@ -66,7 +62,6 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
   - keyName: MaxJumpCount
     valueType: 0
@@ -77,5 +72,4 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-      scriptableObjectValue: {fileID: 0}
     readOnly: 1
