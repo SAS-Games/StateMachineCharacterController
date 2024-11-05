@@ -21,3 +21,5 @@ MonoBehaviour:
     m_InputActionReference: {fileID: 2795192816747268572, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}
   - m_Key: Dash
     m_InputActionReference: {fileID: -6201028831682897634, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}
+  - m_Key: Climb
+    m_InputActionReference: {fileID: -106243935172258878, guid: d1482542abbf4f2448aeefd71f0a4750, type: 3}

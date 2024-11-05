@@ -20,49 +20,52 @@ namespace SAS.StateMachineCharacterController
         private Action<CallbackContext> _jumpCanceled;
 
         private Action<CallbackContext> _dashPerformed;
+        private Action<CallbackContext> _climbInputInitiated;
+        private Action<CallbackContext> _climbInputCanceled;
+
+        private InputAction _moveInputAction;
 
         void Awake()
         {
             _fsmCharacterController = GetComponent<FSMCharacterController>();
             _cameraTransform = Camera.main.transform;
+
+            _jumpPerformed = _ => _fsmCharacterController.OnJumpInitiated();
+            _jumpCanceled = _ => _fsmCharacterController.OnJumpCanceled();
+
+            _dashPerformed = _ => _fsmCharacterController.OnDashInitiated();
+
+            _climbInputInitiated = _ => _fsmCharacterController.OnClimbInitiated();
+            _climbInputCanceled = _ => _fsmCharacterController.OnClimbCanceled();
+
+             _moveInputAction = m_InputConfig.GetInputAction("Move");
+          
+            var jumpInputAction = m_InputConfig.GetInputAction("Jump");
+            jumpInputAction.performed += _jumpPerformed;
+            jumpInputAction.canceled += _jumpCanceled;
+
+            var dashInputAction = m_InputConfig.GetInputAction("Dash");
+            dashInputAction.performed += _dashPerformed;
+
+            var climbInputAction = m_InputConfig.GetInputAction("Climb");
+            climbInputAction.started += _climbInputInitiated;
+            climbInputAction.canceled += _climbInputCanceled;
         }
 
         void OnEnable()
         {
-            var moveInputAction = m_InputConfig.GetInputAction("Move");
-            moveInputAction.started += OnMove;
-            moveInputAction.performed += OnMove;
-            moveInputAction.canceled += OnMove;
-            moveInputAction.Enable();
-
-            _jumpPerformed = _ => _fsmCharacterController.OnJumpInitiated();
-            _jumpCanceled = _ => _fsmCharacterController.OnJumpCanceled();
-            var jumpInputAction = m_InputConfig.GetInputAction("Jump");
-            jumpInputAction.performed += _jumpPerformed;
-            jumpInputAction.canceled += _jumpCanceled;
-            jumpInputAction.Enable();
-
-
-            _dashPerformed = _ => _fsmCharacterController.OnDashInitiated();
-            var dashInputAction = m_InputConfig.GetInputAction("Dash");
-            dashInputAction.performed += _dashPerformed;
-            dashInputAction.Enable();
+            m_InputConfig.GetInputAction("Move").Enable();
+            m_InputConfig.GetInputAction("Jump").Enable();
+            m_InputConfig.GetInputAction("Dash").Enable();
+            m_InputConfig.GetInputAction("Climb").Enable();
         }
 
         private void OnDisable()
         {
-            var moveInputAction = m_InputConfig.GetInputAction("Move");
-            moveInputAction.started -= OnMove;
-            moveInputAction.performed -= OnMove;
-            moveInputAction.canceled -= OnMove;
-
-            var jumpInputAction = m_InputConfig.GetInputAction("Jump");
-            jumpInputAction.performed -= _jumpPerformed;
-            jumpInputAction.canceled -= _jumpCanceled;
-
-            var dashInputAction = m_InputConfig.GetInputAction("Dash");
-            dashInputAction.Disable();
-
+            m_InputConfig.GetInputAction("Move").Disable();
+            m_InputConfig.GetInputAction("Jump").Disable();
+            m_InputConfig.GetInputAction("Dash").Disable();
+            m_InputConfig.GetInputAction("Climb").Disable();
 
             _moveInput = Vector2Int.zero;
             _previousSpeed = 0;
@@ -74,6 +77,13 @@ namespace SAS.StateMachineCharacterController
 
         private void ProcessMovementInput()
         {
+            if (_moveInputAction.enabled)
+            {
+                _moveInput = _moveInputAction.ReadValue<Vector2>() * _targetValue;
+                if (Mathf.Abs(_moveInput.x) > 0)
+                    _fsmCharacterController.isFacingRight = _moveInput.x > 0 ? true : false;
+            }
+
             Vector3 adjustedMovement = new Vector3(_moveInput.x, _moveInput.y, 0f);
             float targetSpeed = Mathf.Abs(_moveInput.x);
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, m_targetSpeedReachMultiplier * Time.deltaTime);
@@ -82,14 +92,6 @@ namespace SAS.StateMachineCharacterController
             _fsmCharacterController.OnMove(targetSpeed);
 
             _previousSpeed = targetSpeed;
-        }
-
-
-        private void OnMove(InputAction.CallbackContext value)
-        {
-            _moveInput = value.ReadValue<Vector2>() * _targetValue;
-            if (Mathf.Abs(_moveInput.x) > 0)
-                _fsmCharacterController.isFacingRight = _moveInput.x > 0 ? true : false;
         }
     }
 }
