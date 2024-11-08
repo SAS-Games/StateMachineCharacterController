@@ -26,7 +26,7 @@ namespace SAS.StateMachineCharacterController
         internal Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
-        public float speed;
+        public float Speed { get; private set; }
         internal bool isFacingRight;
 
         public float NormalizedMoveInput => movementInput.magnitude;
@@ -68,8 +68,8 @@ namespace SAS.StateMachineCharacterController
 
         public void OnMove(float normalizedMoveInput)
         {
-            speed = (float)Math.Round(normalizedMoveInput, 2);
-            Actor.SetFloat(NormalizedMoveInputHash, speed);
+            Speed = (float)Math.Round(normalizedMoveInput, 2);
+            Actor.SetFloat(NormalizedMoveInputHash, Speed);
         }
 
         public void OnJumpInitiated()

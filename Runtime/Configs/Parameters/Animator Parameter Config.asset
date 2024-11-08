@@ -13,33 +13,96 @@ MonoBehaviour:
   m_Name: Animator Parameter Config
   m_EditorClassIdentifier: 
   m_ParametersKeyMap:
-  - key: Idle
-    parameters: []
-    awaitableStateTag: 
-    startDelay: 0
-  - key: Move
+  - key: Jump
     parameters:
-    - m_Name: HorizontalSpeed
-      m_Type: 1
+    - m_Name: Jump
+      m_Type: 4
       m_BoolValue: 1
       m_IntValue: 0
       m_FloatValue: 0
-    awaitableStateTag: 
-    startDelay: 0
-  - key: Ascending
-    parameters:
-    - m_Name: IsGrounded
+    - m_Name: Land
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Fall
       m_Type: 4
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
     awaitableStateTag: 
     startDelay: 0
-  - key: Landed
+  - key: Fall
     parameters:
-    - m_Name: IsGrounded
+    - m_Name: Land
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Jump
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Fall
       m_Type: 4
       m_BoolValue: 1
+      m_IntValue: 0
+      m_FloatValue: 0
+    awaitableStateTag: 
+    startDelay: 0
+  - key: Land
+    parameters:
+    - m_Name: Land
+      m_Type: 4
+      m_BoolValue: 1
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Jump
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Fall
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    awaitableStateTag: 
+    startDelay: 0
+  - key: LocoMotion
+    parameters:
+    - m_Name: Land
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Jump
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    - m_Name: Fall
+      m_Type: 4
+      m_BoolValue: 0
+      m_IntValue: 0
+      m_FloatValue: 0
+    awaitableStateTag: 
+    startDelay: 0
+  - key: Dash
+    parameters:
+    - m_Name: Dash
+      m_Type: 4
+      m_BoolValue: 1
+      m_IntValue: 0
+      m_FloatValue: 0
+    awaitableStateTag: 
+    startDelay: 0
+  - key: DashExit
+    parameters:
+    - m_Name: Dash
+      m_Type: 4
+      m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
     awaitableStateTag: 

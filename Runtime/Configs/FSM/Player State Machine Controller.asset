@@ -130,6 +130,16 @@ MonoBehaviour:
     tag: 0
     key: CoyoteTime
     whenToExecute: 4
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Fall
+    whenToExecute: 1
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Land
+    whenToExecute: 16
   m_Transitions:
   - {fileID: 165457489255027965}
   - {fileID: -7386306258291886445}
@@ -388,7 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Jump Ascending
   m_EditorClassIdentifier: 
-  m_Position: {x: 565, y: 187, z: 0}
+  m_Position: {x: 565, y: 184, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ConsumeRemainingJumpCount, AssemblyStateMachineCharacterController,
@@ -421,6 +431,11 @@ MonoBehaviour:
     tag: 0
     key: CoyoteTime
     whenToExecute: 4
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Jump
+    whenToExecute: 1
   m_Transitions:
   - {fileID: 8976834898225899000}
   - {fileID: 8138495459549282573}
@@ -841,11 +856,11 @@ MonoBehaviour:
     tag: 0
     key: MaxJumpCount
     whenToExecute: 1
-  - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
+  - fullName: SAS.StateMachineCharacterController.AnimatorMoveSpeed, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
-    key: Descending
-    whenToExecute: 1
+    key: Speed
+    whenToExecute: 4
   - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
@@ -869,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 300, y: 50, z: 0}
+  m_Position: {x: 579, y: 90, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
@@ -926,6 +941,16 @@ MonoBehaviour:
     tag: 0
     key: 
     whenToExecute: 4
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Dash
+    whenToExecute: 1
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: DashExit
+    whenToExecute: 16
   m_Transitions:
   - {fileID: 789061411378292087}
   - {fileID: -6309288573742276966}
