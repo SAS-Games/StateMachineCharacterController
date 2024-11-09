@@ -2,8 +2,6 @@ using SAS.StateMachineGraph;
 using SAS.Utilities.TagSystem;
 using System;
 using UnityEngine;
-using SAS.Utilities.BlackboardSystem;
-using Codice.CM.Common;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -21,6 +19,7 @@ namespace SAS.StateMachineCharacterController
         [FieldRequiresSelf] private CharacterController _characterController;
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
+        [SerializeField] private LayerMask m_GroundLayer;
 
         /* [NonSerialized]*/
         public Vector3 movementVector;
@@ -47,14 +46,24 @@ namespace SAS.StateMachineCharacterController
             }
         }
 
-        private bool _isGrounded = true;
         public bool IsGrounded
         {
-            get { return _isGrounded; }
-            internal set
+            get
             {
-                _isGrounded = value;
-                Actor.SetBool("IsGrounded", _isGrounded);
+                if (_characterController.isGrounded)
+                    return true;
+
+                // Perform a SphereCast for more accurate ground detection
+                Vector3 origin = _transform.position + Vector3.down * (_characterController.height / 2 - _characterController.radius);
+                float checkDistance = _characterController.stepOffset;
+
+                RaycastHit hit;
+                if (Physics.SphereCast(origin, _characterController.radius, Vector3.down, out hit, checkDistance, m_GroundLayer))
+                {
+                    Debug.DrawRay(origin, Vector3.down * checkDistance, Color.yellow);
+                    return true;
+                }
+                return false;
             }
         }
 

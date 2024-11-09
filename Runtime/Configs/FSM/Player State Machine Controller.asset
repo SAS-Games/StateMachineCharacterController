@@ -18,11 +18,12 @@ MonoBehaviour:
   m_ExitTime: 0
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
-  - m_Name: IsGrounded
+  - m_Name: Custom
     m_Mode: 2
-    m_Type: 4
+    m_Type: 10
     m_FloatValue: 0
-    m_CustomCondition: 
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &-8300055516624563057
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -58,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Climb
   m_EditorClassIdentifier: 
-  m_Position: {x: 928, y: 108, z: 0}
+  m_Position: {x: 928, y: 107, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.SetClimbDirection, AssemblyStateMachineCharacterController,
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Jump Descending
   m_EditorClassIdentifier: 
-  m_Position: {x: 965, y: 347, z: 0}
+  m_Position: {x: 963, y: 347, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DownwardMovement, AssemblyStateMachineCharacterController,
@@ -116,11 +117,6 @@ MonoBehaviour:
     key: TurnSmoothTime
     whenToExecute: 4
   - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: 
-    whenToExecute: 4
-  - fullName: SAS.StateMachineCharacterController.GroundDetector, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: 
@@ -218,11 +214,12 @@ MonoBehaviour:
   m_ExitTime: 0.25
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
-  - m_Name: IsGrounded
+  - m_Name: Custom
     m_Mode: 2
-    m_Type: 4
+    m_Type: 10
     m_FloatValue: 0
-    m_CustomCondition: 
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &-5851523506814725872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,7 +452,7 @@ MonoBehaviour:
   m_Name: Base StateMachine
   m_EditorClassIdentifier: 
   m_Position: {x: 300, y: 50, z: 0}
-  m_PositionAsUpNode: {x: 561, y: 344, z: 0}
+  m_PositionAsUpNode: {x: 561, y: 343, z: 0}
   m_AnyStatePosition: {x: 579, y: 90, z: 0}
   m_ParentStateMachine: {fileID: 0}
   m_ChildStateMachines:
@@ -517,11 +514,6 @@ MonoBehaviour:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-  - m_Name: IsGrounded
-    m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
   - m_Name: Jump
     m_Type: 9
     m_DefaultFloat: 0
@@ -557,11 +549,12 @@ MonoBehaviour:
   m_ExitTime: 0
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
-  - m_Name: IsGrounded
+  - m_Name: Custom
     m_Mode: 1
-    m_Type: 4
+    m_Type: 10
     m_FloatValue: 0
-    m_CustomCondition: 
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &299378636706520999
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,11 +591,12 @@ MonoBehaviour:
   m_ExitTime: 0.25
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
-  - m_Name: IsGrounded
+  - m_Name: Custom
     m_Mode: 1
-    m_Type: 4
+    m_Type: 10
     m_FloatValue: 0
-    m_CustomCondition: 
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &822233229310876646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -813,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: LocoMotion
   m_EditorClassIdentifier: 
-  m_Position: {x: 584, y: 211, z: 0}
+  m_Position: {x: 583, y: 210, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ResetDashing, AssemblyStateMachineCharacterController,
@@ -837,11 +831,6 @@ MonoBehaviour:
     key: TurnSmoothTime
     whenToExecute: 4
   - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: 
-    whenToExecute: 4
-  - fullName: SAS.StateMachineCharacterController.GroundDetector, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: 
@@ -884,7 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 579, y: 90, z: 0}
+  m_Position: {x: 300, y: 50, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
@@ -918,7 +907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  m_Position: {x: 586, y: 339, z: 0}
+  m_Position: {x: 585, y: 340, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DashMovement, AssemblyStateMachineCharacterController,
@@ -932,11 +921,6 @@ MonoBehaviour:
     key: 
     whenToExecute: 16
   - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: 
-    whenToExecute: 4
-  - fullName: SAS.StateMachineCharacterController.GroundDetector, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: 
