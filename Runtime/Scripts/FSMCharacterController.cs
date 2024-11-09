@@ -23,28 +23,20 @@ namespace SAS.StateMachineCharacterController
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
 
         /* [NonSerialized]*/
-        internal Vector3 movementVector;
+        public Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
-        public float Speed { get; private set; }
-        internal bool isFacingRight;
 
+        internal bool isFacingRight;
+        private Transform _transform;
+
+        public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
 
-        private Actor _actor;
         private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
 
-        private Transform _transform;
-
-
-        private void Awake()
-        {
-            this.Initialize();
-            _transform = transform;
-            SetFacingDirection();
-        }
-
+        private Actor _actor;
         public Actor Actor
         {
             get
@@ -64,6 +56,13 @@ namespace SAS.StateMachineCharacterController
                 _isGrounded = value;
                 Actor.SetBool("IsGrounded", _isGrounded);
             }
+        }
+
+        private void Awake()
+        {
+            this.Initialize();
+            _transform = transform;
+            SetFacingDirection();
         }
 
         public void OnMove(float normalizedMoveInput)
@@ -129,3 +128,4 @@ namespace SAS.StateMachineCharacterController
         }
     }
 }
+

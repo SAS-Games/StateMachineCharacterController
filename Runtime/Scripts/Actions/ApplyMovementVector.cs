@@ -8,6 +8,7 @@ namespace SAS.StateMachineCharacterController
     {
         private FSMCharacterController _fsmCharacterController;
         private CharacterController _characterController;
+
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGetComponent(out _fsmCharacterController);
