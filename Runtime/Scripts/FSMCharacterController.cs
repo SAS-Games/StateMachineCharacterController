@@ -46,26 +46,7 @@ namespace SAS.StateMachineCharacterController
             }
         }
 
-        public bool IsGrounded
-        {
-            get
-            {
-                if (_characterController.isGrounded)
-                    return true;
-
-                // Perform a SphereCast for more accurate ground detection
-                Vector3 origin = _transform.position + Vector3.down * (_characterController.height / 2 - _characterController.radius);
-                float checkDistance = _characterController.stepOffset;
-
-                RaycastHit hit;
-                if (Physics.SphereCast(origin, _characterController.radius, Vector3.down, out hit, checkDistance, m_GroundLayer))
-                {
-                    Debug.DrawRay(origin, Vector3.down * checkDistance, Color.yellow);
-                    return true;
-                }
-                return false;
-            }
-        }
+        public bool IsGrounded => _characterController.isGrounded;
 
         private void Awake()
         {

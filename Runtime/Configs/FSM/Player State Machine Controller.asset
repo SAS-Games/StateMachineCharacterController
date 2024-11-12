@@ -873,7 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 300, y: 50, z: 0}
+  m_Position: {x: 579, y: 90, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
