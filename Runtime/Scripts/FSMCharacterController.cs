@@ -20,6 +20,7 @@ namespace SAS.StateMachineCharacterController
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
         [SerializeField] private LayerMask m_GroundLayer;
+        public LayerMask GroundLayer => m_GroundLayer;
 
         /* [NonSerialized]*/
         public Vector3 movementVector;
@@ -34,6 +35,7 @@ namespace SAS.StateMachineCharacterController
 
         private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
+        public ControllerColliderHit LastHit { get; private set; }
 
         private Actor _actor;
         public Actor Actor
@@ -115,6 +117,11 @@ namespace SAS.StateMachineCharacterController
                 return true;
 
             return false;
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            LastHit = hit;
         }
     }
 }
