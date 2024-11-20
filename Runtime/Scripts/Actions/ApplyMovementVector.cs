@@ -17,8 +17,9 @@ namespace SAS.StateMachineCharacterController
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            _characterController.Move(_fsmCharacterController.movementVector * Time.deltaTime);
-            _fsmCharacterController.movementVector = _characterController.velocity;
+            // Debug.Log($"ApplyMovementVector: {Time.frameCount}");
+            //_characterController.Move(_fsmCharacterController.movementVector * (Time.deltaTime * _fsmCharacterController.SpeedMultiplier));
+            //_fsmCharacterController.movementVector = _characterController.velocity;
         }
     }
 }

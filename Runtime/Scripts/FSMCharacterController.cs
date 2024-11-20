@@ -14,7 +14,7 @@ namespace SAS.StateMachineCharacterController
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler
     {
         [FieldRequiresSelf] private CharacterController _characterController;
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
@@ -23,7 +23,7 @@ namespace SAS.StateMachineCharacterController
         public LayerMask GroundLayer => m_GroundLayer;
 
         /* [NonSerialized]*/
-        public Vector3 movementVector;
+        internal Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
 
@@ -48,7 +48,28 @@ namespace SAS.StateMachineCharacterController
             }
         }
 
-        public bool IsGrounded => _characterController.isGrounded;
+        public bool IsGrounded
+        {
+            get
+            {
+                // Check if CharacterController reports as grounded
+                if (_characterController.isGrounded)
+                    return true;
+
+                // Calculate ray length and origin
+                float rayLength = _characterController.stepOffset + _characterController.skinWidth;
+                Vector3 rayOrigin = _transform.position + Vector3.up * _characterController.skinWidth;
+
+                // Perform raycast and debug visualization
+                bool grounded = Physics.Raycast(rayOrigin, Vector3.down, rayLength, GroundLayer);
+                Debug.DrawRay(rayOrigin, Vector3.down * rayLength * 10, grounded ? Color.green : Color.red);
+
+                return grounded;
+            }
+        }
+
+
+        Vector3 IMovementVectorHandler.MovementVector { get => movementVector; set => movementVector = value; }
 
         private void Awake()
         {
@@ -122,6 +143,12 @@ namespace SAS.StateMachineCharacterController
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             LastHit = hit;
+        }
+
+        private void Update()
+        {
+            _characterController.Move(movementVector * Time.deltaTime);
+            movementVector = _characterController.velocity;
         }
     }
 }

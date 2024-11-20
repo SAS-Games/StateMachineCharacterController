@@ -14,13 +14,6 @@ namespace SAS.StateMachineCharacterController
         {
             actor.TryGet(out _downwardMovementConfig, key);
             actor.TryGetComponent(out _characterController);
-
-            EventBus<BounceForeAppliedEvent>.Register(new EventBinding<BounceForeAppliedEvent>(val =>
-            {
-                _verticalMovement = val.force.y;
-                Debug.Log(_verticalMovement);
-            }));
-
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

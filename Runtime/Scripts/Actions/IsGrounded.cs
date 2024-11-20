@@ -24,6 +24,7 @@ namespace SAS.StateMachineCharacterController
 
         bool ICustomCondition.Evaluate()
         {
+            return _characterController.isGrounded;
             if (_fsmCharacterController.IsGrounded)
             {
                 lastGroundedTime = Time.time;

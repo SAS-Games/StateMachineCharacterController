@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Climb
   m_EditorClassIdentifier: 
-  m_Position: {x: 928, y: 107, z: 0}
+  m_Position: {x: 928, y: 105, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.SetClimbDirection, AssemblyStateMachineCharacterController,
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Name: Jump Ascending
   m_EditorClassIdentifier: 
   m_Position: {x: 565, y: 184, z: 0}
-  m_Tag: 
+  m_Tag: Jump
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ConsumeRemainingJumpCount, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed43b1bea1e69d49a73ea66f6732994, type: 3}
   m_Name: InAir
   m_EditorClassIdentifier: 
-  m_Position: {x: 921, y: 208, z: 0}
+  m_Position: {x: 919, y: 203, z: 0}
   m_PositionAsUpNode: {x: 700, y: 100, z: 0}
   m_AnyStatePosition: {x: 300, y: 50, z: 0}
   m_ParentStateMachine: {fileID: -1294538683894811666}
