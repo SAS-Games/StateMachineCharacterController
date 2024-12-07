@@ -35,6 +35,7 @@ namespace SAS.StateMachineCharacterController
             }
             _gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
             _gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect
+            //Note that deltaTime is used even though it's going to be used in ApplyMovementVectorAction, this is because it represents an acceleration, not a speed
             _verticalMovement += Physics.gravity.y * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
             _characterController.movementVector.y = _verticalMovement;
         }

@@ -10,6 +10,7 @@ namespace SAS.StateMachineCharacterController
         public const string CoyoteTimeCounter = "CoyoteTimeCounter";
         public const string RemainingJumpCount = "RemainingJumpCount";
         public const string MoveSpeed = "MoveSpeed";
+        public const string DashSpeed = "DashSpeed";
         public const string IsDashing = "IsDashing";
     }
 

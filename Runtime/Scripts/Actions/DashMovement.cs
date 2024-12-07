@@ -27,8 +27,6 @@ namespace SAS.StateMachineCharacterController
             if (executeEvent == ActionExecuteEvent.OnStateEnter)
             {
                 _actor.SetValue(_isDashingKey, true);
-                _gravityContributionMultiplier = 0;
-                _verticalMovement = _dashMovementConfig.verticalSpeed;
 
                 _dashDirection = new Vector3(_fsmCharacterController.movementInput.x, _fsmCharacterController.movementInput.y).normalized;
                 if (_dashDirection == Vector3.zero)
@@ -36,12 +34,8 @@ namespace SAS.StateMachineCharacterController
                 return;
             }
 
-            _gravityContributionMultiplier += _dashMovementConfig.gravityComebackMultiplier;
-            _gravityContributionMultiplier *= _dashMovementConfig.gravityDivider; //Reduce the gravity effect
-            _verticalMovement += Physics.gravity.y * _dashMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
-
             _fsmCharacterController.movementVector.x = _dashMovementConfig.horizontalSpeed * _dashDirection.x;
-            _fsmCharacterController.movementVector.y = _verticalMovement * _dashDirection.y;
+            _fsmCharacterController.movementVector.y = _dashMovementConfig.verticalSpeed * _dashDirection.y;
         }
     }
 }

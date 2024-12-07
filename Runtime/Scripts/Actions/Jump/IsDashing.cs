@@ -1,7 +1,6 @@
 using SAS.StateMachineGraph;
 using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
-using System.Diagnostics;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -23,7 +22,6 @@ namespace SAS.StateMachineCharacterController
 
         bool ICustomCondition.Evaluate()
         {
-            UnityEngine.Debug.Log(_actor.GetValue<bool>(_isDashingKey));
             return _actor.GetValue<bool>(_isDashingKey);
         }
     }

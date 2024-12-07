@@ -38,8 +38,8 @@ namespace SAS.StateMachineCharacterController
             _climbInputInitiated = _ => _fsmCharacterController.OnClimbInitiated();
             _climbInputCanceled = _ => _fsmCharacterController.OnClimbCanceled();
 
-             _moveInputAction = m_InputConfig.GetInputAction("Move");
-          
+            _moveInputAction = m_InputConfig.GetInputAction("Move");
+
             var jumpInputAction = m_InputConfig.GetInputAction("Jump");
             jumpInputAction.performed += _jumpPerformed;
             jumpInputAction.canceled += _jumpCanceled;
@@ -81,7 +81,10 @@ namespace SAS.StateMachineCharacterController
             {
                 _moveInput = _moveInputAction.ReadValue<Vector2>() * _targetValue;
                 if (Mathf.Abs(_moveInput.x) > 0)
+                {
+                    _moveInput.x = Mathf.Sign(_moveInput.x);
                     _fsmCharacterController.isFacingRight = _moveInput.x > 0 ? true : false;
+                }
             }
 
             Vector3 adjustedMovement = new Vector3(_moveInput.x, _moveInput.y, 0f);

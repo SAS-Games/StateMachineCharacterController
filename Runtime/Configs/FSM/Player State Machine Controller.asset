@@ -235,7 +235,7 @@ MonoBehaviour:
   m_SourceState: {fileID: 8166284527128004876}
   m_TargetState: {fileID: -7614610658286386800}
   m_HasExitTime: 1
-  m_ExitTime: 0.25
+  m_ExitTime: 0.22
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
   - m_Name: Custom
@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Jump Ascending
   m_EditorClassIdentifier: 
-  m_Position: {x: 565, y: 184, z: 0}
+  m_Position: {x: 565, y: 183, z: 0}
   m_Tag: Jump
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ConsumeRemainingJumpCount, AssemblyStateMachineCharacterController,
@@ -637,12 +637,18 @@ MonoBehaviour:
   m_SourceState: {fileID: 8166284527128004876}
   m_TargetState: {fileID: 7383936760125653877}
   m_HasExitTime: 1
-  m_ExitTime: 0.25
+  m_ExitTime: 0.22
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions:
   - m_Name: Custom
     m_Mode: 1
     m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_Name: Climb
+    m_Mode: 1
+    m_Type: 4
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -955,7 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 579, y: 90, z: 0}
+  m_Position: {x: 300, y: 50, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
@@ -974,7 +980,7 @@ MonoBehaviour:
   m_SourceState: {fileID: -1404876738358820697}
   m_TargetState: {fileID: -7614610658286386800}
   m_HasExitTime: 1
-  m_ExitTime: 0.3
+  m_ExitTime: 0.22
   m_WaitForAwaitableActionsToComplete: 1
   m_Conditions: []
 --- !u!114 &8166284527128004876
@@ -989,7 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  m_Position: {x: 585, y: 340, z: 0}
+  m_Position: {x: 585, y: 339, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DashMovement, AssemblyStateMachineCharacterController,
@@ -998,6 +1004,11 @@ MonoBehaviour:
     key: DashSpeed
     whenToExecute: 5
   - fullName: SAS.StateMachineCharacterController.HorizontalMovement, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 16
+  - fullName: SAS.StateMachineCharacterController.StopUpwardMovement, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: 

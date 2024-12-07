@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 25
   verticalSpeed: 25
-  gravityMultiplier: 6
-  gravityComebackMultiplier: 0.075
-  gravityDivider: 1
+  gravityMultiplier: 12
+  gravityComebackMultiplier: 0.08
+  gravityDivider: 0.75
