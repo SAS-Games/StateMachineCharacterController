@@ -29,10 +29,11 @@ namespace SAS.StateMachineCharacterController
         bool ICustomCondition.Evaluate()
         {
             int gridResolution = 3; // Number of rays in each direction (3x3 grid)
-            float gridSpacing = 0.15f; // Distance between rays in the grid
-            float rayLength = _characterController.skinWidth;
+            float gridSpacing = _characterController.radius * 0.5f; // Distance between rays in the grid
+            float rayLength = _characterController.skinWidth * 2;
 
             Vector3 origin = _transform.position;
+            origin.x += _characterController.center.x;
             Vector3 downwardDirection = Vector3.down;
 
             Vector3 averageNormal = Vector3.zero;
@@ -45,7 +46,6 @@ namespace SAS.StateMachineCharacterController
                 {
                     Vector3 offset = new Vector3(x * gridSpacing, 0, z * gridSpacing);
                     Vector3 rayOrigin = origin + offset;
-
                     if (Physics.Raycast(rayOrigin, downwardDirection, out RaycastHit hit, rayLength))
                     {
                         float angle = Vector3.Angle(Vector3.up, hit.normal);
@@ -55,15 +55,10 @@ namespace SAS.StateMachineCharacterController
                         {
                             averageNormal += hit.normal;
                             validHitCount++;
-
-                            // Debug: Draw individual rays
                             Debug.DrawRay(rayOrigin, downwardDirection * rayLength, Color.yellow);
                         }
                         else
-                        {
-                            // Debug: Indicate ignored hits
                             Debug.DrawRay(rayOrigin, downwardDirection * rayLength, Color.red);
-                        }
                     }
                 }
             }
