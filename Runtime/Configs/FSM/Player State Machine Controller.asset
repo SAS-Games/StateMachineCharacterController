@@ -646,12 +646,6 @@ MonoBehaviour:
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  - m_Name: Climb
-    m_Mode: 1
-    m_Type: 4
-    m_FloatValue: 0
-    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &822233229310876646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -894,7 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: LocoMotion
   m_EditorClassIdentifier: 
-  m_Position: {x: 582, y: 209, z: 0}
+  m_Position: {x: 582, y: 208, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ResetDashing, AssemblyStateMachineCharacterController,
@@ -961,7 +955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 300, y: 50, z: 0}
+  m_Position: {x: 579, y: 90, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
@@ -995,7 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  m_Position: {x: 585, y: 339, z: 0}
+  m_Position: {x: 582, y: 341, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DashMovement, AssemblyStateMachineCharacterController,

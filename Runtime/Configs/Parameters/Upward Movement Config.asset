@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 12
   gravityMultiplier: 5
-  gravityComebackMultiplier: 0.03
+  gravityComebackMultiplier: 0.2
   gravityDivider: 0.4
