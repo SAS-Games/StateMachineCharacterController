@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
 using UnityEngine;
 
@@ -12,12 +13,13 @@ namespace SAS.StateMachineCharacterController
         private float _gravityContributionMultiplier;
         private float _verticalMovement;
         private float _extraForce;
+        private float _gravity;
 
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGet(out _upwardMovementConfig, key);
             actor.TryGetComponent(out _characterController);
-
+            actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _gravity);
             EventBus<BounceForeAppliedEvent>.Register(new EventBinding<BounceForeAppliedEvent>(val =>
             {
                 _extraForce = val.force.y;
@@ -36,7 +38,7 @@ namespace SAS.StateMachineCharacterController
             _gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
             _gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect
             //Note that deltaTime is used even though it's going to be used in ApplyMovementVectorAction, this is because it represents an acceleration, not a speed
-            _verticalMovement += Physics.gravity.y * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
+            _verticalMovement += _gravity * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
             _characterController.movementVector.y = _verticalMovement;
         }
     }

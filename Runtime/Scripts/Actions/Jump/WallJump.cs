@@ -13,12 +13,15 @@ namespace SAS.StateMachineCharacterController
         private float _gravityContributionMultiplier;
         private float _verticalMovement;
         private float _moveSpeed;
+        private float _gravity;
 
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGet(out _upwardMovementConfig, key);
             actor.TryGetComponent(out _fsmCharacterController);
             actor.TryGet<float>(new BlackboardKey(FSMCharacterBlackboardKey.MoveSpeed), out _moveSpeed);
+            actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _gravity);
+
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
@@ -34,7 +37,7 @@ namespace SAS.StateMachineCharacterController
             }
             _gravityContributionMultiplier += _upwardMovementConfig.gravityComebackMultiplier;
             _gravityContributionMultiplier *= _upwardMovementConfig.gravityDivider; //Reduce the gravity effect
-            _verticalMovement += Physics.gravity.y * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
+            _verticalMovement += _gravity * _upwardMovementConfig.gravityMultiplier * Time.deltaTime * _gravityContributionMultiplier;
             _fsmCharacterController.movementVector.y = _verticalMovement;
         }
     }

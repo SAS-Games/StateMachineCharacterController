@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;
 using UnityEngine;
 
@@ -9,11 +10,12 @@ namespace SAS.StateMachineCharacterController
         private FSMCharacterController _characterController;
         private DownwardMovementConfig _downwardMovementConfig = default;
         private float _verticalMovement;
-
+        private float _gravity;
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.TryGet(out _downwardMovementConfig, key);
             actor.TryGetComponent(out _characterController);
+            actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _gravity);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
@@ -23,7 +25,7 @@ namespace SAS.StateMachineCharacterController
                 _verticalMovement = _characterController.movementVector.y;
                 return;
             }
-            _verticalMovement += Physics.gravity.y * _downwardMovementConfig.gravityMultiplier * Time.deltaTime;
+            _verticalMovement += _gravity * _downwardMovementConfig.gravityMultiplier * Time.deltaTime;
             _verticalMovement = Mathf.Clamp(_verticalMovement, _downwardMovementConfig.fallSpeedRange.min, _downwardMovementConfig.fallSpeedRange.max);
 
             _characterController.movementVector.y = _verticalMovement;

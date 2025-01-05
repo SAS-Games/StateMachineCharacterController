@@ -2,6 +2,7 @@ using SAS.StateMachineGraph;
 using SAS.Utilities.TagSystem;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -12,11 +13,13 @@ namespace SAS.StateMachineCharacterController
         public const string MoveSpeed = "MoveSpeed";
         public const string DashSpeed = "DashSpeed";
         public const string IsDashing = "IsDashing";
+        public const string Gravity = "Gravity";
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
     public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler
     {
+        [SerializeField] private bool m_FreezeZAxis = true;
         [FieldRequiresSelf] private CharacterController _characterController;
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
@@ -30,6 +33,7 @@ namespace SAS.StateMachineCharacterController
 
         internal bool isFacingRight;
         private Transform _transform;
+        private Scene _originalScene;
 
         public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
@@ -77,7 +81,10 @@ namespace SAS.StateMachineCharacterController
         {
             this.Initialize();
             _transform = transform;
+            _originalScene = gameObject.scene;
             SetFacingDirection();
+            if (SavePoint.HasSavedPoint)
+                _transform.position = SavePoint.SavedPoint;
         }
 
         public void OnMove(float normalizedMoveInput)
@@ -149,8 +156,23 @@ namespace SAS.StateMachineCharacterController
 
         private void Update()
         {
+            if (m_FreezeZAxis)
+                movementVector.z = 0; // Ensure no Z-axis movement
+
+            // Move the character
             _characterController.Move(movementVector * Time.deltaTime);
+
+            // Constrain the Z position
+            if (m_FreezeZAxis)
+                _transform.SetZLocalPosition(0);
+
+            // Update movement vector with the current velocity from the controller
             movementVector = _characterController.velocity;
+        }
+
+        void SetSceneToOriginal()
+        {
+            SceneManager.MoveGameObjectToScene(gameObject, _originalScene);
         }
     }
 }

@@ -10,16 +10,18 @@ namespace SAS.StateMachineCharacterController
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         private float _slideSpeed;
+        private float _gravity;
 
         public void OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
             actor.TryGet(new BlackboardKey(key), out _slideSpeed);
+            actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _gravity);
         }
 
         public void Execute(ActionExecuteEvent executeEvent)
         {
-            float speed = -Physics.gravity.y * _slideSpeed;
+            float speed = -_gravity * _slideSpeed;
             Vector3 hitNormal = _fsmCharacterController.LastHit.normal;
             Vector3 slideDirection = new Vector3(hitNormal.x, -hitNormal.y, hitNormal.z);
             Vector3.OrthoNormalize(ref hitNormal, ref slideDirection);

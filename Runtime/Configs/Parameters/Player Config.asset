@@ -23,12 +23,12 @@ MonoBehaviour:
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
     readOnly: 1
-  - keyName: VerticalPull
+  - keyName: Gravity
     valueType: 1
     value:
       type: 1
       intValue: 0
-      floatValue: -9.8
+      floatValue: -9.81
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}

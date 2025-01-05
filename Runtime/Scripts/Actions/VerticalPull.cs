@@ -1,6 +1,6 @@
 using SAS.StateMachineGraph;
-using SAS.Utilities.TagSystem;
 using SAS.Utilities.BlackboardSystem;
+using SAS.Utilities.TagSystem;
 
 
 namespace SAS.StateMachineCharacterController
@@ -13,7 +13,7 @@ namespace SAS.StateMachineCharacterController
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
-            actor.TryGet(new BlackboardKey(key), out _verticalPull);
+            actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _verticalPull);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)

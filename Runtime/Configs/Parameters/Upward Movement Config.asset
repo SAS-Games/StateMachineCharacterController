@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d9cb927285fca4891ca2fa35c2142d, type: 3}
   m_Name: Upward Movement Config
   m_EditorClassIdentifier: 
-  jumpForce: 12
+  jumpForce: 6
   gravityMultiplier: 5
-  gravityComebackMultiplier: 0.2
-  gravityDivider: 0.4
+  gravityComebackMultiplier: 0.01
+  gravityDivider: 0.5

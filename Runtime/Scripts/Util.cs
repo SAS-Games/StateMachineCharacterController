@@ -43,5 +43,71 @@ namespace SAS.StateMachineCharacterController
             float t = (f - fromMin) / (fromMax - fromMin);
             return Mathf.LerpUnclamped(toMin, toMax, t);
         }
+
+        public static void SetXLocalPosition(this Transform transform, float xValue)
+        {
+            Vector3 position = transform.localPosition;
+            position.x = xValue;
+            transform.localPosition = position;
+        }
+
+        // Set the Y value of the position
+        public static void SetYLocalPosition(this Transform transform, float yValue)
+        {
+            Vector3 position = transform.localPosition;
+            position.y = yValue;
+            transform.localPosition = position;
+        }
+
+        // Set the Z value of the position
+        public static void SetZLocalPosition(this Transform transform, float zValue)
+        {
+            Vector3 position = transform.localPosition;
+            position.z = zValue;
+            transform.localPosition = position;
+        }
+    }
+
+    public static class PlayerPrefsExt
+    {
+        // Save a Vector3 to PlayerPrefs
+        public static void SetVector3(string key, Vector3 value)
+        {
+            PlayerPrefs.SetFloat(key + "_x", value.x);
+            PlayerPrefs.SetFloat(key + "_y", value.y);
+            PlayerPrefs.SetFloat(key + "_z", value.z);
+            PlayerPrefs.Save();
+        }
+
+        // Retrieve a Vector3 from PlayerPrefs
+        public static Vector3 GetVector3(string key, Vector3 defaultValue = default(Vector3))
+        {
+            if (PlayerPrefs.HasKey(key + "_x") &&
+                PlayerPrefs.HasKey(key + "_y") &&
+                PlayerPrefs.HasKey(key + "_z"))
+            {
+                float x = PlayerPrefs.GetFloat(key + "_x");
+                float y = PlayerPrefs.GetFloat(key + "_y");
+                float z = PlayerPrefs.GetFloat(key + "_z");
+                return new Vector3(x, y, z);
+            }
+
+            return defaultValue; // Return default value if keys do not exist
+        }
+
+        public static bool HasVector3(string key)
+        {
+            return PlayerPrefs.HasKey(key + "_x") &&
+                   PlayerPrefs.HasKey(key + "_y") &&
+                   PlayerPrefs.HasKey(key + "_z");
+        }
+
+        public static void DeleteVector3(string key)
+        {
+            PlayerPrefs.DeleteKey(key + "_x");
+            PlayerPrefs.DeleteKey(key + "_y");
+            PlayerPrefs.DeleteKey(key + "_z");
+            PlayerPrefs.Save();
+        }
     }
 }
