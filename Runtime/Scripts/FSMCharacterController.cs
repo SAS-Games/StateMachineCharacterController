@@ -4,6 +4,11 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public struct RespawnEvent : IEvent
+{
+    public Transform transform;
+}
+
 namespace SAS.StateMachineCharacterController
 {
     public static class FSMCharacterBlackboardKey
@@ -81,6 +86,11 @@ namespace SAS.StateMachineCharacterController
         {
             this.Initialize();
             _transform = transform;
+            Init();
+        }
+
+        void Init()
+        {
             _originalScene = gameObject.scene;
             SetFacingDirection();
             if (SavePoint.HasSavedPoint)
@@ -173,6 +183,12 @@ namespace SAS.StateMachineCharacterController
         void SetSceneToOriginal()
         {
             SceneManager.MoveGameObjectToScene(gameObject, _originalScene);
+        }
+
+        void Respawn()
+        {
+            Init();
+            EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
         }
     }
 }
