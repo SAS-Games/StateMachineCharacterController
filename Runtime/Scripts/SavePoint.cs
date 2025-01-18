@@ -5,24 +5,32 @@ namespace SAS.StateMachineCharacterController
     public class SavePoint : MonoBehaviour
     {
         [SerializeField] private bool m_Save = false;
-        public static Vector3 CurretSpawnPoint; // Static to persist between sessions
         public static bool hasSaved = false;
-        private const string Tag = "SavePoint";
-        public static Vector3 SavedPoint
+        private const string PositionTag = "SavePosition";
+        private const string RotationTag = "SaveRotation";
+        public static Vector3 Position
         {
-            get => PlayerPrefsExt.GetVector3(Tag, Vector3.zero);
-            private set => PlayerPrefsExt.SetVector3(Tag, value);
+            get => PlayerPrefsExt.GetVector3(PositionTag, Vector3.zero);
+            private set => PlayerPrefsExt.SetVector3(PositionTag, value);
         }
 
-        public static bool HasSavedPoint => PlayerPrefsExt.HasVector3(Tag);
+        public static Quaternion Rotation
+        {
+            get => PlayerPrefsExt.GetQuaternion(RotationTag, Quaternion.identity);
+            private set => PlayerPrefsExt.SetQuaternion(RotationTag, value);
+        }
+
+        public static bool HasSavedPoint => PlayerPrefsExt.HasVector3(PositionTag);
 
         private void SaveLastPoint(Collider other)
         {
-            CurretSpawnPoint = transform.position;
             if (m_Save)
-                SavedPoint = CurretSpawnPoint;
+            {
+                Position = transform.position;
+                Rotation = transform.rotation;
+            }
 
-            Debug.Log("Save point activated at: " + CurretSpawnPoint, Tag);
+            Debug.Log("Save point activated at: " + transform, PositionTag);
         }
     }
 }

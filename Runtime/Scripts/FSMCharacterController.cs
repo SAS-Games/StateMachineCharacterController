@@ -39,6 +39,7 @@ namespace SAS.StateMachineCharacterController
         internal bool isFacingRight;
         private Transform _transform;
         private Scene _originalScene;
+        private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
 
         public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
@@ -86,15 +87,10 @@ namespace SAS.StateMachineCharacterController
         {
             this.Initialize();
             _transform = transform;
-            Init();
-        }
-
-        void Init()
-        {
-            _originalScene = gameObject.scene;
             SetFacingDirection();
-            if (SavePoint.HasSavedPoint)
-                _transform.position = SavePoint.SavedPoint;
+            _originalScene = gameObject.scene;
+            _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
+            EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
         }
 
         public void OnMove(float normalizedMoveInput)
@@ -187,8 +183,29 @@ namespace SAS.StateMachineCharacterController
 
         void Respawn()
         {
-            Init();
+            _originalScene = gameObject.scene;
+            SetFacingDirection();
+            if (SavePoint.HasSavedPoint)
+                _transform.position = SavePoint.Position;
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
+        }
+
+        void OnGameModeChanged(GameMode gameMode)
+        {
+            switch (gameMode)
+            {
+                case GameMode.SideScroller3D:
+                    m_FreezeZAxis = true;
+                    break;
+                case GameMode.OpenWorld3d:
+                    m_FreezeZAxis = false;
+                    break;
+            }
+        }
+
+        void OnDestroy()
+        {
+            EventBus<GameModeChagedEvent>.Deregister(_gameModeChagedEventBinding);
         }
     }
 }

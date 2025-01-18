@@ -109,5 +109,50 @@ namespace SAS.StateMachineCharacterController
             PlayerPrefs.DeleteKey(key + "_z");
             PlayerPrefs.Save();
         }
+
+
+        public static void SetQuaternion(string key, Quaternion value)
+        {
+            PlayerPrefs.SetFloat(key + "_x", value.x);
+            PlayerPrefs.SetFloat(key + "_y", value.y);
+            PlayerPrefs.SetFloat(key + "_z", value.z);
+            PlayerPrefs.SetFloat(key + "_w", value.w);
+            PlayerPrefs.Save();
+        }
+
+        // Retrieve a Vector3 from PlayerPrefs
+        public static Quaternion GetQuaternion(string key, Quaternion defaultValue = default(Quaternion))
+        {
+            if (PlayerPrefs.HasKey(key + "_x") &&
+                PlayerPrefs.HasKey(key + "_y") &&
+                PlayerPrefs.HasKey(key + "_z") &&
+                    PlayerPrefs.HasKey(key + "_w"))
+            {
+                float x = PlayerPrefs.GetFloat(key + "_x");
+                float y = PlayerPrefs.GetFloat(key + "_y");
+                float z = PlayerPrefs.GetFloat(key + "_z");
+                float w = PlayerPrefs.GetFloat(key + "_w");
+                return new Quaternion(x, y, z, w);
+            }
+
+            return defaultValue; // Return default value if keys do not exist
+        }
+
+        public static bool HasQuaternion(string key)
+        {
+            return PlayerPrefs.HasKey(key + "_x") &&
+                   PlayerPrefs.HasKey(key + "_y") &&
+                   PlayerPrefs.HasKey(key + "_z") &&
+                   PlayerPrefs.HasKey(key + "_w");
+        }
+
+        public static void DeleteQuaternion(string key)
+        {
+            PlayerPrefs.DeleteKey(key + "_x");
+            PlayerPrefs.DeleteKey(key + "_y");
+            PlayerPrefs.DeleteKey(key + "_z");
+            PlayerPrefs.DeleteKey(key + "_w");
+            PlayerPrefs.Save();
+        }
     }
 }

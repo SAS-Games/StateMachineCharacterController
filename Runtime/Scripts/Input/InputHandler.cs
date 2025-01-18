@@ -96,5 +96,16 @@ namespace SAS.StateMachineCharacterController
 
             _previousSpeed = targetSpeed;
         }
+
+        void OnGameModeChanged(GameMode gameMode)
+        {
+            switch (gameMode)
+            {
+                case GameMode.SideScroller3D:
+                    break;
+                case GameMode.OpenWorld3d:
+                    break;
+            }
+        }
     }
 }
