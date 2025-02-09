@@ -1,6 +1,7 @@
 using SAS.StateMachineGraph;
 using SAS.Utilities.TagSystem;
 using System;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,13 +20,16 @@ namespace SAS.StateMachineCharacterController
         public const string DashSpeed = "DashSpeed";
         public const string IsDashing = "IsDashing";
         public const string Gravity = "Gravity";
+        public const string MaxJumpCount = "MaxJumpCount";
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt
     {
         [SerializeField] private bool m_FreezeZAxis = true;
+        [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
         [FieldRequiresSelf] private CharacterController _characterController;
+
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
         [SerializeField] private LayerMask m_GroundLayer;
@@ -82,6 +86,9 @@ namespace SAS.StateMachineCharacterController
 
 
         Vector3 IMovementVectorHandler.MovementVector { get => movementVector; set => movementVector = value; }
+
+        [SerializeField] private Transform m_LookAtTarget;
+        Transform ICameraLookAt.Target => m_LookAtTarget;
 
         private void Awake()
         {
@@ -192,6 +199,7 @@ namespace SAS.StateMachineCharacterController
 
         void OnGameModeChanged(GameMode gameMode)
         {
+            Actor.runtimeStateMachineController = m_StateMachineControllers[(int)gameMode];
             switch (gameMode)
             {
                 case GameMode.SideScroller3D:

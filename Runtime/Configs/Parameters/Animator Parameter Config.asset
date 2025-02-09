@@ -15,11 +15,6 @@ MonoBehaviour:
   m_ParametersKeyMap:
   - key: Jump
     parameters:
-    - m_Name: Jump
-      m_Type: 4
-      m_BoolValue: 1
-      m_IntValue: 0
-      m_FloatValue: 0
     - m_Name: Land
       m_Type: 4
       m_BoolValue: 0
@@ -40,7 +35,7 @@ MonoBehaviour:
       m_IntValue: 0
       m_FloatValue: 0
     - m_Name: Jump
-      m_Type: 4
+      m_Type: 3
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
@@ -59,7 +54,7 @@ MonoBehaviour:
       m_IntValue: 0
       m_FloatValue: 0
     - m_Name: Jump
-      m_Type: 4
+      m_Type: 3
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
@@ -78,7 +73,7 @@ MonoBehaviour:
       m_IntValue: 0
       m_FloatValue: 0
     - m_Name: Jump
-      m_Type: 4
+      m_Type: 3
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0

@@ -6,4 +6,9 @@ namespace SAS.StateMachineCharacterController
     {
         Vector3 MovementVector { get; set; }
     }
+
+    public interface ICameraLookAt
+    {
+        Transform Target { get; }
+    }
 }

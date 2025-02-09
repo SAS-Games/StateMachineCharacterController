@@ -9,8 +9,6 @@ namespace SAS.StateMachineCharacterController
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         private DashMovementConfig _dashMovementConfig = default;
-        private float _gravityContributionMultiplier;
-        private float _verticalMovement;
         private BlackboardKey _isDashingKey = default;
         private Actor _actor;
         private Vector3 _dashDirection = Vector2.zero;
@@ -30,11 +28,12 @@ namespace SAS.StateMachineCharacterController
 
                 _dashDirection = new Vector3(_fsmCharacterController.movementInput.x, _fsmCharacterController.movementInput.y).normalized;
                 if (_dashDirection == Vector3.zero)
-                    _dashDirection = _fsmCharacterController.isFacingRight ? Vector3.right : Vector3.left;
+                    _dashDirection = _fsmCharacterController.transform.forward;//isFacingRight ? Vector3.right : Vector3.left;
                 return;
             }
 
             _fsmCharacterController.movementVector.x = _dashMovementConfig.horizontalSpeed * _dashDirection.x;
+            _fsmCharacterController.movementVector.z = _dashMovementConfig.horizontalSpeed * _dashDirection.z;
             _fsmCharacterController.movementVector.y = _dashMovementConfig.verticalSpeed * _dashDirection.y;
         }
     }

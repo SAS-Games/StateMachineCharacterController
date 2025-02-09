@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
-    public class ApplyRotation : IStateAction
+    public class ApplyRotationSideScroll : IStateAction
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         [FieldRequiresSelf] private Transform _transform;
@@ -26,11 +26,13 @@ namespace SAS.StateMachineCharacterController
             Vector3 horizontalMovement = _fsmCharacterController.movementVector;
             horizontalMovement.y = 0f;
 
-            if (horizontalMovement.sqrMagnitude >= _minMoveDistance)
+           // if (executeEvent == ActionExecuteEvent.OnStateEnter || horizontalMovement.sqrMagnitude >= _minMoveDistance)
             {
-                float targetRotation = Mathf.Atan2(_fsmCharacterController.movementVector.x, _fsmCharacterController.movementVector.z) * Mathf.Rad2Deg;
-                _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime);
+                float targetRotationY = _fsmCharacterController.isFacingRight ? 90 : -90;
+                float smoothRotationY = Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotationY, ref _turnSmoothSpeed, _turnSmoothTime);
+                _transform.eulerAngles = new Vector3(0f, smoothRotationY, 0f);
             }
         }
+
     }
 }
