@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
-    public class ApplyRotationSideScroll : IStateAction
+    public class ApplyRotationSideWays : IStateAction
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
         [FieldRequiresSelf] private Transform _transform;

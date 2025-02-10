@@ -119,10 +119,7 @@ namespace SAS.StateMachineCharacterController
         {
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             if (Mathf.Abs(moveInput.x) > 0)
-            {
-                moveInput.x = Mathf.Sign(moveInput.x);
                 controller.isFacingRight = moveInput.x > 0;
-            }
 
             Vector3 adjustedMovement = new Vector3(moveInput.x, moveInput.y, 0f);
             float targetSpeed = Mathf.Abs(moveInput.x);
