@@ -124,7 +124,6 @@ namespace SAS.StateMachineCharacterController
             Vector3 adjustedMovement = new Vector3(moveInput.x, moveInput.y, 0f);
             float targetSpeed = Mathf.Abs(moveInput.x);
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, _targetSpeedReachMultiplier * Time.deltaTime);
-            Debug.Log($"{adjustedMovement}{targetSpeed}");
 
             controller.movementInput = adjustedMovement * targetSpeed;
             controller.movementInput.y = adjustedMovement.y;

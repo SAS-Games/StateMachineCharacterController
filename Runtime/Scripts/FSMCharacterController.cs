@@ -67,19 +67,6 @@ namespace SAS.StateMachineCharacterController
             get
             {
                 return _characterController.isGrounded;
-                //TODO:  need to find a way for uneven surface
-                // Check if CharacterController reports as grounded
-                if (_characterController.isGrounded)
-                    return true;
-                // Calculate ray length and origin
-                float rayLength = _characterController.skinWidth;
-                Vector3 rayOrigin = _transform.position + Vector3.up * _characterController.skinWidth;
-
-                // Perform raycast and debug visualization
-                bool grounded = Physics.Raycast(rayOrigin, Vector3.down, rayLength, GroundLayer);
-                Debug.DrawRay(rayOrigin, Vector3.down * rayLength * 10, grounded ? Color.green : Color.red);
-
-                return grounded;
             }
         }
 
