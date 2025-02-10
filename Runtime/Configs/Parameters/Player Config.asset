@@ -62,7 +62,7 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
       vector3Value: {x: 0, y: 0, z: 0}
-    readOnly: 1
+    readOnly: 0
   - keyName: ClimbSpeed
     valueType: 1
     value:

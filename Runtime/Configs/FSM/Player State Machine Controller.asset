@@ -539,6 +539,12 @@ MonoBehaviour:
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsWithinCoyoteTime, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_Name: Custom
+    m_Mode: 1
+    m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.IsFirstJump, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,6 +730,12 @@ MonoBehaviour:
     m_Type: 10
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsJumpAvailable, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - m_Name: Custom
+    m_Mode: 2
+    m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.IsFirstJump, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &2214813629074919176
 MonoBehaviour:
@@ -955,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 340, y: 144, z: 0}
+  m_Position: {x: 300, y: 50, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
