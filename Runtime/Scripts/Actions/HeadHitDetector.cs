@@ -6,15 +6,12 @@ namespace SAS.StateMachineCharacterController
 {
     public class HeadHitDetector : ICustomCondition
     {
-        [FieldRequiresChild] private FSMCharacterController _characterController;
         [FieldRequiresChild] private Collider _bodyCollider;
         private CustomRaycast _raycast;
-        private Actor _actor;
 
         void ICustomCondition.OnInitialize(Actor actor)
         {
-            _actor = actor;
-            _actor.Initialize(this);
+            actor.Initialize(this);
             actor.TryGet(out _raycast);
         }
 

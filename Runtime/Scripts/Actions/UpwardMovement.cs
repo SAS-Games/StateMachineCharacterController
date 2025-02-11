@@ -20,7 +20,7 @@ namespace SAS.StateMachineCharacterController
             actor.TryGet(out _upwardMovementConfig, key);
             actor.TryGetComponent(out _characterController);
             actor.TryGet(new BlackboardKey(FSMCharacterBlackboardKey.Gravity), out _gravity);
-            EventBus<BounceForeAppliedEvent>.Register(new EventBinding<BounceForeAppliedEvent>(val =>
+            EventBus<ExternalForeAppliedEvent>.Register(new EventBinding<ExternalForeAppliedEvent>(val =>
             {
                 _extraForce = val.force.y;
             }));

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public struct BounceForeAppliedEvent : IEvent
+public struct ExternalForeAppliedEvent : IEvent
 {
     public Vector3 force;
 }

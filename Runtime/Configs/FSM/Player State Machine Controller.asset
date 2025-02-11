@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Climb
   m_EditorClassIdentifier: 
-  m_Position: {x: 689, y: 159, z: 0}
+  m_Position: {x: 929, y: 161, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.SetClimbDirection, AssemblyStateMachineCharacterController,
@@ -331,6 +331,53 @@ MonoBehaviour:
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsClimbableDetected, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &-5089230356892214570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
+  m_Name: Dizzy
+  m_EditorClassIdentifier: 
+  m_Position: {x: 355, y: 329, z: 0}
+  m_Tag: 
+  m_StateActions:
+  - fullName: SAS.StateMachineCharacterController.StopMovement, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 1
+  - fullName: SAS.StateMachineCharacterController.DownwardMovement, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 5
+  - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: 
+    whenToExecute: 4
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Land
+    whenToExecute: 16
+  - fullName: SAS.StateMachineGraph.Utilities.ApplyAnimatorParameter, AssemblyStateMachine,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Dizzy
+    whenToExecute: 16
+  - fullName: SAS.StateMachineGraph.Utilities.WaitForAnimationStateExit, Assembly-CSharp,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    tag: 0
+    key: Dizzy
+    whenToExecute: 2
+  m_Transitions:
+  - {fileID: -4234865896925166981}
 --- !u!114 &-4894692604965992712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,6 +425,30 @@ MonoBehaviour:
     m_Type: 10
     m_FloatValue: 0
     m_CustomCondition: SAS.StateMachineCharacterController.IsSlidingSlope, AssemblyStateMachineCharacterController,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &-4234865896925166981
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f0dc7669bda5a4eb7472cb2dc10cb7, type: 3}
+  m_Name: SpikeHit->To->LocoMotion
+  m_EditorClassIdentifier: 
+  m_SourceState: {fileID: -5089230356892214570}
+  m_TargetState: {fileID: 7383936760125653877}
+  m_HasExitTime: 0
+  m_ExitTime: 0
+  m_WaitForAwaitableActionsToComplete: 1
+  m_Conditions:
+  - m_Name: Custom
+    m_Mode: 1
+    m_Type: 10
+    m_FloatValue: 0
+    m_CustomCondition: SAS.StateMachineCharacterController.IsGrounded, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &-2244100934820604099
 MonoBehaviour:
@@ -501,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Position: {x: 300, y: 50, z: 0}
   m_PositionAsUpNode: {x: 561, y: 343, z: 0}
-  m_AnyStatePosition: {x: 340, y: 144, z: 0}
+  m_AnyStatePosition: {x: 580, y: 146, z: 0}
   m_ParentStateMachine: {fileID: 0}
   m_ChildStateMachines:
   - {fileID: 822233229310876646}
@@ -510,6 +581,7 @@ MonoBehaviour:
   - {fileID: 8166284527128004876}
   - {fileID: -8002722094428037949}
   - {fileID: 6064152050340346171}
+  - {fileID: -5089230356892214570}
 --- !u!114 &-249183701446816079
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -664,7 +736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed43b1bea1e69d49a73ea66f6732994, type: 3}
   m_Name: InAir
   m_EditorClassIdentifier: 
-  m_Position: {x: 680, y: 257, z: 0}
+  m_Position: {x: 920, y: 259, z: 0}
   m_PositionAsUpNode: {x: 700, y: 100, z: 0}
   m_AnyStatePosition: {x: 300, y: 50, z: 0}
   m_ParentStateMachine: {fileID: -1294538683894811666}
@@ -868,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Slide
   m_EditorClassIdentifier: 
-  m_Position: {x: 684, y: 394, z: 0}
+  m_Position: {x: 924, y: 396, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.Slide, AssemblyStateMachineCharacterController,
@@ -900,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: LocoMotion
   m_EditorClassIdentifier: 
-  m_Position: {x: 343, y: 262, z: 0}
+  m_Position: {x: 583, y: 264, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.ResetDashing, AssemblyStateMachineCharacterController,
@@ -967,7 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Any State
   m_EditorClassIdentifier: 
-  m_Position: {x: 300, y: 50, z: 0}
+  m_Position: {x: 580, y: 146, z: 0}
   m_Tag: 
   m_StateActions: []
   m_Transitions: []
@@ -1001,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557f759ffd418e4bab479f7b35953ed, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  m_Position: {x: 343, y: 395, z: 0}
+  m_Position: {x: 583, y: 397, z: 0}
   m_Tag: 
   m_StateActions:
   - fullName: SAS.StateMachineCharacterController.DashMovement, AssemblyStateMachineCharacterController,
