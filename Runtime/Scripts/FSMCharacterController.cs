@@ -177,9 +177,12 @@ namespace SAS.StateMachineCharacterController
         void Respawn()
         {
             _originalScene = gameObject.scene;
-            SetFacingDirection();
             if (SavePoint.HasSavedPoint)
+            {
                 _transform.position = SavePoint.Position;
+                _transform.rotation = SavePoint.Rotation;
+            }
+            SetFacingDirection();
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
         }
 
