@@ -7,9 +7,12 @@ namespace SAS.StateMachineCharacterController
     public class IsClimbableDetected : ICustomCondition
     {
         [FieldRequiresSelf] private FSMCharacterController _fsmCharacterController;
+        private Transform _orientation;
+
         void ICustomCondition.OnInitialize(Actor actor)
         {
             actor.Initialize(this);
+            _orientation = _fsmCharacterController.transform;
         }
 
         void ICustomCondition.OnStateEnter() { }
@@ -18,10 +21,18 @@ namespace SAS.StateMachineCharacterController
 
         bool ICustomCondition.Evaluate()
         {
-            if (_fsmCharacterController.IsTouchingLayerSide(Vector3.right, _fsmCharacterController.ClimbableLayer, out var raycastHit))
+            // Use orientation transform's forward direction for wall detection
+            Vector3 checkDirection = _orientation.forward;
+            bool hitFound = _fsmCharacterController.IsTouchingLayerSide(checkDirection,
+                _fsmCharacterController.ClimbableLayer, out RaycastHit hit);
+
+            if (hitFound)
+            {
+                // Store the hit data for climbing state to use
+                //_fsmCharacterController.LastClimbHit = hit;
                 return true;
-            else
-                return _fsmCharacterController.IsTouchingLayerSide(Vector3.left, _fsmCharacterController.ClimbableLayer, out raycastHit);
+            }
+            return false;
         }
     }
 }

@@ -129,7 +129,7 @@ namespace SAS.StateMachineCharacterController
 
         public bool IsTouchingLayerSide(LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)
         {
-            return IsTouchingLayerSide(isFacingRight ? Vector3.right : Vector3.left, layerMask, out hitInfo, maxSlopeAngle);
+            return IsTouchingLayerSide(_transform.forward, layerMask, out hitInfo, maxSlopeAngle);
         }
 
         public bool IsTouchingLayerSide(Vector3 facingDirection, LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)

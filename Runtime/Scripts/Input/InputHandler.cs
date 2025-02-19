@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
@@ -23,6 +24,7 @@ namespace SAS.StateMachineCharacterController
         private InputAction _moveInputAction;
         private IMovementInputProcessor _movementProcessor;
         private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
+        private Dictionary<string, IInputCommand> _commands = new();
 
 
         void Awake()
@@ -40,36 +42,24 @@ namespace SAS.StateMachineCharacterController
 
             _moveInputAction = m_InputConfig.GetInputAction("Move");
 
-            var jumpInputAction = m_InputConfig.GetInputAction("Jump");
-            jumpInputAction.performed += _jumpPerformed;
-            jumpInputAction.canceled += _jumpCanceled;
+            _commands["Jump"] = new JumpCommand(_fsmCharacterController);
+            _commands["Jump"].Enable(m_InputConfig);
+            _commands["Dash"] = new DashCommand(_fsmCharacterController);
+            _commands["Climb"] = new ClimbCommand(_fsmCharacterController);
 
-            var dashInputAction = m_InputConfig.GetInputAction("Dash");
-            dashInputAction.performed += _dashPerformed;
-
-            var climbInputAction = m_InputConfig.GetInputAction("Climb");
-            climbInputAction.started += _climbInputInitiated;
-            climbInputAction.canceled += _climbInputCanceled;
 
             _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
         }
 
         void OnEnable()
         {
-            m_InputConfig.GetInputAction("Move").Enable();
-            m_InputConfig.GetInputAction("Jump").Enable();
-            m_InputConfig.GetInputAction("Dash").Enable();
-            m_InputConfig.GetInputAction("Climb").Enable();
+            m_InputConfig.InputActionAsset.Enable();
             EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
         }
 
         private void OnDisable()
         {
-            m_InputConfig.GetInputAction("Move").Disable();
-            m_InputConfig.GetInputAction("Jump").Disable();
-            m_InputConfig.GetInputAction("Dash").Disable();
-            m_InputConfig.GetInputAction("Climb").Disable();
-
+            m_InputConfig.InputActionAsset.Disable();
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
             EventBus<GameModeChagedEvent>.Deregister(_gameModeChagedEventBinding);
@@ -105,74 +95,9 @@ namespace SAS.StateMachineCharacterController
         void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform);
     }
 
-    public class SideScrollerMovementProcessor : IMovementInputProcessor
+    public interface IInputCommand
     {
-        private readonly float _targetSpeedReachMultiplier;
-        private float _previousSpeed;
-
-        public SideScrollerMovementProcessor(float targetSpeedReachMultiplier)
-        {
-            _targetSpeedReachMultiplier = targetSpeedReachMultiplier;
-        }
-
-        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform)
-        {
-            Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
-            if (Mathf.Abs(moveInput.x) > 0)
-                controller.isFacingRight = moveInput.x > 0;
-
-            Vector3 adjustedMovement = new Vector3(moveInput.x, moveInput.y, 0f);
-            float targetSpeed = Mathf.Abs(moveInput.x);
-            targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, _targetSpeedReachMultiplier * Time.deltaTime);
-
-            controller.movementInput = adjustedMovement * targetSpeed;
-            controller.movementInput.y = adjustedMovement.y;
-            controller.OnMove(targetSpeed);
-
-            _previousSpeed = targetSpeed;
-        }
-    }
-
-    public class OpenWorldMovementProcessor : IMovementInputProcessor
-    {
-        private readonly float _targetSpeedReachMultiplier;
-        private float _previousSpeed;
-
-        public OpenWorldMovementProcessor(float targetSpeedReachMultiplier)
-        {
-            _targetSpeedReachMultiplier = targetSpeedReachMultiplier;
-        }
-
-        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform)
-        {
-            Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
-            Vector3 adjustedMovement;
-
-            if (cameraTransform != null)
-            {
-                Vector3 cameraForward = cameraTransform.forward;
-                cameraForward.y = 0f;
-                Vector3 cameraRight = cameraTransform.right;
-                cameraRight.y = 0f;
-
-                adjustedMovement = cameraRight.normalized * moveInput.x + cameraForward.normalized * moveInput.y;
-            }
-            else
-            {
-                Debug.LogWarning("No gameplay camera in the scene. Movement orientation will not be correct.");
-                adjustedMovement = new Vector3(moveInput.x, 0f, moveInput.y);
-            }
-
-            if (moveInput.sqrMagnitude == 0.0f)
-                adjustedMovement = controller.transform.forward * (adjustedMovement.magnitude + .01f);
-
-            var targetSpeed = Mathf.Clamp01(moveInput.magnitude);
-            targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, Time.deltaTime * _targetSpeedReachMultiplier);
-
-            controller.movementInput = adjustedMovement.normalized * targetSpeed;
-            controller.OnMove(targetSpeed);
-
-            _previousSpeed = targetSpeed;
-        }
+        void Enable(InputConfig inputConfig);
+        void Disable(InputConfig inputConfig);
     }
 }

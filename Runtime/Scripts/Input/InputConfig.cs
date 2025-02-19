@@ -18,6 +18,7 @@ namespace SAS.StateMachineCharacterController
             public InputActionReference Value => m_InputActionReference;
         }
 
+        [field: SerializeField] public InputActionAsset InputActionAsset { get; private set; }
         [SerializeField] private Input[] m_Inputs;
         [NonSerialized] private Dictionary<string, InputActionReference> _inputs = new Dictionary<string, InputActionReference>();
         [NonSerialized] private bool _initialized = false;
