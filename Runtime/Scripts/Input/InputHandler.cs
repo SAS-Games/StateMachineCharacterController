@@ -88,6 +88,22 @@ namespace SAS.StateMachineCharacterController
             }
         }
 
+        public void EnableAbility(string abilityName)
+        {
+            if (_commands.TryGetValue(abilityName, out var command))
+            {
+                command.Enable(m_InputConfig);
+            }
+        }
+
+        public void DisableAbility(string abilityName)
+        {
+            if (_commands.TryGetValue(abilityName, out var command))
+            {
+                command.Disable(m_InputConfig);
+            }
+        }
+
     }
 
     public interface IMovementInputProcessor
