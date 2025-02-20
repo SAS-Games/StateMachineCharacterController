@@ -8,19 +8,19 @@ namespace SAS.StateMachineCharacterController
     {
         private BlackboardKey _remainingJumpCountKey = default;
         private Actor _actor;
-        private int _maxJumpCount = 0;
+        private BlackboardKey _maxJumpCountKey = default;
 
         void IStateAction.OnInitialize(Actor actor, Tag tag, string key)
         {
             actor.Initialize(this);
             _actor = actor;
-            _actor.TryGet(new BlackboardKey(key), out _maxJumpCount);
+            _maxJumpCountKey = _actor.GetOrRegisterKey(FSMCharacterBlackboardKey.MaxJumpCount);
             _remainingJumpCountKey = _actor.GetOrRegisterKey(FSMCharacterBlackboardKey.RemainingJumpCount);
         }
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            _actor.SetValue(_remainingJumpCountKey, _maxJumpCount);
+            _actor.SetValue(_remainingJumpCountKey, _actor.GetValue<int>(_maxJumpCountKey));
         }
     }
 }
