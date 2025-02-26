@@ -10,17 +10,17 @@ namespace SAS.StateMachineCharacterController
         private const string RotationTag = "SaveRotation";
         public static Vector3 Position
         {
-            get => PlayerPrefsExt.GetVector3(PositionTag, Vector3.zero);
-            private set => PlayerPrefsExt.SetVector3(PositionTag, value);
+            get => FlexPrefs.Get<Vector3>(PositionTag, Vector3.zero);
+            private set => FlexPrefs.Set<Vector3>(PositionTag, value);
         }
 
         public static Quaternion Rotation
         {
-            get => PlayerPrefsExt.GetQuaternion(RotationTag, Quaternion.identity);
-            private set => PlayerPrefsExt.SetQuaternion(RotationTag, value);
+            get => FlexPrefs.Get<Quaternion>(RotationTag, Quaternion.identity);
+            private set => FlexPrefs.Set<Quaternion>(RotationTag, value);
         }
 
-        public static bool HasSavedPoint => PlayerPrefsExt.HasVector3(PositionTag);
+        public static bool HasSavedPoint => FlexPrefs.HasKey(PositionTag);
 
         private void SaveLastPoint(Collider other)
         {
