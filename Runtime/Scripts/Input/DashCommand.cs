@@ -20,25 +20,26 @@ namespace SAS.StateMachineCharacterController
         {
             if (active)
             {
-                if (_inputAction != null) 
+                if (_inputAction != null)
                 {
                     _inputAction.performed -= _dashPerformed;
                     _inputAction.Disable();
                 }
 
                 _inputAction = inputConfig.GetInputAction("Dash");
-                if (_inputAction != null) 
+                if (_inputAction != null)
                 {
                     _inputAction.performed += _dashPerformed;
                     _inputAction.Enable();
                 }
             }
-            else if (_inputAction != null) 
+            else if (_inputAction != null)
             {
                 _inputAction.performed -= _dashPerformed;
                 _inputAction.Disable();
-                _inputAction = null; 
-        }
+                _inputAction = null;
+            }
 
+        }
     }
 }
