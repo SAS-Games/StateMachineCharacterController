@@ -18,21 +18,31 @@ namespace SAS.StateMachineCharacterController
             _jumpCanceled = _ => _controller.OnJumpCanceled();
         }
 
-        public void Enable(InputConfig inputConfig)
+        public void SetActive(InputConfig inputConfig, bool active)
         {
-            _inputAction = inputConfig.GetInputAction("Jump");
-            _inputAction.performed += _jumpPerformed;
-            _inputAction.canceled += _jumpCanceled;
-            _inputAction.Enable();
-        }
+            if (active)
+            {
+                if (_inputAction != null)
+                {
+                    _inputAction.performed -= _jumpPerformed;
+                    _inputAction.canceled -= _jumpCanceled;
+                    _inputAction.Disable();
+                }
 
-        public void Disable(InputConfig inputConfig)
-        {
-            if (_inputAction != null)
+                _inputAction = inputConfig.GetInputAction("Jump");
+                if (_inputAction != null)
+                {
+                    _inputAction.performed += _jumpPerformed;
+                    _inputAction.canceled += _jumpCanceled;
+                    _inputAction.Enable();
+                }
+            }
+            else if (_inputAction != null)
             {
                 _inputAction.performed -= _jumpPerformed;
                 _inputAction.canceled -= _jumpCanceled;
                 _inputAction.Disable();
+                _inputAction = null;
             }
         }
     }

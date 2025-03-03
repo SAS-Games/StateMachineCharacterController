@@ -17,21 +17,32 @@ public class ClimbCommand : IInputCommand
         _climbCanceled = _ => _controller.OnClimbCanceled();
     }
 
-    public void Enable(InputConfig inputConfig)
+    public void SetActive(InputConfig inputConfig, bool active)
     {
-        _inputAction = inputConfig.GetInputAction("Climb");
-        _inputAction.started += _climbStarted;
-        _inputAction.canceled += _climbCanceled;
-        _inputAction.Enable();
-    }
+        if (active)
+        {
+            if (_inputAction != null)
+            {
+                _inputAction.started -= _climbStarted;
+                _inputAction.canceled -= _climbCanceled;
+                _inputAction.Disable();
+            }
 
-    public void Disable(InputConfig inputConfig)
-    {
-        if (_inputAction != null)
+            _inputAction = inputConfig.GetInputAction("Climb");
+            if (_inputAction != null) 
+            {
+                _inputAction.started += _climbStarted;
+                _inputAction.canceled += _climbCanceled;
+                _inputAction.Enable();
+            }
+        }
+        else if (_inputAction != null) 
         {
             _inputAction.started -= _climbStarted;
             _inputAction.canceled -= _climbCanceled;
             _inputAction.Disable();
+            _inputAction = null;
         }
     }
+
 }

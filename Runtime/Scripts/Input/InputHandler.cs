@@ -43,7 +43,7 @@ namespace SAS.StateMachineCharacterController
             _moveInputAction = m_InputConfig.GetInputAction("Move");
 
             _commands["Jump"] = new JumpCommand(_fsmCharacterController);
-            _commands["Jump"].Enable(m_InputConfig);
+            _commands["Jump"].SetActive(m_InputConfig, true);
             _commands["Dash"] = new DashCommand(_fsmCharacterController);
             _commands["Climb"] = new ClimbCommand(_fsmCharacterController);
 
@@ -88,22 +88,13 @@ namespace SAS.StateMachineCharacterController
             }
         }
 
-        public void EnableAbility(string abilityName)
+        public void EnableAbility(string abilityName, bool enable)
         {
             if (_commands.TryGetValue(abilityName, out var command))
             {
-                command.Enable(m_InputConfig);
+                command.SetActive(m_InputConfig, enable);
             }
         }
-
-        public void DisableAbility(string abilityName)
-        {
-            if (_commands.TryGetValue(abilityName, out var command))
-            {
-                command.Disable(m_InputConfig);
-            }
-        }
-
     }
 
     public interface IMovementInputProcessor
@@ -113,7 +104,6 @@ namespace SAS.StateMachineCharacterController
 
     public interface IInputCommand
     {
-        void Enable(InputConfig inputConfig);
-        void Disable(InputConfig inputConfig);
+        void SetActive(InputConfig inputConfig, bool active);
     }
 }
