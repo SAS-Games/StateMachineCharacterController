@@ -62,21 +62,11 @@ MonoBehaviour:
   m_Position: {x: 929, y: 161, z: 0}
   m_Tag: 
   m_StateActions:
-  - fullName: SAS.StateMachineCharacterController.SetClimbDirection, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: 
-    whenToExecute: 1
   - fullName: SAS.StateMachineCharacterController.ClimbNavigation, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
     key: ClimbSpeed
     whenToExecute: 4
-  - fullName: SAS.StateMachineCharacterController.ApplyRotationSideWays, AssemblyStateMachineCharacterController,
-      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    tag: 0
-    key: 
-    whenToExecute: 1
   - fullName: SAS.StateMachineCharacterController.ApplyMovementVector, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
@@ -1024,8 +1014,8 @@ MonoBehaviour:
   - {fileID: 5413032242192586009}
   - {fileID: -6726854997549635797}
   - {fileID: 5146115954270796268}
-  - {fileID: -8376291207344386043}
   - {fileID: 1639039243066888369}
+  - {fileID: -8376291207344386043}
   - {fileID: -6382713695125987550}
 --- !u!114 &7687902253306019718
 MonoBehaviour:

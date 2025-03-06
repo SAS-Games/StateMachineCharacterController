@@ -6,14 +6,12 @@ namespace SAS.StateMachineCharacterController
 {
     public class DashCommand : IInputCommand
     {
-        private readonly FSMCharacterController _controller;
         private Action<CallbackContext> _dashPerformed;
         private InputAction _inputAction;
 
         public DashCommand(FSMCharacterController controller)
         {
-            _controller = controller;
-            _dashPerformed = _ => _controller.OnDashInitiated();
+            _dashPerformed = _ => controller.OnDashInitiated();
         }
 
         public void SetActive(InputConfig inputConfig, bool active)

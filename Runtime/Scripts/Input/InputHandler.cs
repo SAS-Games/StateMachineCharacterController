@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -13,14 +12,6 @@ namespace SAS.StateMachineCharacterController
         private Transform _cameraTransform;
 
         private FSMCharacterController _fsmCharacterController;
-
-        private Action<CallbackContext> _jumpPerformed;
-        private Action<CallbackContext> _jumpCanceled;
-
-        private Action<CallbackContext> _dashPerformed;
-        private Action<CallbackContext> _climbInputInitiated;
-        private Action<CallbackContext> _climbInputCanceled;
-
         private InputAction _moveInputAction;
         private IMovementInputProcessor _movementProcessor;
         private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
@@ -32,21 +23,12 @@ namespace SAS.StateMachineCharacterController
             _fsmCharacterController = GetComponent<FSMCharacterController>();
             _cameraTransform = Camera.main.transform;
 
-            _jumpPerformed = _ => _fsmCharacterController.OnJumpInitiated();
-            _jumpCanceled = _ => _fsmCharacterController.OnJumpCanceled();
-
-            _dashPerformed = _ => _fsmCharacterController.OnDashInitiated();
-
-            _climbInputInitiated = _ => _fsmCharacterController.OnClimbInitiated();
-            _climbInputCanceled = _ => _fsmCharacterController.OnClimbCanceled();
-
             _moveInputAction = m_InputConfig.GetInputAction("Move");
 
             _commands["Jump"] = new JumpCommand(_fsmCharacterController);
             _commands["Jump"].SetActive(m_InputConfig, true);
             _commands["Dash"] = new DashCommand(_fsmCharacterController);
             _commands["Climb"] = new ClimbCommand(_fsmCharacterController);
-
 
             _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
         }
@@ -91,9 +73,7 @@ namespace SAS.StateMachineCharacterController
         public void EnableAbility(string abilityName, bool enable)
         {
             if (_commands.TryGetValue(abilityName, out var command))
-            {
                 command.SetActive(m_InputConfig, enable);
-            }
         }
     }
 

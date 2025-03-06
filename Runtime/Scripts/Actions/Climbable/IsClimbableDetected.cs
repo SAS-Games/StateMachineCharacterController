@@ -23,8 +23,7 @@ namespace SAS.StateMachineCharacterController
         {
             // Use orientation transform's forward direction for wall detection
             Vector3 checkDirection = _orientation.forward;
-            bool hitFound = _fsmCharacterController.IsTouchingLayerSide(checkDirection,
-                _fsmCharacterController.ClimbableLayer, out RaycastHit hit);
+            bool hitFound = _fsmCharacterController.IsTouchingLayerSide(checkDirection, _fsmCharacterController.ClimbableLayer, out RaycastHit hit);
 
             if (hitFound)
             {

@@ -5,16 +5,14 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class ClimbCommand : IInputCommand
 {
-    private readonly FSMCharacterController _controller;
     private Action<CallbackContext> _climbStarted;
     private Action<CallbackContext> _climbCanceled;
     private InputAction _inputAction;
 
     public ClimbCommand(FSMCharacterController controller)
     {
-        _controller = controller;
-        _climbStarted = _ => _controller.OnClimbInitiated();
-        _climbCanceled = _ => _controller.OnClimbCanceled();
+        _climbStarted = _ => controller.OnClimbInitiated();
+        _climbCanceled = _ => controller.OnClimbCanceled();
     }
 
     public void SetActive(InputConfig inputConfig, bool active)
@@ -29,14 +27,14 @@ public class ClimbCommand : IInputCommand
             }
 
             _inputAction = inputConfig.GetInputAction("Climb");
-            if (_inputAction != null) 
+            if (_inputAction != null)
             {
                 _inputAction.started += _climbStarted;
                 _inputAction.canceled += _climbCanceled;
                 _inputAction.Enable();
             }
         }
-        else if (_inputAction != null) 
+        else if (_inputAction != null)
         {
             _inputAction.started -= _climbStarted;
             _inputAction.canceled -= _climbCanceled;
