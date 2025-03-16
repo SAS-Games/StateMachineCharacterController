@@ -20,7 +20,7 @@ public struct GameModeChagedEvent : IEvent
 public class GameModeChangeNotifier : MonoBehaviour
 {
     [SerializeField] private GameMode m_GameMode;
-    private void Awake()
+    private void Start()
     {
         EventBus<GameModeChagedEvent>.Raise(new GameModeChagedEvent { mode = m_GameMode });
     }

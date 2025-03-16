@@ -25,12 +25,19 @@ namespace SAS.StateMachineCharacterController
 
             _moveInputAction = m_InputConfig.GetInputAction("Move");
 
-            _commands["Jump"] = new JumpCommand(_fsmCharacterController);
-            _commands["Jump"].SetActive(m_InputConfig, true);
-            _commands["Dash"] = new DashCommand(_fsmCharacterController);
-            _commands["Climb"] = new ClimbCommand(_fsmCharacterController);
-
+            CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
+            CreateInputCommand("Dash", new DashCommand(_fsmCharacterController));
+            CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
             _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
+        }
+
+        public void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false)
+        {
+            if (!_commands.ContainsKey(command))
+                _commands.Add(command, inputCommand);
+            else
+                Debug.LogWarning($"Input commands already contains the Key: {command}");
+            _commands[command].SetActive(m_InputConfig, activate);
         }
 
         void OnEnable()

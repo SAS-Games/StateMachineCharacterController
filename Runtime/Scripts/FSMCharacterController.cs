@@ -35,7 +35,7 @@ namespace SAS.StateMachineCharacterController
         public LayerMask GroundLayer => m_GroundLayer;
 
         /* [NonSerialized]*/
-        internal Vector3 movementVector;
+        public Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
 
@@ -115,6 +115,16 @@ namespace SAS.StateMachineCharacterController
         public void OnClimbCanceled()
         {
             Actor.SetBool("Climb", false);
+        }
+
+        public void OnFire()
+        {
+            //todo:
+        }
+
+        public void OnFireCanceled()
+        {
+            //todo:
         }
 
         public void SetFacingDirection()

@@ -1,4 +1,3 @@
-using SAS.ScriptableTypes;
 using SAS.StateMachineGraph;
 using SAS.Utilities.BlackboardSystem;
 using SAS.Utilities.TagSystem;

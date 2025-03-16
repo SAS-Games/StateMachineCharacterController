@@ -9,7 +9,6 @@
   },
   "hideInEditor": false,
   "dependencies": {
-    "com.sas.scriptabletypes": "1.0.0",
     "com.sas.statemachine": "1.2.2",
     "com.sas.utilities": "1.0.0",
     "com.unity.inputsystem": "1.5.0",
