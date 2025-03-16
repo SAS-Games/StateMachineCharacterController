@@ -35,7 +35,7 @@ namespace SAS.StateMachineCharacterController
         public LayerMask GroundLayer => m_GroundLayer;
 
         /* [NonSerialized]*/
-        public Vector3 movementVector;
+        internal Vector3 movementVector;
         /* [NonSerialized]*/
         internal Vector3 movementInput;
 
