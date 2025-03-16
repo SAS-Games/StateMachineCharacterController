@@ -20,7 +20,7 @@ MonoBehaviour:
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
-    - m_Name: Fall
+    - m_Name: Airborn
       m_Type: 4
       m_BoolValue: 0
       m_IntValue: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
-    - m_Name: Fall
+    - m_Name: Airborn
       m_Type: 4
       m_BoolValue: 1
       m_IntValue: 0
@@ -58,7 +58,7 @@ MonoBehaviour:
       m_BoolValue: 0
       m_IntValue: 0
       m_FloatValue: 0
-    - m_Name: Fall
+    - m_Name: Airborn
       m_Type: 4
       m_BoolValue: 0
       m_IntValue: 0
