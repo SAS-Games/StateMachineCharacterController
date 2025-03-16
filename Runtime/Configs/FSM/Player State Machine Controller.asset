@@ -1029,7 +1029,7 @@ MonoBehaviour:
   - fullName: SAS.StateMachineCharacterController.AnimatorMoveSpeed, AssemblyStateMachineCharacterController,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     tag: 0
-    key: 
+    key: MoveSpeed
     whenToExecute: 4
   - fullName: SAS.StateMachineGraph.Utilities.ApplyActorParameter, AssemblyStateMachine,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
