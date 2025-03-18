@@ -119,12 +119,12 @@ namespace SAS.StateMachineCharacterController
 
         public void OnFire()
         {
-            //todo:
+            Actor.SetBool("Attack", true);
         }
 
         public void OnFireCanceled()
         {
-            //todo:
+            Actor.SetBool("Attack", false);
         }
 
         public void SetFacingDirection()
