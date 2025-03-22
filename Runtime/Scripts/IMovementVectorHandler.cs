@@ -16,5 +16,6 @@ namespace SAS.StateMachineCharacterController
     {
         Vector3 Position { get; }
         Vector3 Forward { get; }
+        Transform Transform { get; }
     }
 }

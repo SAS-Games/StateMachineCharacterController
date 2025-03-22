@@ -23,13 +23,16 @@ namespace SAS.StateMachineCharacterController
 
         void IStateAction.Execute(ActionExecuteEvent executeEvent)
         {
-            Vector3 horizontalMovement = _fsmCharacterController.movementVector;
-            horizontalMovement.y = 0f;
-
-            if (horizontalMovement.sqrMagnitude >= _minMoveDistance)
+            if (_fsmCharacterController.NormalizedMoveInput > 0)
             {
-                float targetRotation = Mathf.Atan2(_fsmCharacterController.movementVector.x, _fsmCharacterController.movementVector.z) * Mathf.Rad2Deg;
-                _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime);
+                Vector3 horizontalMovement = _fsmCharacterController.movementVector;
+                horizontalMovement.y = 0f;
+
+                if (horizontalMovement.sqrMagnitude >= _minMoveDistance)
+                {
+                    float targetRotation = Mathf.Atan2(_fsmCharacterController.movementVector.x, _fsmCharacterController.movementVector.z) * Mathf.Rad2Deg;
+                    _transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(_transform.eulerAngles.y, targetRotation, ref _turnSmoothSpeed, _turnSmoothTime);
+                }
             }
         }
     }

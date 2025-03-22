@@ -7,5 +7,6 @@ namespace SAS.StateMachineCharacterController
     {
         public float horizontalSpeed = 20;
         public float verticalSpeed = 20;
+        public bool forwardDirection = false;
     }
 }

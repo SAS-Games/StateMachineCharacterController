@@ -32,6 +32,8 @@ namespace SAS.StateMachineCharacterController
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
         [field: SerializeField] public LayerMask ClimbableLayer { get; private set; }
         [SerializeField] private LayerMask m_GroundLayer;
+        [SerializeField] private string m_DeadStateTrigger = "Dead";
+
         public LayerMask GroundLayer => m_GroundLayer;
 
         /* [NonSerialized]*/
@@ -79,6 +81,8 @@ namespace SAS.StateMachineCharacterController
         Vector3 ICharacter.Position => _transform.position;
         Vector3 ICharacter.Forward =>_transform.forward;
 
+        Transform ICharacter.Transform => _transform;
+
         private void Awake()
         {
             this.Initialize();
@@ -88,7 +92,10 @@ namespace SAS.StateMachineCharacterController
             _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
             EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
         }
-
+        private void OnEnable()
+        {
+            _transform = transform;
+        }
         public void OnMove(float normalizedMoveInput)
         {
             Speed = (float)Math.Round(normalizedMoveInput, 2);
@@ -211,6 +218,15 @@ namespace SAS.StateMachineCharacterController
                     m_FreezeZAxis = false;
                     break;
             }
+        }
+        public void OnDeath()
+        {
+            Actor.SetTrigger(m_DeadStateTrigger);
+        }
+
+        private void OnDisable()
+        {
+            _transform = null;
         }
 
         void OnDestroy()
