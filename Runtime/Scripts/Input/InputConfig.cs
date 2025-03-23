@@ -12,56 +12,50 @@ namespace SAS.StateMachineCharacterController
         class Input
         {
             [SerializeField] private string m_Key;
-            [SerializeField] private InputActionReference m_InputActionReference;
+            [SerializeField] private InputActionReference m_InputActionReference; // ? Use InputActionReference
 
             public string Key => m_Key;
-            public InputActionReference Value => m_InputActionReference;
+            public InputActionReference ActionReference => m_InputActionReference;
         }
 
-        [field: SerializeField] public InputActionAsset InputActionAsset { get; private set; }
         [SerializeField] private Input[] m_Inputs;
-        [NonSerialized] private Dictionary<string, InputActionReference> _inputs = new Dictionary<string, InputActionReference>();
-        [NonSerialized] private bool _initialized = false;
+        private Dictionary<string, InputActionReference> _inputMap = new();
+        private PlayerInput _playerInput;
 
-        private void Awake()
+        public void Initialize(PlayerInput playerInput)
         {
-            Initialize();
-        }
+            _playerInput = playerInput ?? throw new ArgumentNullException(nameof(playerInput));
 
-        private void Initialize()
-        {
-            if (_initialized)
-                return;
-
-            _inputs.Clear();
-            _initialized = true;
-
+            _inputMap.Clear();
             foreach (var input in m_Inputs)
-                _inputs.Add(input.Key, input.Value);
+            {
+                if (input.ActionReference != null)
+                {
+                    _inputMap[input.Key] = input.ActionReference;
+                }
+            }
         }
 
         public InputAction GetInputAction(string key)
         {
-            return Get(key);
-        }
-
-        public InputActionReference Get(string key)
-        {
-            Initialize();
-
-            if (TryGet(key, out var value))
-                return value;
-            return null;
-        }
-
-        private bool TryGet(string key, out InputActionReference value)
-        {
-            if (!_inputs.TryGetValue(key, out value))
+            if (_playerInput == null)
             {
-                value = null;
-                return false;
+                Debug.LogError("InputConfig is not initialized with PlayerInput.");
+                return null;
             }
-            return true;
+
+            if (_inputMap.TryGetValue(key, out var actionReference) && actionReference != null)
+            {
+                var action = _playerInput.actions.FindAction(actionReference.action.id); // ? Ensure it's fetched from PlayerInput
+                if (action == null)
+                {
+                    Debug.LogError($"Input action '{actionReference.action.name}' not found in PlayerInput.");
+                }
+                return action;
+            }
+
+            Debug.LogError($"Key '{key}' not found in InputConfig.");
+            return null;
         }
     }
 }

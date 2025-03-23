@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace SAS.StateMachineCharacterController
 {
+    [RequireComponent(typeof(PlayerInput))]
     public class InputHandler : MonoBehaviour
     {
         [SerializeField] private InputConfig m_InputConfig;
@@ -16,18 +17,23 @@ namespace SAS.StateMachineCharacterController
         private IMovementInputProcessor _movementProcessor;
         private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
         private Dictionary<string, IInputCommand> _commands = new();
+        private PlayerInput _playerInput;
 
 
         void Awake()
         {
+            _playerInput = GetComponent<PlayerInput>();
+            m_InputConfig = Instantiate(m_InputConfig);
+            m_InputConfig.Initialize(_playerInput);
+
             _fsmCharacterController = GetComponent<FSMCharacterController>();
             _cameraTransform = Camera.main.transform;
-
+            
             _moveInputAction = m_InputConfig.GetInputAction("Move");
-
             CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
-            CreateInputCommand("Dash", new DashCommand(_fsmCharacterController));
+            CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
             CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
+            
             _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
         }
 
@@ -42,13 +48,16 @@ namespace SAS.StateMachineCharacterController
 
         void OnEnable()
         {
-            m_InputConfig.InputActionAsset.Enable();
+            _playerInput.actions.Enable();
+
             EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
+            _movementProcessor = new OpenWorldMovementProcessor(m_targetSpeedReachMultiplier);
         }
 
         private void OnDisable()
         {
-            m_InputConfig.InputActionAsset.Disable();
+            _playerInput.actions.Disable();
+
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
             EventBus<GameModeChagedEvent>.Deregister(_gameModeChagedEventBinding);
