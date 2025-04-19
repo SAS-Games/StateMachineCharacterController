@@ -38,13 +38,14 @@ namespace SAS.StateMachineCharacterController
 
         /* [NonSerialized]*/
         internal Vector3 movementVector;
+
         /* [NonSerialized]*/
         internal Vector3 movementInput;
 
         internal bool isFacingRight;
         private Transform _transform;
         private Scene _originalScene;
-        private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
+        private EventBinding<GameModeChangedEvent> _gameModeChangedEventBinding;
 
         public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
@@ -54,6 +55,7 @@ namespace SAS.StateMachineCharacterController
         public ControllerColliderHit LastHit { get; private set; }
 
         private Actor _actor;
+
         public Actor Actor
         {
             get
@@ -66,20 +68,21 @@ namespace SAS.StateMachineCharacterController
 
         public bool IsGrounded
         {
-            get
-            {
-                return _characterController.isGrounded;
-            }
+            get { return _characterController.isGrounded; }
         }
 
 
-        Vector3 IMovementVectorHandler.MovementVector { get => movementVector; set => movementVector = value; }
+        Vector3 IMovementVectorHandler.MovementVector
+        {
+            get => movementVector;
+            set => movementVector = value;
+        }
 
         [SerializeField] private Transform m_LookAtTarget;
         Transform ICameraLookAt.Target => m_LookAtTarget;
 
         Vector3 ICharacter.Position => _transform.position;
-        Vector3 ICharacter.Forward =>_transform.forward;
+        Vector3 ICharacter.Forward => _transform.forward;
 
         Transform ICharacter.Transform => _transform;
 
@@ -89,13 +92,16 @@ namespace SAS.StateMachineCharacterController
             _transform = transform;
             SetFacingDirection();
             _originalScene = gameObject.scene;
-            _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
-            EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
+            _gameModeChangedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
+            EventBus<GameModeChangedEvent>.Register(_gameModeChangedEventBinding);
         }
+
         private void OnEnable()
         {
             _transform = transform;
+            OnGameModeChanged(GameModeInitializer.CurrentGameMode);
         }
+
         public void OnMove(float normalizedMoveInput)
         {
             Speed = (float)Math.Round(normalizedMoveInput, 2);
@@ -122,6 +128,7 @@ namespace SAS.StateMachineCharacterController
         {
             Actor.SetBool("Climb", true);
         }
+
         public void OnClimbCanceled()
         {
             Actor.SetBool("Climb", false);
@@ -130,6 +137,7 @@ namespace SAS.StateMachineCharacterController
         public void OnFire()
         {
             Actor.SetBool("Attack", true);
+            Debug.Log("OnFire");
         }
 
         public void OnFireCanceled()
@@ -143,8 +151,9 @@ namespace SAS.StateMachineCharacterController
             if (Mathf.Abs(yRotation) < 0.0001f)
                 yRotation = 0;
 
-            const float facingThreshold = 5f;  // Small threshold for smoother rotations
-            isFacingRight = (yRotation >= 0 && yRotation <= facingThreshold) || (yRotation >= 360 - facingThreshold && yRotation <= 360);
+            const float facingThreshold = 5f; // Small threshold for smoother rotations
+            isFacingRight = (yRotation >= 0 && yRotation <= facingThreshold) ||
+                            (yRotation >= 360 - facingThreshold && yRotation <= 360);
         }
 
         public bool IsTouchingLayerSide(LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)
@@ -152,14 +161,16 @@ namespace SAS.StateMachineCharacterController
             return IsTouchingLayerSide(_transform.forward, layerMask, out hitInfo, maxSlopeAngle);
         }
 
-        public bool IsTouchingLayerSide(Vector3 facingDirection, LayerMask layerMask, out RaycastHit hitInfo, float maxSlopeAngle = 0.1f)
+        public bool IsTouchingLayerSide(Vector3 facingDirection, LayerMask layerMask, out RaycastHit hitInfo,
+            float maxSlopeAngle = 0.1f)
         {
             // Calculate check radius using CharacterController radius and skinWidth
             float checkRadius = _characterController.radius + _characterController.skinWidth + 0.01f;
             Vector3 characterPosition = _transform.position + Vector3.up * (_characterController.height / 2);
 
             // SphereCast to the side of the character to detect walls
-            bool hit = Physics.SphereCast(characterPosition, _characterController.skinWidth, facingDirection, out hitInfo, checkRadius, layerMask);
+            bool hit = Physics.SphereCast(characterPosition, _characterController.skinWidth, facingDirection,
+                out hitInfo, checkRadius, layerMask);
 
             // Check if the hit normal meets the slope tolerance criteria
             if (hit && Vector3.Dot(hitInfo.normal, Vector3.up) < maxSlopeAngle)
@@ -202,6 +213,7 @@ namespace SAS.StateMachineCharacterController
                 _transform.position = SavePoint.Position;
                 _transform.rotation = SavePoint.Rotation;
             }
+
             SetFacingDirection();
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
         }
@@ -211,14 +223,15 @@ namespace SAS.StateMachineCharacterController
             Actor.runtimeStateMachineController = m_StateMachineControllers[(int)gameMode];
             switch (gameMode)
             {
-                case GameMode.SideScroller3D:
+                case GameMode.SideScroller:
                     m_FreezeZAxis = true;
                     break;
-                case GameMode.OpenWorld3d:
+                case GameMode.FreeRoam:
                     m_FreezeZAxis = false;
                     break;
             }
         }
+
         public void OnDeath()
         {
             Actor.SetTrigger(m_DeadStateTrigger);
@@ -231,8 +244,7 @@ namespace SAS.StateMachineCharacterController
 
         void OnDestroy()
         {
-            EventBus<GameModeChagedEvent>.Deregister(_gameModeChagedEventBinding);
+            EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
         }
     }
 }
-

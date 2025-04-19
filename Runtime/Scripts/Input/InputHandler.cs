@@ -15,7 +15,7 @@ namespace SAS.StateMachineCharacterController
         private FSMCharacterController _fsmCharacterController;
         private InputAction _moveInputAction;
         private IMovementInputProcessor _movementProcessor;
-        private EventBinding<GameModeChagedEvent> _gameModeChagedEventBinding;
+        private EventBinding<GameModeChangedEvent> _gameModeChagedEventBinding;
         private Dictionary<string, IInputCommand> _commands = new();
         private PlayerInput _playerInput;
 
@@ -34,7 +34,7 @@ namespace SAS.StateMachineCharacterController
             CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
             CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
             
-            _gameModeChagedEventBinding = new EventBinding<GameModeChagedEvent>(evt => OnGameModeChanged(evt));
+            _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
         }
 
         public void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false)
@@ -50,7 +50,7 @@ namespace SAS.StateMachineCharacterController
         {
             _playerInput.actions.Enable();
 
-            EventBus<GameModeChagedEvent>.Register(_gameModeChagedEventBinding);
+            EventBus<GameModeChangedEvent>.Register(_gameModeChagedEventBinding);
             _movementProcessor = new OpenWorldMovementProcessor(m_targetSpeedReachMultiplier);
         }
 
@@ -60,7 +60,7 @@ namespace SAS.StateMachineCharacterController
 
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
-            EventBus<GameModeChagedEvent>.Deregister(_gameModeChagedEventBinding);
+            EventBus<GameModeChangedEvent>.Deregister(_gameModeChagedEventBinding);
 
         }
 
@@ -75,10 +75,10 @@ namespace SAS.StateMachineCharacterController
         {
             switch (gameMode)
             {
-                case GameMode.SideScroller3D:
+                case GameMode.SideScroller:
                     _movementProcessor = new SideScrollerMovementProcessor(m_targetSpeedReachMultiplier);
                     break;
-                case GameMode.OpenWorld3d:
+                case GameMode.FreeRoam:
                     _movementProcessor = new OpenWorldMovementProcessor(m_targetSpeedReachMultiplier);
                     break;
                 default:
