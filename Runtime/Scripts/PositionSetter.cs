@@ -1,3 +1,4 @@
+using System.Linq;
 using SAS.SceneManagement;
 using UnityEngine;
 
@@ -10,6 +11,10 @@ namespace SAS.StateMachineCharacterController
 
         void Awake()
         {
+            var points = GameObject.FindObjectsByType<SavePoint>(FindObjectsSortMode.InstanceID);
+            var startPoint = points.FirstOrDefault(point => point.transform.name == m_StartPointName)?.transform;
+            if (startPoint != null)
+                transform.position = startPoint.transform.position;
             _sceneGroupLoadedEventBinding = new EventBinding<SceneGroupLoadedEvent>(SetPlayerPositionAtSpawnPoint);
             EventBus<SceneGroupLoadedEvent>.Register(_sceneGroupLoadedEventBinding);
         }
@@ -17,11 +22,18 @@ namespace SAS.StateMachineCharacterController
         void SetPlayerPositionAtSpawnPoint(SceneGroupLoadedEvent sceneGroupLoadedEvent)
         {
             var sceneGroup = sceneGroupLoadedEvent.sceneGroup;
-            var startPoint = SceneUtility.FindComponentInScene<SavePoint>(sceneGroup.FindSceneNameByType(SceneType.ActiveScene), m_StartPointName);
-            if (startPoint != null)
-                transform.position = startPoint.transform.position;
+            SetSpawnPosition(sceneGroup);
             Debug.Log("Set Player Position at Spawn Point");
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = this.transform });
+        }
+
+        private void SetSpawnPosition(SceneGroup sceneGroup)
+        {
+            var startPoint =
+                SceneUtility.FindComponentInScene<SavePoint>(sceneGroup.FindSceneNameByType(SceneType.ActiveScene),
+                    m_StartPointName);
+            if (startPoint != null)
+                transform.position = startPoint.transform.position;
         }
 
         void OnDestroy()
