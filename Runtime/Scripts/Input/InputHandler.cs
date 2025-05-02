@@ -28,12 +28,12 @@ namespace SAS.StateMachineCharacterController
 
             _fsmCharacterController = GetComponent<FSMCharacterController>();
             _cameraTransform = Camera.main.transform;
-            
+
             _moveInputAction = m_InputConfig.GetInputAction("Move");
             CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
             CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
             CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
-            
+
             _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
         }
 
@@ -44,6 +44,13 @@ namespace SAS.StateMachineCharacterController
             else
                 Debug.LogWarning($"Input commands already contains the Key: {command}");
             _commands[command].SetActive(m_InputConfig, activate);
+        }
+
+        public IInputCommand GetCommand(string command)
+        {
+            if (!_commands.TryGetValue(command, out IInputCommand inputCommand))
+                Debug.LogWarning($"Input commands already contains the Key: {command}");
+            return inputCommand;
         }
 
         void OnEnable()
@@ -61,10 +68,10 @@ namespace SAS.StateMachineCharacterController
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChagedEventBinding);
-
         }
 
-        private void Update() => _movementProcessor?.ProcessMovement(_moveInputAction, _fsmCharacterController, _cameraTransform);
+        private void Update() =>
+            _movementProcessor?.ProcessMovement(_moveInputAction, _fsmCharacterController, _cameraTransform);
 
         void OnGameModeChanged(GameMode gameMode)
         {
@@ -101,5 +108,11 @@ namespace SAS.StateMachineCharacterController
     public interface IInputCommand
     {
         void SetActive(InputConfig inputConfig, bool active);
+    }
+
+    public interface IInputCallbackRegistry
+    {
+        void RegisterCallback(Action callback);
+        void UnregisterCallback(Action callback);
     }
 }
