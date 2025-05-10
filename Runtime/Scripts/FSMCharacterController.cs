@@ -23,7 +23,7 @@ namespace SAS.StateMachineCharacterController
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter, ITarget
     {
         [SerializeField] private bool m_FreezeZAxis = true;
         [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
@@ -81,10 +81,9 @@ namespace SAS.StateMachineCharacterController
         [SerializeField] private Transform m_LookAtTarget;
         Transform ICameraLookAt.Target => m_LookAtTarget;
 
-        Vector3 ICharacter.Position => _transform.position;
-        Vector3 ICharacter.Forward => _transform.forward;
-
-        Transform ICharacter.Transform => _transform;
+        public Vector3 Position => _transform.position;
+        public Vector3 Forward => _transform.forward;
+        public Transform Transform => _transform;
 
         private void Awake()
         {
@@ -246,5 +245,7 @@ namespace SAS.StateMachineCharacterController
         {
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
         }
+
+        public bool IsActive => enabled && gameObject.activeSelf;
     }
 }
