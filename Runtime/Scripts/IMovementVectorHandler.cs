@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace SAS.StateMachineCharacterController
 {
@@ -12,10 +12,18 @@ namespace SAS.StateMachineCharacterController
         Transform Target { get; }
     }
 
-    public interface ICharacter
+    public interface IEntity
     {
         Vector3 Position { get; }
         Vector3 Forward { get; }
         Transform Transform { get; }
+    }
+
+    public interface ICharacter : IEntity
+    {
+    }
+    public interface ITarget : IEntity
+    {
+        bool IsActive { get; }
     }
 }
