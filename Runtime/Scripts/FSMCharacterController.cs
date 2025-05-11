@@ -23,7 +23,7 @@ namespace SAS.StateMachineCharacterController
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter, ITarget
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter
     {
         [SerializeField] private bool m_FreezeZAxis = true;
         [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
@@ -245,7 +245,5 @@ namespace SAS.StateMachineCharacterController
         {
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
         }
-
-        public bool IsActive => enabled && gameObject.activeSelf;
     }
 }
