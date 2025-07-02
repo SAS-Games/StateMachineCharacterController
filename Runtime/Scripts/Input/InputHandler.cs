@@ -5,8 +5,13 @@ using UnityEngine.InputSystem;
 
 namespace SAS.StateMachineCharacterController
 {
+    public interface IInputHandler
+    {
+        PlayerInput PlayerInput { get; set; }
+    }
+
     [RequireComponent(typeof(PlayerInput))]
-    public class InputHandler : MonoBehaviour
+    public class InputHandler : MonoBehaviour, IInputHandler
     {
         [SerializeField] private InputConfig m_InputConfig;
         [SerializeField] private float m_targetSpeedReachMultiplier = 10;
@@ -19,10 +24,17 @@ namespace SAS.StateMachineCharacterController
         private Dictionary<string, IInputCommand> _commands = new();
         private PlayerInput _playerInput;
 
+        public PlayerInput PlayerInput
+        {
+            get => _playerInput;
+            set => _playerInput = value;
+        }
 
         void Awake()
         {
-            _playerInput = GetComponent<PlayerInput>();
+            if (_playerInput == null)
+                _playerInput = GetComponent<PlayerInput>();
+            
             m_InputConfig = Instantiate(m_InputConfig);
             m_InputConfig.Initialize(_playerInput);
 
@@ -63,7 +75,7 @@ namespace SAS.StateMachineCharacterController
 
         private void OnDisable()
         {
-            _playerInput.actions.Disable();
+            _playerInput?.actions.Disable();
 
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
