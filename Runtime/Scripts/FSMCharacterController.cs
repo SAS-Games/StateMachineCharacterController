@@ -245,5 +245,19 @@ namespace SAS.StateMachineCharacterController
         {
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
         }
+
+          /// <summary>
+      /// Teleports the player to a specific position by temporarily disabling the CharacterController.
+      /// This prevents any internal interference from the CharacterController system,
+      /// which might otherwise override the position on the next frame.
+      /// </summary>
+      /// <param name="position">The world-space position to teleport the player to.</param>
+
+      public void SetPosition(Vector3 position)
+      {
+          _characterController.enabled = false;
+          _transform.position = position;
+          _characterController.enabled = true;
+      }
     }
 }
