@@ -42,5 +42,4 @@ public class ClimbCommand : IInputCommand
             _inputAction = null;
         }
     }
-
 }

@@ -34,8 +34,15 @@ namespace SAS.StateMachineCharacterController
         {
             if (_playerInput == null)
                 _playerInput = GetComponent<PlayerInput>();
-            
+
             m_InputConfig = Instantiate(m_InputConfig);
+            SetupInput();
+
+            _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
+        }
+
+        private void SetupInput()
+        {
             m_InputConfig.Initialize(_playerInput);
 
             _fsmCharacterController = GetComponent<FSMCharacterController>();
@@ -45,8 +52,6 @@ namespace SAS.StateMachineCharacterController
             CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
             CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
             CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
-
-            _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
         }
 
         public void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false)
@@ -84,6 +89,14 @@ namespace SAS.StateMachineCharacterController
 
         private void Update() =>
             _movementProcessor?.ProcessMovement(_moveInputAction, _fsmCharacterController, _cameraTransform);
+
+        private void OnDestroy()
+        {
+            foreach (var command in _commands)
+            {
+                command.Value.SetActive(m_InputConfig, false);
+            }
+        }
 
         void OnGameModeChanged(GameMode gameMode)
         {
