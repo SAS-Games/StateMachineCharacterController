@@ -13,6 +13,7 @@ namespace SAS.StateMachineCharacterController
     [RequireComponent(typeof(PlayerInput))]
     public class InputHandler : MonoBehaviour, IInputHandler
     {
+        private const string TAG = "InputHandler";
         [SerializeField] private InputConfig m_InputConfig;
         [SerializeField] private float m_targetSpeedReachMultiplier = 10;
         private Transform _cameraTransform;
@@ -30,24 +31,39 @@ namespace SAS.StateMachineCharacterController
             set => _playerInput = value;
         }
 
-        void Awake()
+        private void Awake()
         {
-            if (_playerInput == null)
-                _playerInput = GetComponent<PlayerInput>();
-
-            m_InputConfig = Instantiate(m_InputConfig);
-            SetupInput();
-
+            _fsmCharacterController = GetComponent<FSMCharacterController>();
+            _cameraTransform = Camera.main.transform;
             _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
         }
 
-        private void SetupInput()
+        private void Start()
         {
-            m_InputConfig.Initialize(_playerInput);
+            if (_playerInput == null)
+                _playerInput = GetComponent<PlayerInput>(); // fallback
 
-            _fsmCharacterController = GetComponent<FSMCharacterController>();
-            _cameraTransform = Camera.main.transform;
+            SetupInputHandler();
+        }
 
+        private void SetupInputHandler()
+        {
+            if (_playerInput == null)
+            {
+                Debug.LogError("No player input handler assigned.", TAG);
+                return;
+            }
+
+            m_InputConfig = Instantiate(m_InputConfig);
+
+            CreateInputCommands(_playerInput);
+
+            _playerInput.actions.Enable();
+        }
+
+        private void CreateInputCommands(PlayerInput playerInput)
+        {
+            m_InputConfig.Initialize(playerInput);
             _moveInputAction = m_InputConfig.GetInputAction("Move");
             CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
             CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
@@ -59,20 +75,21 @@ namespace SAS.StateMachineCharacterController
             if (!_commands.ContainsKey(command))
                 _commands.Add(command, inputCommand);
             else
-                Debug.LogWarning($"Input commands already contains the Key: {command}");
+                Debug.LogWarning($"Input commands already contains the Key: {command}", TAG);
             _commands[command].SetActive(m_InputConfig, activate);
         }
 
         public IInputCommand GetCommand(string command)
         {
             if (!_commands.TryGetValue(command, out IInputCommand inputCommand))
-                Debug.LogWarning($"Input commands already contains the Key: {command}");
+                Debug.LogWarning($"Input commands already contains the Key: {command}", TAG);
             return inputCommand;
         }
 
         void OnEnable()
         {
-            _playerInput.actions.Enable();
+            if (_playerInput != null)
+                _playerInput.actions.Enable();
 
             EventBus<GameModeChangedEvent>.Register(_gameModeChagedEventBinding);
             _movementProcessor = new OpenWorldMovementProcessor(m_targetSpeedReachMultiplier);
@@ -80,7 +97,8 @@ namespace SAS.StateMachineCharacterController
 
         private void OnDisable()
         {
-            _playerInput?.actions.Disable();
+            if (_playerInput != null)
+                _playerInput.actions.Disable();
 
             _fsmCharacterController.movementInput = Vector3.zero;
             _fsmCharacterController.OnMove(0);
