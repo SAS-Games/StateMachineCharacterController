@@ -27,6 +27,7 @@ namespace SAS.StateMachineCharacterController
     {
         [SerializeField] private bool m_FreezeZAxis = true;
         [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
+        [SerializeField] private CustomRaycast m_GroundDetection;
         [FieldRequiresSelf] private CharacterController _characterController;
 
         [field: SerializeField] public LayerMask WallLayer { get; private set; }
@@ -68,7 +69,14 @@ namespace SAS.StateMachineCharacterController
 
         public bool IsGrounded
         {
-            get { return _characterController.isGrounded; }
+            get
+            {
+                if (_characterController.isGrounded)
+                    return true;
+                if (m_GroundDetection)
+                    return m_GroundDetection.Raycast(_transform.position, 0.01f);
+                return false;
+            }
         }
 
 
@@ -246,18 +254,18 @@ namespace SAS.StateMachineCharacterController
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
         }
 
-          /// <summary>
-      /// Teleports the player to a specific position by temporarily disabling the CharacterController.
-      /// This prevents any internal interference from the CharacterController system,
-      /// which might otherwise override the position on the next frame.
-      /// </summary>
-      /// <param name="position">The world-space position to teleport the player to.</param>
+        /// <summary>
+        /// Teleports the player to a specific position by temporarily disabling the CharacterController.
+        /// This prevents any internal interference from the CharacterController system,
+        /// which might otherwise override the position on the next frame.
+        /// </summary>
+        /// <param name="position">The world-space position to teleport the player to.</param>
 
-      public void SetPosition(Vector3 position)
-      {
-          _characterController.enabled = false;
-          _transform.position = position;
-          _characterController.enabled = true;
-      }
+        public void SetPosition(Vector3 position)
+        {
+            _characterController.enabled = false;
+            _transform.position = position;
+            _characterController.enabled = true;
+        }
     }
 }
