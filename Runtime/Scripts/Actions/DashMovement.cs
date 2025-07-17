@@ -25,8 +25,7 @@ namespace SAS.StateMachineCharacterController
             if (executeEvent == ActionExecuteEvent.OnStateEnter)
             {
                 _actor.SetValue(_isDashingKey, true);
-
-                _dashDirection = new Vector3(_fsmCharacterController.movementInput.x, _fsmCharacterController.movementInput.y).normalized;
+                _dashDirection = _fsmCharacterController.movementInput.normalized;
                 if (_dashMovementConfig.forwardDirection || _dashDirection == Vector3.zero)
                     _dashDirection = _fsmCharacterController.transform.forward;//isFacingRight ? Vector3.right : Vector3.left;
                 return;
