@@ -148,14 +148,29 @@ namespace SAS.StateMachineCharacterController
         void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform);
     }
 
+    public interface IConditionalInputHandler
+    {
+        bool CanExecute();
+        void Execute(InputAction.CallbackContext context);
+        void AddAction(Action<InputAction.CallbackContext> action);
+    }
+
     public interface IInputCommand
     {
         void SetActive(InputConfig inputConfig, bool active);
+        void AddHandler(InputActionPhase phase, IConditionalInputHandler handler, int priority = 0);
+        void RemoveHandler(InputActionPhase phase, IConditionalInputHandler handler);
     }
-
-    public interface IInputCallbackRegistry
+    
+    public class HandlerEntry
     {
-        void RegisterCallback(Action callback);
-        void UnregisterCallback(Action callback);
+        public IConditionalInputHandler  Handler;
+        public int Priority;
+
+        public HandlerEntry(IConditionalInputHandler  handler, int priority)
+        {
+            Handler = handler;
+            Priority = priority;
+        }
     }
 }

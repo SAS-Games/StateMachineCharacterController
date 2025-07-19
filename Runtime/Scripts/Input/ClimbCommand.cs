@@ -1,45 +1,20 @@
 ﻿using SAS.StateMachineCharacterController;
-using System;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
-public class ClimbCommand : IInputCommand
+public class ClimbCommand : ChainedInputCommand
 {
-    private Action<CallbackContext> _climbStarted;
-    private Action<CallbackContext> _climbCanceled;
-    private InputAction _inputAction;
+    protected override string InputActionName { get; } = "Climb";
 
     public ClimbCommand(FSMCharacterController controller)
     {
-        _climbStarted = _ => controller.OnClimbInitiated();
-        _climbCanceled = _ => controller.OnClimbCanceled();
-    }
+          AddHandler(InputActionPhase.Started, new ConditionalInputHandler(
+            () => true,
+            _ => controller.OnClimbInitiated()
+        ));
 
-    public void SetActive(InputConfig inputConfig, bool active)
-    {
-        if (active)
-        {
-            if (_inputAction != null)
-            {
-                _inputAction.started -= _climbStarted;
-                _inputAction.canceled -= _climbCanceled;
-                _inputAction.Disable();
-            }
-
-            _inputAction = inputConfig.GetInputAction("Climb");
-            if (_inputAction != null)
-            {
-                _inputAction.started += _climbStarted;
-                _inputAction.canceled += _climbCanceled;
-                _inputAction.Enable();
-            }
-        }
-        else if (_inputAction != null)
-        {
-            _inputAction.started -= _climbStarted;
-            _inputAction.canceled -= _climbCanceled;
-            _inputAction.Disable();
-            _inputAction = null;
-        }
+        AddHandler(InputActionPhase.Canceled, new ConditionalInputHandler(
+            () => true,
+            _ => controller.OnClimbCanceled()
+        ));
     }
 }
