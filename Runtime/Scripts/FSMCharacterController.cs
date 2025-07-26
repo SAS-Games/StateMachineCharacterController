@@ -20,6 +20,7 @@ namespace SAS.StateMachineCharacterController
         public const string IsDashing = "IsDashing";
         public const string Gravity = "Gravity";
         public const string MaxJumpCount = "MaxJumpCount";
+        public const string EnergyCost = "EnergyCost";
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
