@@ -270,6 +270,13 @@ namespace SAS.StateMachineCharacterController
             _characterController.enabled = true;
         }
 
+        public void SetLocalPosition(Vector3 position)
+        {
+            _characterController.enabled = false;
+            _transform.localPosition = position;
+            _characterController.enabled = true;
+        }
+
         void IActivatable.Activate()
         {
             enabled = true;
