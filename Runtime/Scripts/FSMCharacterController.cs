@@ -1,4 +1,5 @@
 using SAS.StateMachineGraph;
+using SAS.StateMachineGraph.Utilities;
 using SAS.Utilities.TagSystem;
 using System;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace SAS.StateMachineCharacterController
     }
 
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter, IActivatable
     {
         [SerializeField] private bool m_FreezeZAxis = true;
         [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
@@ -267,6 +268,16 @@ namespace SAS.StateMachineCharacterController
             _characterController.enabled = false;
             _transform.position = position;
             _characterController.enabled = true;
+        }
+
+        void IActivatable.Activate()
+        {
+            enabled = true;
+        }
+
+        void IActivatable.Deactivate()
+        {
+            enabled = false;
         }
     }
 }

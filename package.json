@@ -1,6 +1,6 @@
 {
   "name": "com.sas.fsmcharactercontroller",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "displayName": "SAS State Machine CharacterController",
   "unity": "2019.1",
   "author": {
