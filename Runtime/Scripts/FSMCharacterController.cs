@@ -24,6 +24,7 @@ namespace SAS.StateMachineCharacterController
         public const string EnergyCost = "EnergyCost";
     }
 
+    [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
     public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter, IActivatable
     {
