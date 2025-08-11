@@ -83,15 +83,6 @@ namespace SAS.StateMachineCharacterController
             _commands[command].SetActive(m_InputConfig, activate);
         }
 
-        public InputAction GetInputAction(string command)
-        {
-            if (_commands.ContainsKey(command))
-                return m_InputConfig.GetInputAction(command);
-
-            Debug.LogWarning($"{command} command is not available", TAG);
-            return null;
-        }
-
         public IInputCommand GetCommand(string command)
         {
             if (!_commands.TryGetValue(command, out IInputCommand inputCommand))

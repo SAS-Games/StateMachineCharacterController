@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public abstract class ChainedInputCommand : IInputCommand
 {
-    private InputAction _inputAction;
+    protected InputAction _inputAction;
     private readonly Dictionary<InputActionPhase, List<HandlerEntry>> _handlersByPhase = new();
     protected abstract string InputActionName { get; }
 
