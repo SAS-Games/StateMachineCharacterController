@@ -8,6 +8,8 @@ namespace SAS.StateMachineCharacterController
     public interface IInputHandler
     {
         PlayerInput PlayerInput { get; set; }
+        InputConfig InputConfig { get; }
+        void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false);
     }
 
     [RequireComponent(typeof(PlayerInput))]
@@ -30,6 +32,8 @@ namespace SAS.StateMachineCharacterController
             get => _playerInput;
             set => _playerInput = value;
         }
+
+        InputConfig IInputHandler.InputConfig => m_InputConfig;
 
         private void Awake()
         {
@@ -77,6 +81,15 @@ namespace SAS.StateMachineCharacterController
             else
                 Debug.LogWarning($"Input commands already contains the Key: {command}", TAG);
             _commands[command].SetActive(m_InputConfig, activate);
+        }
+
+        public InputAction GetInputAction(string command)
+        {
+            if (_commands.ContainsKey(command))
+                return m_InputConfig.GetInputAction(command);
+
+            Debug.LogWarning($"{command} command is not available", TAG);
+            return null;
         }
 
         public IInputCommand GetCommand(string command)
@@ -161,13 +174,13 @@ namespace SAS.StateMachineCharacterController
         void AddHandler(InputActionPhase phase, IConditionalInputHandler handler, int priority = 0);
         void RemoveHandler(InputActionPhase phase, IConditionalInputHandler handler);
     }
-    
+
     public class HandlerEntry
     {
-        public IConditionalInputHandler  Handler;
+        public IConditionalInputHandler Handler;
         public int Priority;
 
-        public HandlerEntry(IConditionalInputHandler  handler, int priority)
+        public HandlerEntry(IConditionalInputHandler handler, int priority)
         {
             Handler = handler;
             Priority = priority;
