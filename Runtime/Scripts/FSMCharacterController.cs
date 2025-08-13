@@ -109,7 +109,6 @@ namespace SAS.StateMachineCharacterController
         private void OnEnable()
         {
             _transform = transform;
-            OnGameModeChanged(GameModeInitializer.CurrentGameMode);
         }
 
         public void OnMove(float normalizedMoveInput)

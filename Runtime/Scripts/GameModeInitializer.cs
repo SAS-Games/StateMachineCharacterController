@@ -1,3 +1,4 @@
+using SAS.SceneManagement;
 using UnityEngine;
 
 public enum GameMode
@@ -19,38 +20,28 @@ public struct GameModeChangedEvent : IEvent
 public class GameModeInitializer : MonoBehaviour
 {
     [SerializeField] private GameMode m_GameMode;
-
     public static GameMode CurrentGameMode { get; private set; }
-    private EventBinding<GameModeChangedEvent> _gameModeChangedEventBinding;
+    private EventBinding<SceneGroupLoadedEvent> _sceneGroupLoadedEventBinding;
 
     private void Awake()
     {
-        // Set the current game mode so other scripts can access it immediately
         CurrentGameMode = m_GameMode;
-        _gameModeChangedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt.mode));
+        _sceneGroupLoadedEventBinding = new EventBinding<SceneGroupLoadedEvent>(OnSceneGroupLoaded);
+        EventBus<SceneGroupLoadedEvent>.Register(_sceneGroupLoadedEventBinding);
     }
 
-    private void Start()
+    private void OnDestroy()
     {
-        // Raise the event to notify systems listening for game mode changes
+        EventBus<SceneGroupLoadedEvent>.Deregister(_sceneGroupLoadedEventBinding);
+
+    }
+
+    private void OnSceneGroupLoaded(SceneGroupLoadedEvent SceneGroupLoadedEventData)
+    {
+        CurrentGameMode = m_GameMode;
         EventBus<GameModeChangedEvent>.Raise(new GameModeChangedEvent
         {
             mode = m_GameMode
         });
-    }
-
-    private void OnEnable()
-    {
-        EventBus<GameModeChangedEvent>.Register(_gameModeChangedEventBinding);
-    }
-
-    private void OnDisable()
-    {
-        EventBus<GameModeChangedEvent>.Deregister(_gameModeChangedEventBinding);
-    }
-
-    private void OnGameModeChanged(GameMode gameMode)
-    {
-        CurrentGameMode = gameMode;
     }
 }
