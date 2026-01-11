@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using SAS.Core;
 using UnityEngine;
-using SAS.Utilities;
 
 namespace SAS.StateMachineCharacterController
 {

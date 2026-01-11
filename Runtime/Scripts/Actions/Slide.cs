@@ -1,6 +1,6 @@
 using SAS.StateMachineGraph;
-using SAS.Utilities.BlackboardSystem;
-using SAS.Utilities.TagSystem;
+using SAS.Core.BlackboardSystem;
+using SAS.Core.TagSystem;
 using UnityEngine;
 
 namespace SAS.StateMachineCharacterController

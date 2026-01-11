@@ -10,7 +10,7 @@
   "hideInEditor": false,
   "dependencies": {
     "com.sas.statemachine": "1.2.2",
-    "com.sas.utilities": "1.0.0",
+    "com.sas.core": "1.0.0",
     "com.unity.inputsystem": "1.5.0",
     "com.unity.cinemachine": "2.8.9"
   }
