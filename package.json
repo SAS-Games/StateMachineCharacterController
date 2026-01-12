@@ -1,6 +1,6 @@
 {
   "name": "com.sas.fsmcharactercontroller",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "displayName": "SAS State Machine CharacterController",
   "unity": "2019.1",
   "author": {
@@ -12,6 +12,8 @@
     "com.sas.statemachine": "1.2.2",
     "com.sas.core": "1.0.0",
     "com.unity.inputsystem": "1.5.0",
-    "com.unity.cinemachine": "2.8.9"
+    "com.unity.cinemachine": "2.8.9",
+    "com.sas.save": "1.1.0",
+    "com.sas.dev-utilities": "1.3.4"
   }
 }
