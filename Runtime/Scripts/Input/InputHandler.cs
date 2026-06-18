@@ -9,20 +9,21 @@ namespace SAS.StateMachineCharacterController
     {
         PlayerInput PlayerInput { get; set; }
         InputConfig InputConfig { get; }
-        void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false);
+        IInputCommand RegisterInputCommand(string command, IInputCommand inputCommand, bool activate = false);
+        bool TryGetInputCommand(string command, out IInputCommand inputCommand);
     }
 
     [RequireComponent(typeof(PlayerInput))]
     public class InputHandler : MonoBehaviour, IInputHandler
     {
-        private const string TAG = "InputHandler";
         [SerializeField] private InputConfig m_InputConfig;
         [SerializeField] private float m_targetSpeedReachMultiplier = 10;
         private Transform _cameraTransform;
 
         private FSMCharacterController _fsmCharacterController;
-        private InputAction _moveInputAction;
+        public InputAction MoveInputAction { get; private set; }
         private IMovementInputProcessor _movementProcessor;
+        private IMovementInputMultiplier _movementInputMultiplier;
         private EventBinding<GameModeChangedEvent> _gameModeChagedEventBinding;
         private Dictionary<string, IInputCommand> _commands = new();
         private PlayerInput _playerInput;
@@ -39,54 +40,52 @@ namespace SAS.StateMachineCharacterController
         {
             _fsmCharacterController = GetComponent<FSMCharacterController>();
             _cameraTransform = Camera.main.transform;
-            _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
-        }
-
-        private void Start()
-        {
             if (_playerInput == null)
                 _playerInput = GetComponent<PlayerInput>(); // fallback
 
             SetupInputHandler();
+            _gameModeChagedEventBinding = new EventBinding<GameModeChangedEvent>(evt => OnGameModeChanged(evt));
+            _movementInputMultiplier = GetComponent<IMovementInputMultiplier>();
+            if (_movementInputMultiplier is null)
+                _movementInputMultiplier = new NullMovementInputMultiplier();
         }
 
         private void SetupInputHandler()
         {
             if (_playerInput == null)
             {
-                Debug.LogError("No player input handler assigned.", TAG);
+                Debug.LogError("No player input handler assigned.");
                 return;
             }
 
             m_InputConfig = Instantiate(m_InputConfig);
 
-            CreateInputCommands(_playerInput);
-
+            m_InputConfig.Initialize(_playerInput);
+            MoveInputAction = m_InputConfig.GetInputAction("Move");
             _playerInput.actions.Enable();
         }
 
-        private void CreateInputCommands(PlayerInput playerInput)
+        public IInputCommand RegisterInputCommand(string command, IInputCommand inputCommand, bool activate = false)
         {
-            m_InputConfig.Initialize(playerInput);
-            _moveInputAction = m_InputConfig.GetInputAction("Move");
-            CreateInputCommand("Jump", new JumpCommand(_fsmCharacterController), true);
-            CreateInputCommand("Dash", new DashCommand(_fsmCharacterController), true);
-            CreateInputCommand("Climb", new ClimbCommand(_fsmCharacterController));
-        }
+            if (!_commands.TryAdd(command, inputCommand))
+            {
+                Debug.LogWarning($"Input commands already contains the Key: {command}");
+                return _commands[command];
+            }
 
-        public void CreateInputCommand(string command, IInputCommand inputCommand, bool activate = false)
+            inputCommand.SetActive(m_InputConfig, activate);
+            return inputCommand;
+        }
+        
+        public bool TryGetInputCommand(string command, out IInputCommand inputCommand)
         {
-            if (!_commands.ContainsKey(command))
-                _commands.Add(command, inputCommand);
-            else
-                Debug.LogWarning($"Input commands already contains the Key: {command}", TAG);
-            _commands[command].SetActive(m_InputConfig, activate);
+            return _commands.TryGetValue(command, out inputCommand);
         }
 
         public IInputCommand GetCommand(string command)
         {
             if (!_commands.TryGetValue(command, out IInputCommand inputCommand))
-                Debug.LogWarning($"Input commands already contains the Key: {command}", TAG);
+                Debug.LogWarning($"Input commands already contains the Key: {command}");
             return inputCommand;
         }
 
@@ -109,8 +108,10 @@ namespace SAS.StateMachineCharacterController
             EventBus<GameModeChangedEvent>.Deregister(_gameModeChagedEventBinding);
         }
 
-        private void Update() =>
-            _movementProcessor?.ProcessMovement(_moveInputAction, _fsmCharacterController, _cameraTransform);
+        private void Update()
+        {
+            _movementProcessor?.ProcessMovement(MoveInputAction, _fsmCharacterController, _cameraTransform, _movementInputMultiplier.Multiplier);
+        }
 
         private void OnDestroy()
         {
@@ -149,7 +150,17 @@ namespace SAS.StateMachineCharacterController
 
     public interface IMovementInputProcessor
     {
-        void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform);
+        void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform, float multiplier = 1.0f);
+    }
+
+    public interface IMovementInputMultiplier
+    {
+        float Multiplier { get; set; }
+    }
+
+    public class NullMovementInputMultiplier : IMovementInputMultiplier
+    {
+        public float Multiplier { get; set; } = 1;
     }
 
     public interface IConditionalInputHandler

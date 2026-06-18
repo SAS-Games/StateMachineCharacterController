@@ -13,7 +13,7 @@ namespace SAS.StateMachineCharacterController
             _targetSpeedReachMultiplier = targetSpeedReachMultiplier;
         }
 
-        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform)
+        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform, float multiplier = 1)
         {
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             if (Mathf.Abs(moveInput.x) > 0)

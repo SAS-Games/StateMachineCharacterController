@@ -13,33 +13,26 @@ namespace SAS.StateMachineCharacterController
             _targetSpeedReachMultiplier = targetSpeedReachMultiplier;
         }
 
-        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform)
+        public void ProcessMovement(InputAction moveInputAction, FSMCharacterController controller, Transform cameraTransform, float multiplier = 1)
         {
+           // cameraTransform = null;
             Vector2 moveInput = moveInputAction.ReadValue<Vector2>();
             Vector3 adjustedMovement;
-
-            if (cameraTransform != null)
-            {
-                Vector3 cameraForward = cameraTransform.forward;
-                cameraForward.y = 0f;
-                Vector3 cameraRight = cameraTransform.right;
-                cameraRight.y = 0f;
-
-                adjustedMovement = cameraRight.normalized * moveInput.x + cameraForward.normalized * moveInput.y;
-            }
-            else
-            {
-                Debug.LogWarning("No gameplay camera in the scene. Movement orientation will not be correct.");
-                adjustedMovement = new Vector3(moveInput.x, 0f, moveInput.y);
-            }
-
+            Transform targetTransform = cameraTransform == null ? controller.transform : cameraTransform;
+            Vector3 forward = targetTransform.forward;
+            Vector3 right = targetTransform.right;
+            forward.y = 0f;
+            right.y = 0f;
+            
+            adjustedMovement = right.normalized * moveInput.x + forward.normalized * moveInput.y;
+            
             if (moveInput.sqrMagnitude == 0.0f)
                 adjustedMovement = controller.transform.forward * (adjustedMovement.magnitude + .01f);
 
             var targetSpeed = Mathf.Clamp01(moveInput.magnitude);
             targetSpeed = Mathf.Lerp(_previousSpeed, targetSpeed, Time.deltaTime * _targetSpeedReachMultiplier);
 
-            controller.movementInput = adjustedMovement.normalized * targetSpeed;
+            controller.movementInput = adjustedMovement.normalized * (targetSpeed * multiplier);
             controller.OnMove(targetSpeed);
 
             _previousSpeed = targetSpeed;

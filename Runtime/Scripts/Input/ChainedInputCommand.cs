@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using SAS.StateMachineCharacterController;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using Debug = SAS.Debug;
 
 
 public abstract class ChainedInputCommand : IInputCommand
@@ -64,6 +66,24 @@ public abstract class ChainedInputCommand : IInputCommand
                 if (handlerEntry.Handler.CanExecute())
                 {
                     handlerEntry.Handler.Execute(context);
+#if ENABLE_DEBUG
+                    double processTime = Time.realtimeSinceStartupAsDouble;
+                    double inputTime = context.time;
+                    double inputToProcessMs = (processTime - inputTime) * 1000.0;
+
+                    int processFrame = Time.frameCount;
+                    double frameDuration = Time.unscaledDeltaTime;
+                    int inputFrameEstimate = processFrame - Mathf.RoundToInt((float)((processTime - inputTime) / frameDuration));
+                    int frameDelay = processFrame - inputFrameEstimate;
+
+                    var actionName = context.action?.name;
+                    var controlName = context.control?.displayName;
+
+                    Debug.Log($"[Input → Process] {inputToProcessMs:F2} ms | " + $"Frames: {frameDelay} | " +
+                              $"InputFrame~: {inputFrameEstimate} → ProcessFrame: {processFrame} | " +
+                              $"Action: {actionName} | Phase: {phase} | Control: {controlName}"
+                    );
+#endif
                     break;
                 }
             }
@@ -71,6 +91,10 @@ public abstract class ChainedInputCommand : IInputCommand
     }
 
     private void OnInputStarted(InputAction.CallbackContext context) => HandlePhase(InputActionPhase.Started, context);
-    private void OnInputPerformed(InputAction.CallbackContext context) => HandlePhase(InputActionPhase.Performed, context);
-    private void OnInputCanceled(InputAction.CallbackContext context) => HandlePhase(InputActionPhase.Canceled, context);
+
+    private void OnInputPerformed(InputAction.CallbackContext context) =>
+        HandlePhase(InputActionPhase.Performed, context);
+
+    private void OnInputCanceled(InputAction.CallbackContext context) =>
+        HandlePhase(InputActionPhase.Canceled, context);
 }
