@@ -53,6 +53,9 @@ namespace SAS.StateMachineCharacterController
 
         public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
+        public Vector3 MoveInput => movementInput;
+        public Vector3 MovementVector => movementVector;
+
 
         private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
         public Vector3 VerticalVelocity => _characterController.velocity.Multiply(0.0f, 1.0f, 0.0f);
@@ -217,11 +220,11 @@ namespace SAS.StateMachineCharacterController
         void Respawn()
         {
             _originalScene = gameObject.scene;
-            if (SavePoint.HasSavedPoint)
-            {
-                _transform.position = SavePoint.Position;
-                _transform.rotation = SavePoint.Rotation;
-            }
+            // if (SavePoint.HasSavedPoint)
+            // {
+            //     _transform.position = SavePoint.Position;
+            //     _transform.rotation = SavePoint.Rotation;
+            // }
 
             SetFacingDirection();
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
