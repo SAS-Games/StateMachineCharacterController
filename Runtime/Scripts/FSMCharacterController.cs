@@ -101,6 +101,7 @@ namespace SAS.StateMachineCharacterController
 
         private void Awake()
         {
+            OnGameModeChanged(GameModeInitializer.CurrentGameMode);
             this.Initialize();
             _transform = transform;
             SetFacingDirection();
@@ -220,19 +221,12 @@ namespace SAS.StateMachineCharacterController
         void Respawn()
         {
             _originalScene = gameObject.scene;
-            // if (SavePoint.HasSavedPoint)
-            // {
-            //     _transform.position = SavePoint.Position;
-            //     _transform.rotation = SavePoint.Rotation;
-            // }
-
             SetFacingDirection();
             EventBus<RespawnEvent>.Raise(new RespawnEvent { transform = _transform });
         }
 
         void OnGameModeChanged(GameMode gameMode)
         {
-            Actor.runtimeStateMachineController = m_StateMachineControllers[(int)gameMode];
             switch (gameMode)
             {
                 case GameMode.SideScroller:

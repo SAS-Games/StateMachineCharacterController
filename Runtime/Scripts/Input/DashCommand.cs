@@ -9,8 +9,7 @@ namespace SAS.StateMachineCharacterController
 
         public DashCommand(FSMCharacterController controller)
         {
-            AddHandler(InputActionPhase.Performed,
-                new ConditionalInputHandler(() => true, _ => { controller.OnDashInitiated(); }));
+            AddHandler(InputActionPhase.Performed, new ConditionalInputHandler(() => true, _ => { controller.OnDashInitiated(); }));
         }
     }
 }
