@@ -2,6 +2,7 @@ using SAS.StateMachineGraph;
 using SAS.StateMachineGraph.Utilities;
 using SAS.Core.TagSystem;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +27,7 @@ namespace SAS.StateMachineCharacterController
 
     [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Actor)), DisallowMultipleComponent]
-    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, ICameraLookAt, ICharacter, IActivatable
+    public class FSMCharacterController : MonoBehaviour, IMovementVectorHandler, IMovementVelocityComposer, ICameraLookAt, ICharacter, IActivatable
     {
         [SerializeField] private bool m_FreezeZAxis = true;
         [SerializeField] private RuntimeStateMachineController[] m_StateMachineControllers;
@@ -50,6 +51,7 @@ namespace SAS.StateMachineCharacterController
         private Transform _transform;
         private Scene _originalScene;
         private EventBinding<GameModeChangedEvent> _gameModeChangedEventBinding;
+        private readonly Dictionary<object, MovementVelocityContribution> _movementVelocityContributions = new();
 
         public float Speed { get; private set; }
         public float NormalizedMoveInput => movementInput.magnitude;
@@ -90,6 +92,22 @@ namespace SAS.StateMachineCharacterController
         {
             get => movementVector;
             set => movementVector = value;
+        }
+
+        void IMovementVelocityComposer.SetMovementVelocityContribution(object source, Vector3 velocity, MovementVelocityContributionMode mode, int priority)
+        {
+            if (source == null)
+                return;
+
+            _movementVelocityContributions[source] = new MovementVelocityContribution(velocity, mode, priority);
+        }
+
+        void IMovementVelocityComposer.ClearMovementVelocityContribution(object source)
+        {
+            if (source == null)
+                return;
+
+            _movementVelocityContributions.Remove(source);
         }
 
         [SerializeField] private Transform m_LookAtTarget;
@@ -199,11 +217,13 @@ namespace SAS.StateMachineCharacterController
 
         private void Update()
         {
+            Vector3 composedMovement = ComposeMovementVelocity(movementVector);
+
             if (m_FreezeZAxis)
-                movementVector.z = 0; // Ensure no Z-axis movement
+                composedMovement.z = 0; // Ensure no Z-axis movement
 
             // Move the character
-            _characterController.Move(movementVector * Time.deltaTime);
+            _characterController.Move(composedMovement * Time.deltaTime);
 
             // Constrain the Z position
             if (m_FreezeZAxis)
@@ -211,6 +231,77 @@ namespace SAS.StateMachineCharacterController
 
             // Update movement vector with the current velocity from the controller
             movementVector = _characterController.velocity;
+        }
+
+        private Vector3 ComposeMovementVelocity(Vector3 baseVelocity)
+        {
+            if (_movementVelocityContributions.Count == 0)
+                return baseVelocity;
+
+            Vector3 composedVelocity = baseVelocity;
+            Vector3 additiveVelocity = Vector3.zero;
+
+            bool hasHorizontalOverride = false;
+            Vector3 horizontalOverrideVelocity = Vector3.zero;
+            int horizontalOverridePriority = int.MinValue;
+
+            bool hasFullOverride = false;
+            Vector3 fullOverrideVelocity = Vector3.zero;
+            int fullOverridePriority = int.MinValue;
+
+            foreach (var contribution in _movementVelocityContributions.Values)
+            {
+                switch (contribution.Mode)
+                {
+                    case MovementVelocityContributionMode.Additive:
+                        additiveVelocity += contribution.Velocity;
+                        break;
+
+                    case MovementVelocityContributionMode.OverrideHorizontal:
+                        if (!hasHorizontalOverride || contribution.Priority >= horizontalOverridePriority)
+                        {
+                            hasHorizontalOverride = true;
+                            horizontalOverridePriority = contribution.Priority;
+                            horizontalOverrideVelocity = contribution.Velocity;
+                        }
+                        break;
+
+                    case MovementVelocityContributionMode.OverrideFull:
+                        if (!hasFullOverride || contribution.Priority >= fullOverridePriority)
+                        {
+                            hasFullOverride = true;
+                            fullOverridePriority = contribution.Priority;
+                            fullOverrideVelocity = contribution.Velocity;
+                        }
+                        break;
+                }
+            }
+
+            if (hasFullOverride && (!hasHorizontalOverride || fullOverridePriority >= horizontalOverridePriority))
+            {
+                composedVelocity = fullOverrideVelocity;
+            }
+            else if (hasHorizontalOverride)
+            {
+                composedVelocity.x = horizontalOverrideVelocity.x;
+                composedVelocity.z = horizontalOverrideVelocity.z;
+            }
+
+            return composedVelocity + additiveVelocity;
+        }
+
+        private readonly struct MovementVelocityContribution
+        {
+            public readonly Vector3 Velocity;
+            public readonly MovementVelocityContributionMode Mode;
+            public readonly int Priority;
+
+            public MovementVelocityContribution(Vector3 velocity, MovementVelocityContributionMode mode, int priority)
+            {
+                Velocity = velocity;
+                Mode = mode;
+                Priority = priority;
+            }
         }
 
         void SetSceneToOriginal()
