@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using SAS.StateMachineCharacterController;
-using UnityEngine;
 using UnityEngine.InputSystem;
-using Debug = SAS.Debug;
-
 
 public abstract class ChainedInputCommand : IInputCommand
 {
@@ -73,7 +70,8 @@ public abstract class ChainedInputCommand : IInputCommand
 
                     int processFrame = Time.frameCount;
                     double frameDuration = Time.unscaledDeltaTime;
-                    int inputFrameEstimate = processFrame - Mathf.RoundToInt((float)((processTime - inputTime) / frameDuration));
+                    int inputFrameEstimate =
+ processFrame - Mathf.RoundToInt((float)((processTime - inputTime) / frameDuration));
                     int frameDelay = processFrame - inputFrameEstimate;
 
                     var actionName = context.action?.name;
