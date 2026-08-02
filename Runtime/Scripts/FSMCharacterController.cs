@@ -217,7 +217,9 @@ namespace SAS.StateMachineCharacterController
 
         private void Update()
         {
-            Vector3 composedMovement = ComposeMovementVelocity(movementVector);
+            Vector3 baseMovement = movementVector;
+            bool hasMovementContributions = _movementVelocityContributions.Count > 0;
+            Vector3 composedMovement = ComposeMovementVelocity(baseMovement);
 
             if (m_FreezeZAxis)
                 composedMovement.z = 0; // Ensure no Z-axis movement
@@ -229,8 +231,9 @@ namespace SAS.StateMachineCharacterController
             if (m_FreezeZAxis)
                 _transform.SetZLocalPosition(0);
 
-            // Update movement vector with the current velocity from the controller
-            movementVector = _characterController.velocity;
+            // Contributions are temporary overlays. Writing the composed velocity back into
+            // movementVector would make the last contribution become permanent after it is cleared.
+            movementVector = hasMovementContributions ? baseMovement : _characterController.velocity;
         }
 
         private Vector3 ComposeMovementVelocity(Vector3 baseVelocity)

@@ -54,6 +54,12 @@ namespace SAS.StateMachineCharacterController
                 return action;
             }
 
+            // Allow commands to use an action's real name without requiring a
+            // redundant alias entry in every InputConfig asset.
+            var actionByName = _playerInput.actions.FindAction(key, false);
+            if (actionByName != null)
+                return actionByName;
+
             Debug.LogError($"Key '{key}' not found in InputConfig.");
             return null;
         }
