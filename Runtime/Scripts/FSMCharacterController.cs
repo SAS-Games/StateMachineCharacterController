@@ -57,6 +57,18 @@ namespace SAS.StateMachineCharacterController
         public float NormalizedMoveInput => movementInput.magnitude;
         public Vector3 MoveInput => movementInput;
         public Vector3 MovementVector => movementVector;
+        public Vector3 MovementForward
+        {
+            get
+            {
+                if (m_FreezeZAxis)
+                    return isFacingRight ? Vector3.right : Vector3.left;
+
+                Vector3 forward = _transform != null ? _transform.forward : transform.forward;
+                forward.y = 0f;
+                return forward.sqrMagnitude > 0.0001f ? forward.normalized : Vector3.forward;
+            }
+        }
 
 
         private int NormalizedMoveInputHash = Animator.StringToHash("MoveInput");
